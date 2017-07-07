@@ -195,14 +195,14 @@ try:
     ## absolute_min
     ## absolute_max
     ## name (i.e Celsious)
-    ## symbol (i.e. ï¿½C)
+    ## symbol (i.e. °C)
     ## type_full (i.e. temperature)
     ## type_abbr (i.e. temp)
     #measure_id
     cursor.execute("CREATE TABLE IF NOT EXISTS measures(id INTEGER PRIMARY KEY, name TEXT, sign INTEGER, type_full TEXT, type_abbr TEXT, absolute_min REAL, absolute_max REAL)")    
     
     measure_name = 'celsius'
-    measure_sign = u'\u2103' #.encode('utf8')  #'ï¿½C'
+    measure_sign = u'\u2103' #.encode('utf8')  #'°C'
     measure_type_full = 'temperature'
     measure_type_abbr = 'temp'
     measure_absolute_min = (273.15 * (-1))
@@ -287,4 +287,4 @@ except lite.Error, e:
 finally:
     
     if connection:
-        connection.close()
+        connection.close() 
