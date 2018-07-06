@@ -1,1 +1,3 @@
-import config from module
+import module.config as ini
+
+print ini.config('Hola!')

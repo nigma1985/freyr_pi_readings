@@ -1,4 +1,9 @@
+#!/usr/bin/python
+
+# This script delivers functions to read and write ini-configurations
+
 import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
+import re
 
 ## reading 'freyr_config.ini'
 config = None
@@ -7,8 +12,7 @@ def config(iniFile = "freyr_config.ini"):
     config.read(iniFile)
     return config
 
-# print config.sections()
-
+## basic reading of lines
 def ConfigSectionMap(section):
      dict1 = {}
      options = config.options(section)
@@ -22,6 +26,8 @@ def ConfigSectionMap(section):
              dict1[option] = None
      return dict1
 
+## advanced reading of lines
+## turning result into format included
 def ConfigSectionMapAdv(section,option):
      dict1 = {}
      try:
