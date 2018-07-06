@@ -47,7 +47,7 @@ python readEnviro_v2b.py out/FREYR_$DATETIME\_$IAM.csv
 
 
 
-NTW=$(python transfereReadings.py out/FREYR_$DATETIME\_$IAM.csv | tail -n 1)
+NTW=$(python maintenance.py out/FREYR_$DATETIME\_$IAM.csv | tail -n 1)
 
 if [ "$NTW" = "ok" ]; then
   echo "OK!"
