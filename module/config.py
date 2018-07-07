@@ -6,19 +6,19 @@ import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
 import re
 
 ## reading 'freyr_config.ini'
-config = None
 def config(iniFile = "freyr_config.ini"):
-    config = ConfigParser.SafeConfigParser()
-    config.read(iniFile)
-    return config
+    ini = ConfigParser.SafeConfigParser()
+    return ini.read(iniFile)
+
+default = 'default'
 
 ## basic reading of lines
-def ConfigSectionMap(section):
+def ConfigSectionMap(section = 'default', ini = _config()):
      dict1 = {}
-     options = config.options(section)
+     options = ini.options(section)
      for option in options:
          try:
-             dict1[option] = config.get(section, option)
+             dict1[option] = ini.get(section, option)
              if dict1[option] == -1:
                  DebugPrint("skip: %s" % option)
          except:
@@ -28,8 +28,10 @@ def ConfigSectionMap(section):
 
 ## advanced reading of lines
 ## turning result into format included
-def ConfigSectionMapAdv(section,option):
+def ConfigSectionMapAdv(section = 'default', option = None, ini = _config()):
      dict1 = {}
+     if option is None:
+         return dict1
      try:
          dict1 = ConfigSectionMap(section)[option]
      except:
