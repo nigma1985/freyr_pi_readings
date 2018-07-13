@@ -4,7 +4,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 from envirophat import light, motion, weather, analog, leds
-import os
+
 #from subprocess import PIPE, Popen
 import subprocess, platform
 import psutil ## install python-psutil
@@ -12,64 +12,31 @@ import sys
 #import Adafruit_DHT
 #import datetime
 from datetime import datetime
-from datetime import timedelta 
+from datetime import timedelta
 import time
 import re
 import sqlite3 as lite
 #import csv
 import unicodecsv as csv
 from random import *
-import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
+# import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
 import glob
 import shutil
 #import pyping
 import math
 
-# csv_name = sys.argv[1]
+################################################################################
+
+import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
+import os
+
 refference = "Sys"
 
 ## reading 'freyr_config.ini'
-ini = "freyr_config.ini"
-config = ConfigParser.SafeConfigParser()
-config.read(ini)
+configFile = "freyr_config.ini"
+config = ini.getConfig(configFile)
+# ini.ConfigSectionMapAdv(section = 'defaults', option = 'source_name', iniConfig = config)
 
-# print config.sections()
-
-def ConfigSectionMap(section):
-     dict1 = {}
-     options = config.options(section)
-     for option in options:
-         try:
-             dict1[option] = config.get(section, option)
-             if dict1[option] == -1:
-                 DebugPrint("skip: %s" % option)
-         except:
-             print("exception on %s!" % option)
-             dict1[option] = None
-     return dict1
-
-def ConfigSectionMapAdv(section,option):
-     dict1 = {}
-     try:
-         dict1 = ConfigSectionMap(section)[option]
-     except:
-         dict1 = ConfigSectionMap("defaults")[option]
-     if dict1 == 'None' or dict1 == '':
-         dict1 = None
-     else:
-         try:
-             dict1 = int(dict1)
-         except:
-             try:
-                 dict1 = float(dict1)
-             except:
-                 dict1 = str(dict1)
-     if isinstance(dict1, str):
-         if dict1[:3] == "u'\\" or dict1[:3] == 'u"\\':
-             x = re.search(r"u[\"|\'](\\.+)[\"|\']", dict1)
-             x = x.group(1)
-             dict1 = x.decode('unicode-escape')
-     return dict1
 
 #################################################
 #################################################
@@ -89,7 +56,7 @@ def roundTime(dt=None, roundTo=60):
 #################################################
 #################################################
 
-# Return CPU temperature as a character string                                      
+# Return CPU temperature as a character string
 def getCPUtemperature():
     res = os.popen('vcgencmd measure_temp').readline()
     return(res.replace("temp=","").replace("'C\n",""))
@@ -99,9 +66,9 @@ def get_cpu_temperature():
     output, _error = process.communicate()
     return float(output[output.index('=') + 1:output.rindex("'")])
 
-# Return RAM information (unit=kb) in a list                                        
-# Index 0: total RAM                                                                
-# Index 1: used RAM 
+# Return RAM information (unit=kb) in a list
+# Index 0: total RAM
+# Index 1: used RAM
 # Index 2: free RAM
 def getRAMinfo():
     p = os.popen('free')
@@ -115,8 +82,11 @@ def getRAMinfo():
 def mean(numbers):
     return float(sum(numbers)) / max(len(numbers), 1)
 
-me = ConfigSectionMapAdv("Sys",'source_name')
-my_user = ConfigSectionMapAdv("Sys",'user')   
+me = ini.ConfigSectionMapAdv(section = refference, option = 'source_name', iniConfig = config)
+my_user = ini.ConfigSectionMapAdv(section = refference, option = 'user', iniConfig = config)
+
+# print me, my_user
+# sys.exit(0)
 
 def _tstfile(_input, _str):
     if type(_input) == str:
@@ -175,7 +145,7 @@ elif (_findItm(_input, "CPUUSEON") or all_on):
     print "CPU use on"
 else:
     cpu_use = psutil.cpu_percent()
-    
+
 ram = psutil.virtual_memory()
 ram_total = None
 ram_used = None
@@ -192,7 +162,7 @@ elif (ram_time <= 60) or (cpu_use > 80.0) or (cpu_tempA > 57.5):
     ram_total = ram.total / 2**20       # MiB.
     ram_used = ram.used / 2**20
     ram_free = ram.free / 2**20
-    
+
 if (_findItm(_input, "RAMUSEOFF") or all_off):
     print "RAM use in % off"
 elif (_findItm(_input, "RAMUSEON") or all_on):
@@ -217,7 +187,7 @@ elif disk_time <= 60:
     disk_total = disk.total / 2**30     # GiB.
     disk_used = disk.used / 2**30
     disk_remaining = disk.free / 2**30
-    
+
 if (_findItm(_input, "DSKUSEOFF") or all_off):
     print "Disk use in % off"
 elif (_findItm(_input, "DSKUSEON") or all_on):
@@ -225,7 +195,7 @@ elif (_findItm(_input, "DSKUSEON") or all_on):
     print "Disk use in % on"
 elif disk_time_percent <= 60:
     disk_percentage = disk.percent
-    
+
 cpu_tempB = get_cpu_temperature()
 cpu_temp = None
 if (_findItm(_input, "CPUTMPOFF") or all_off):
@@ -257,7 +227,7 @@ def std_line(
     # source / provider
     provider_type = ConfigSectionMapAdv(refference,'provider_type'),  ##'RPi3'   ## 'REST API'
     source_name = ConfigSectionMapAdv(refference,'source_name'), ##'FreyrTST 1'
-    source_description = ConfigSectionMapAdv(refference,'source_description'),  ##'Test RPi3 - 
+    source_description = ConfigSectionMapAdv(refference,'source_description'),  ##'Test RPi3 -
     # periphery
     periphery_name = ConfigSectionMapAdv(refference,'periphery_name'),  ##'Raspberry Pi 3'
     periphery_type = ConfigSectionMapAdv(refference,'periphery_type'),  ##'System'
@@ -272,7 +242,7 @@ def std_line(
     measure_absolute_max = None,
     measure_target_type = None,
     measure_target_name = ConfigSectionMapAdv(refference,'measure_target_name'),  ##'System' ## 'yes' 'none' 'other'
-    measure_target_description = ConfigSectionMapAdv(refference,'measure_target_description'),  ##'Monitoring Hardware' 
+    measure_target_description = ConfigSectionMapAdv(refference,'measure_target_description'),  ##'Monitoring Hardware'
     # QA
     data_quality = int(ConfigSectionMapAdv(refference,'data_quality'))  ##99
 ):
