@@ -217,9 +217,9 @@ def _stdLine(
     measure_absolute_max = None,
     measure_target_type = None,
     measure_target_name = ini.ConfigSectionMapAdv(section = refference, option = 'measure_target_name', iniConfig = config),  ##'System' ## 'yes' 'none' 'other'
-    measure_target_description = iniConfigSectionMapAdv(section = refference, option = 'measure_target_description', iniConfig = config),  ##'Monitoring Hardware'
+    measure_target_description = ini.ConfigSectionMapAdv(section = refference, option = 'measure_target_description', iniConfig = config),  ##'Monitoring Hardware'
     # QA
-    data_quality = int(ConfigSectionMapAdv(section = refference, option = 'data_quality', iniConfig = config))  ##99
+    data_quality = int(ini.ConfigSectionMapAdv(section = refference, option = 'data_quality', iniConfig = config))  ##99
 ):
     return csv.headLine(
         _value = value, _pin = pin,
