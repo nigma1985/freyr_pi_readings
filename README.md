@@ -1,4 +1,4 @@
-# fryer_pi_readings
+# freyr_pi_readings
 
 Definition
 ==========
