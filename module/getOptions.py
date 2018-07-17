@@ -13,7 +13,9 @@ def checkArgv(_input, _str):
         return False
     return False
 
-def csvName(options = sys.argv, user = ini.ConfigSectionMapAdv(option = 'source_name')):
+def csvName(user = None, options = sys.argv):
+   if user is None:
+       user = ini.ConfigSectionMapAdv(option = 'source_name')
    if type(options) == list:
        for opt in options:
            if checkArgv(opt, "^(out\/FREYR\_20..-..-..\_....\_" + user + "\.csv)"):
@@ -23,7 +25,7 @@ def csvName(options = sys.argv, user = ini.ConfigSectionMapAdv(option = 'source_
            return options
    return "out/FREYR_YYYY-MM-DD_HHMM_" + user + ".csv"
 
-def findItm(options = sys.argv, item = ""):
+def findItm(item = "", options = sys.argv):
    if type(options) == list:
        for opt in options:
            if checkArgv(opt, item):

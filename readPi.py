@@ -95,10 +95,10 @@ my_user = ini.ConfigSectionMapAdv(section = refference, option = 'user', iniConf
 ####################
 ####################
 
-csv_name = opt.csvName(_input, me)
+csv_name = opt.csvName(me)
 
-all_on = opt.findItm(_input, "ALLON")
-all_off = opt.findItm(_input, "ALLOFF")
+all_on = opt.findItm("ALLON")
+all_off = opt.findItm("ALLOFF")
 
 # sensor = Adafruit_DHT.DHT22
 # pin = ConfigSectionMap(refference)['pin']
