@@ -28,6 +28,7 @@ import math
 ################################################################################
 
 import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
+import module.decision as dec
 import module.getOptions as opt
 import module.freyr.csvBuffer as csv
 import os
@@ -113,12 +114,7 @@ disk_time = nowsecs % (1.001 * (60 * 60 * 12))
 disk_time_percent = nowsecs % (0.999 * (60 * 60 * 24 * 7))
 cpu_tempA = getCPUtemperature()
 cpu_use = None
-if (opt.findItm(_input, "CPUUSEOFF") or all_off):
-    print "CPU use off"
-elif (opt.findItm(_input, "CPUUSEON") or all_on):
-    cpu_use = psutil.cpu_percent()
-    print "CPU use on"
-else:
+if dec.decision([all_on, "CPUUSEON"], [all_off, "CPUUSEOFF"]):
     cpu_use = psutil.cpu_percent()
 
 ram = psutil.virtual_memory()
@@ -126,59 +122,31 @@ ram_total = None
 ram_used = None
 ram_free = None
 ram_percent_used = None
-if (opt.findItm(_input, "RAMBITOFF") or all_off):
-    print "RAM use in bits off"
-elif (opt.findItm(_input, "RAMBITON") or all_on):
-    ram_total = ram.total / 2**20       # MiB.
-    ram_used = ram.used / 2**20
-    ram_free = ram.free / 2**20
-    print "RAM use in bit on"
-elif (ram_time <= 60) or (cpu_use > 80.0) or (cpu_tempA > 57.5):
+if dec.decision([all_on, "RAMBITON", (ram_time <= 60), (cpu_use > 80.0), (cpu_tempA > 57.5)], [all_off, opt.findItm("RAMBITON")]):
     ram_total = ram.total / 2**20       # MiB.
     ram_used = ram.used / 2**20
     ram_free = ram.free / 2**20
 
-if (opt.findItm(_input, "RAMUSEOFF") or all_off):
-    print "RAM use in % off"
-elif (opt.findItm(_input, "RAMUSEON") or all_on):
+if dec.decision([all_on, "RAMUSEON", (ram_time_percent <= 60)], [all_off, "RAMUSEOFF"]):
     ram_percent_used = ram.percent
-    print "RAM use in % on"
-elif ram_time_percent <= 60:
-    ram_percent_used = ram.percent
+
 
 disk = psutil.disk_usage('/')
 disk_total = None
 disk_used = None
 disk_remaining = None
 disk_percentage = None
-if (opt.findItm(_input, "DSKBITOFF") or all_off):
-    print "Disk use in bits off"
-elif (opt.findItm(_input, "DSKBITON") or all_on):
-    disk_total = disk.total / 2**30     # GiB.
-    disk_used = disk.used / 2**30
-    disk_remaining = disk.free / 2**30
-    print "Disk use in bit on"
-elif disk_time <= 60:
+if dec.decision([all_on, "DSKBITON", (disk_time <= 60)], [all_off, "DSKBITOFF"]):
     disk_total = disk.total / 2**30     # GiB.
     disk_used = disk.used / 2**30
     disk_remaining = disk.free / 2**30
 
-if (opt.findItm(_input, "DSKUSEOFF") or all_off):
-    print "Disk use in % off"
-elif (opt.findItm(_input, "DSKUSEON") or all_on):
-    disk_percentage = disk.percent
-    print "Disk use in % on"
-elif disk_time_percent <= 60:
+if dec.decision([all_on, "DSKUSEON", (disk_time_percent <= 60)], [all_off, "DSKUSEOFF"]):
     disk_percentage = disk.percent
 
 cpu_tempB = get_cpu_temperature()
 cpu_temp = None
-if (opt.findItm(_input, "CPUTMPOFF") or all_off):
-    print "CPU Temp off"
-elif (opt.findItm(_input, "CPUTMPON") or all_on):
-    cpu_temp = mean([float(cpu_tempA), cpu_tempB])
-    print "CPU Temp on"
-else:
+if dec.decision([all_on, "CPUTMPON"], [all_off, "CPUTMPOFF"]):
     cpu_temp = mean([float(cpu_tempA), cpu_tempB])
 
 utc2 = datetime.utcnow()

@@ -1,5 +1,5 @@
 import sys, re
-import module.config as ini
+from module.config import ConfigSectionMapAdv
 
 def checkArgv(_input, _str):
     if _input is None:
@@ -15,7 +15,7 @@ def checkArgv(_input, _str):
 
 def csvName(user = None, options = sys.argv):
    if user is None:
-       user = ini.ConfigSectionMapAdv(option = 'source_name')
+       user = ConfigSectionMapAdv(option = 'source_name')
    if type(options) == list:
        for opt in options:
            if checkArgv(opt, "^(out\/FREYR\_20..-..-..\_....\_" + user + "\.csv)"):
