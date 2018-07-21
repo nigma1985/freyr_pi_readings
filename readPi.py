@@ -30,7 +30,8 @@ import math
 import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
 import module.decision as dec
 import module.getOptions as opt
-import module.freyr.csvBuffer as csv
+import module.netTool as ntt
+import module.freyr.csvBuffer as bfr
 import os
 
 refference = "Sys"
@@ -189,7 +190,7 @@ def _stdLine(
     # QA
     data_quality = int(ini.ConfigSectionMapAdv(section = refference, option = 'data_quality', iniConfig = config))  ##99
 ):
-    return csv.headLine(
+    return bfr.headLine(
         _value = value, _pin = pin,
         _utc_1 = utc_1, _utc_2 = utc_2, _offsetutc = offsetutc, _duration_sec = duration_sec,
         _outdoors_name = outdoors_name, _loc_lat = loc_lat, _loc_long = loc_long, _loc_description = loc_description,
@@ -284,17 +285,13 @@ with open(csv_name, 'ab') as csvfile:
 
 
 # print "SCP"
-def scp(file = "", user = "pi", host = me, path = "~/in/"):
-    cmd = "scp {} {}@{}:{}".format(file, user, host, path)
-    response = subprocess.call(cmd, shell=True)
-    return response == 0
 
 target_user = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_user', iniConfig = config)
 mothership = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_host', iniConfig = config)
 direc = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_path', iniConfig = config)
 
 try:
-    scp(file = csv_name, user = target_user, host = mothership, path = direc)
+    ntt.scp(file = csv_name, user = target_user, host = mothership, path = direc)
     #print "tst"
 except:
     print "ERROR @ transfer"

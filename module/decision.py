@@ -11,7 +11,7 @@ def decision(onSwitch = None, offSwitch = None, numChance = None, capChance = No
         # if bool, take as is
         # if str use getOptions
         # if None then None
-        if type(i) == bool or i == None:
+        if (type(i) == bool) or (i is None):
             return i
         elif type(i) == str:
             return findItm(item = i)
