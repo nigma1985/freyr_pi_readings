@@ -7,13 +7,13 @@ from envirophat import light, motion, weather, analog, leds
 
 #from subprocess import PIPE, Popen
 import subprocess, platform
-import psutil ## install python-psutil
+#import psutil ## install python-psutil
 import sys
 #import Adafruit_DHT
 #import datetime
-from datetime import datetime
-from datetime import timedelta
-import time
+#from datetime import datetime
+#from datetime import timedelta
+#import time
 import re
 import sqlite3 as lite
 #import csv
@@ -30,8 +30,10 @@ import math
 import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
 import module.decision as dec
 import module.getOptions as opt
+import module.tools as tls
 import module.netTool as ntt
 import module.freyr.csvBuffer as bfr
+import module.read.pi as rpi
 import os
 
 refference = "Sys"
@@ -43,47 +45,6 @@ config = ini.getConfig(configFile)
 
 #################################################
 #################################################
-
-def roundTime(dt=None, roundTo=60):
-   """Round a datetime object to any time laps in seconds
-   dt : datetime object, default now.
-   roundTo : Closest number of seconds to round to, default 1 minute.
-   Author: Thierry Husson 2012 - Use it as you want but don't blame me.
-   """
-   if dt == None : dt = datetime.now()
-   seconds = (dt - dt.min).seconds
-   # // is a floor division, not a comment on following line:
-   rounding = (seconds+roundTo/2) // roundTo * roundTo
-   return dt + timedelta(0,rounding-seconds,-dt.microsecond)
-
-#################################################
-#################################################
-
-# Return CPU temperature as a character string
-def getCPUtemperature():
-    res = os.popen('vcgencmd measure_temp').readline()
-    return(res.replace("temp=","").replace("'C\n",""))
-
-def get_cpu_temperature():
-    process = subprocess.Popen(['vcgencmd', 'measure_temp'], stdout=subprocess.PIPE)
-    output, _error = process.communicate()
-    return float(output[output.index('=') + 1:output.rindex("'")])
-
-# Return RAM information (unit=kb) in a list
-# Index 0: total RAM
-# Index 1: used RAM
-# Index 2: free RAM
-def getRAMinfo():
-    p = os.popen('free')
-    i = 0
-    while 1:
-        i = i + 1
-        line = p.readline()
-        if i==2:
-            return(line.split()[1:4])
-
-def mean(numbers):
-    return float(sum(numbers)) / max(len(numbers), 1)
 
 me = ini.ConfigSectionMapAdv(section = refference, option = 'source_name', iniConfig = config)
 my_user = ini.ConfigSectionMapAdv(section = refference, option = 'user', iniConfig = config)
@@ -106,19 +67,19 @@ all_off = opt.findItm("ALLOFF")
 # pin = ConfigSectionMap(refference)['pin']
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up
-now1 = datetime.now()
-utc1 = datetime.utcnow()
-nowsecs = time.mktime(now1.timetuple())
+now1 = tls.now()
+utc1 = tls.utcnow()
+nowsecs = tls.mktime(now1.timetuple())
 ram_time = nowsecs % (1.001 * (60 * 3))
 ram_time_percent = nowsecs % (0.999 * (60 * 12))
 disk_time = nowsecs % (1.001 * (60 * 60 * 12))
 disk_time_percent = nowsecs % (0.999 * (60 * 60 * 24 * 7))
-cpu_tempA = getCPUtemperature()
+cpu_tempA = rpi.getCPUtemperature()
 cpu_use = None
 if dec.decision([all_on, "CPUUSEON"], [all_off, "CPUUSEOFF"]):
-    cpu_use = psutil.cpu_percent()
+    cpu_use = rpi.cpu_percent()
 
-ram = psutil.virtual_memory()
+ram = rpi.virtual_memory()
 ram_total = None
 ram_used = None
 ram_free = None
@@ -132,7 +93,7 @@ if dec.decision([all_on, "RAMUSEON", (ram_time_percent <= 60)], [all_off, "RAMUS
     ram_percent_used = ram.percent
 
 
-disk = psutil.disk_usage('/')
+disk = rpi.disk_usage('/')
 disk_total = None
 disk_used = None
 disk_remaining = None
@@ -145,13 +106,13 @@ if dec.decision([all_on, "DSKBITON", (disk_time <= 60)], [all_off, "DSKBITOFF"])
 if dec.decision([all_on, "DSKUSEON", (disk_time_percent <= 60)], [all_off, "DSKUSEOFF"]):
     disk_percentage = disk.percent
 
-cpu_tempB = get_cpu_temperature()
+cpu_tempB = rpi.get_cpu_temperature()
 cpu_temp = None
 if dec.decision([all_on, "CPUTMPON"], [all_off, "CPUTMPOFF"]):
     cpu_temp = mean([float(cpu_tempA), cpu_tempB])
 
-utc2 = datetime.utcnow()
-offset_utc = str(roundTime(now1,roundTo=30*60) - roundTime(utc1,roundTo=30*60))
+utc2 = tls.utcnow()
+offset_utc = str(tls.roundTime(now1,roundTo=30*60) - tls.roundTime(utc1,roundTo=30*60))
 duration = (utc2-utc1)
 duration2 = (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
 
@@ -283,15 +244,12 @@ with open(csv_name, 'ab') as csvfile:
            measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'disk_measure_target_type', iniConfig = config))
        tst.writerow(disk_used_line)
 
-
-# print "SCP"
-
-target_user = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_user', iniConfig = config)
-mothership = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_host', iniConfig = config)
-direc = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_path', iniConfig = config)
-
 try:
-    ntt.scp(file = csv_name, user = target_user, host = mothership, path = direc)
+    ntt.scp(
+        file = csv_name,
+        user = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_user', iniConfig = config),
+        host = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_host', iniConfig = config),
+        path = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_path', iniConfig = config))
     #print "tst"
 except:
     print "ERROR @ transfer"
