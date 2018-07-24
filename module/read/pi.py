@@ -2,7 +2,7 @@
 import os
 #from subprocess import PIPE, Popen
 import subprocess #, platform
-#import psutil ## install python-psutil
+import psutil ## install python-psutil
 #import sys
 
 
