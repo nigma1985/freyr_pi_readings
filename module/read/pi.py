@@ -35,5 +35,5 @@ def cpu_percent():
 def virtual_memory():
     return psutil.virtual_memory()
 
-def disk_usage():
-    return psutil.disk_usage()
+def disk_usage(x):
+    return psutil.disk_usage(x)
