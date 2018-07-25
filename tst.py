@@ -26,7 +26,7 @@ print "Disk", disk.total / 2**30     # GiB.
 print "Disk%", disk.percent
 
 cpu_tempB = rpi.get_cpu_temperature()
-print "CPU TMP", mean([float(cpu_tempA), cpu_tempB])
+print "CPU TMP", tls.mean([float(cpu_tempA), cpu_tempB])
 
 utc2 = tls.utcnow()
 offset_utc = str(tls.roundTime(now1,roundTo=30*60) - tls.roundTime(utc1,roundTo=30*60))
