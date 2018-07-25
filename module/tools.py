@@ -14,7 +14,7 @@ def utcnow():
     return datetime.utcnow()
 
 def mktime(time = datetime.utcnow()):
-    return timedelta.mktime(time.timetuple())
+    return datetime.mktime(time.timetuple())
 
 def roundTime(dt=None, roundTo=60):
    """Round a datetime object to any time laps in seconds
