@@ -13,8 +13,8 @@ def now():
 def utcnow():
     return datetime.utcnow()
 
-def mktime(time = datetime.utcnow()):
-    return datetime.mktime(time.timetuple())
+def mktime(x = datetime.utcnow()):
+    return time.mktime(x.timetuple())
 
 def roundTime(dt=None, roundTo=60):
    """Round a datetime object to any time laps in seconds
