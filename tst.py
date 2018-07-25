@@ -11,8 +11,8 @@ import time
 
 now1 = tls.now()
 utc1 = tls.utcnow()
-#nowsecs = tls.mktime(now1.timetuple())
-nowsecs = time.mktime(now1.timetuple())
+nowsecs = tls.mktime(now1.timetuple())
+#nowsecs = time.mktime(now1.timetuple())
 
 cpu_tempA = rpi.getCPUtemperature()
 print "CPU %", rpi.cpu_percent()
@@ -29,6 +29,6 @@ cpu_tempB = rpi.get_cpu_temperature()
 print "CPU TMP", tls.mean([float(cpu_tempA), cpu_tempB])
 
 utc2 = tls.utcnow()
-offset_utc = str(tls.roundTime(now1,roundTo=30*60) - tls.roundTime(utc1,roundTo=30*60))
+print "OffSet", str(tls.roundTime(now1,roundTo=30*60) - tls.roundTime(utc1,roundTo=30*60))
 duration = (utc2-utc1)
-duration2 = (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
+print "duration", (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
