@@ -7,6 +7,15 @@ import time
 ###  Tools for time management                ###
 #################################################
 
+def now():
+    return datetime.now()
+
+def utcnow():
+    return datetime.utcnow()
+
+def mktime(time = datetime.utcnow()):
+    return timedelta.mktime(time.timetuple())
+
 def roundTime(dt=None, roundTo=60):
    """Round a datetime object to any time laps in seconds
    dt : datetime object, default now.
