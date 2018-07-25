@@ -7,10 +7,12 @@ import module.freyr.csvBuffer as bfr
 import module.read.pi as rpi
 import os
 
+import time
 
 now1 = tls.now()
 utc1 = tls.utcnow()
-nowsecs = tls.mktime(now1.timetuple())
+#nowsecs = tls.mktime(now1.timetuple())
+nowsecs = time.mktime(now1.timetuple())
 
 cpu_tempA = rpi.getCPUtemperature()
 print "CPU %", rpi.cpu_percent()
