@@ -28,3 +28,12 @@ def getRAMinfo():
         line = p.readline()
         if i==2:
             return(line.split()[1:4])
+
+def cpu_percent():
+    return psutil.cpu_percent()
+
+def virtual_memory():
+    return psutil.virtual_memory()
+
+def disk_usage():
+    return psutil.disk_usage()
