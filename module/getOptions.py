@@ -1,5 +1,8 @@
 import sys, re
+from os.path import isfile
 from module.config import ConfigSectionMapAdv
+import module.freyr.csvBuffer as head
+import unicodecsv as csv
 
 def checkArgv(_input, _str):
     if _input is None:
@@ -16,14 +19,18 @@ def checkArgv(_input, _str):
 def csvName(user = None, options = sys.argv):
    if user is None:
        user = ConfigSectionMapAdv(option = 'source_name')
+   file = None
    if type(options) == list:
        for opt in options:
            if checkArgv(opt, "^(out\/FREYR\_20..-..-..\_....\_" + user + "\.csv)"):
-              return opt
+              file = opt
    else:
        if checkArgv(options, "^(out\/FREYR\_20..-..-..\_....\_" + user + "\.csv)"):
-           return options
-   return "out/FREYR_YYYY-MM-DD_HHMM_" + user + ".csv"
+           file = options
+   file = "out/FREYR_YYYY-MM-DD_HHMM_" + user + ".csv"
+   initiateFile(file)
+       ###################################
+   return file
 
 def findItm(item = "", options = sys.argv):
    if type(options) == list:
@@ -34,3 +41,12 @@ def findItm(item = "", options = sys.argv):
        if checkArgv(options, item):
            return True
    return False
+
+def initiateFile(x = None):
+    if x is None:
+        raise "ERROR: No file!"
+    elif not isfile(x):
+        with open(x, 'ab') as csvfile:
+           y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
+           y.writerow(head.headLine())
+    return
