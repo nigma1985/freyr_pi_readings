@@ -109,6 +109,7 @@ def csvName(user = None, options = sys.argv):
    return file
 
 def initiateFile(x = None):
+    print "is file:", isfile(x)
     if x is None:
         raise "ERROR: No file!"
     elif not isfile(x):
