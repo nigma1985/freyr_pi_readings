@@ -1,7 +1,7 @@
 import sys, re
 from os.path import isfile
 from module.config import ConfigSectionMapAdv
-from module.timeTool import csvTimeFormat
+from module.timeTools import csvTimeFormat
 import module.getOptions as opt
 import unicodecsv as csv
 
