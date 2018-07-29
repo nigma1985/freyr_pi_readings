@@ -30,10 +30,11 @@ import math
 import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
 import module.decision as dec
 import module.getOptions as opt
-import module.tools as tls
+import module.timeTools as ttl
 import module.netTool as ntt
 import module.freyr.csvBuffer as bfr
 import module.read.pi as rpi
+from module.tools import mean
 import os
 
 refference = "Sys"
@@ -41,24 +42,11 @@ refference = "Sys"
 ## reading 'freyr_config.ini'
 configFile = "freyr_config.ini"
 config = ini.getConfig(configFile)
-# ini.ConfigSectionMapAdv(section = 'defaults', option = 'source_name', iniConfig = config)
 
-#################################################
-#################################################
 
 me = ini.ConfigSectionMapAdv(section = refference, option = 'source_name', iniConfig = config)
 my_user = ini.ConfigSectionMapAdv(section = refference, option = 'user', iniConfig = config)
 
-# print me, my_user
-# sys.exit(0)
-
-
-####################
-####################
-####################
-####################
-
-csv_name = opt.csvName(me)
 
 all_on = opt.findItm("ALLON")
 all_off = opt.findItm("ALLOFF")
@@ -67,9 +55,9 @@ all_off = opt.findItm("ALLOFF")
 # pin = ConfigSectionMap(refference)['pin']
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up
-now1 = tls.now()
-utc1 = tls.utcnow()
-nowsecs = tls.mktime(now1.timetuple())
+now1 = ttl.now()
+utc1 = ttl.utcnow()
+nowsecs = ttl.mktime(now1)
 ram_time = nowsecs % (1.001 * (60 * 3))
 ram_time_percent = nowsecs % (0.999 * (60 * 12))
 disk_time = nowsecs % (1.001 * (60 * 60 * 12))
@@ -111,8 +99,8 @@ cpu_temp = None
 if dec.decision([all_on, "CPUTMPON"], [all_off, "CPUTMPOFF"]):
     cpu_temp = mean([float(cpu_tempA), cpu_tempB])
 
-utc2 = tls.utcnow()
-offset_utc = str(tls.roundTime(now1,roundTo=30*60) - tls.roundTime(utc1,roundTo=30*60))
+utc2 = ttl.utcnow()
+offset_utc = str(ttl.roundTime(now1,roundTo=30*60) - ttl.roundTime(utc1,roundTo=30*60))
 duration = (utc2-utc1)
 duration2 = (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
 
@@ -162,6 +150,10 @@ def _stdLine(
         _measure_target_description = measure_target_description,
         _data_quality = data_quality
         )
+
+
+csv_name = bfr.csvName(me)
+bfr.initiateFile(csv_name)
 
 with open(csv_name, 'ab') as csvfile:
    tst = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
