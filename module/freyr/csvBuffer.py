@@ -98,8 +98,8 @@ def csvName(user = None, options = sys.argv):
        user = ConfigSectionMapAdv(option = 'source_name')
    file = None
    if type(options) == list:
-       for opt in options:
-           if opt.checkArgv(opt, regex):
+       for o in options:
+           if opt.checkArgv(o, regex):
               file = opt
    else:
        if opt.checkArgv(options, regex):
