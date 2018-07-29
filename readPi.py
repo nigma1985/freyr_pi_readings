@@ -154,87 +154,78 @@ def _stdLine(
 
 csv_name = bfr.csvName(me)
 bfr.initiateFile(csv_name)
-
-with open(csv_name, 'ab') as csvfile:
-   tst = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
-   # print "cpu_temp"
-   if cpu_temp is not None:
-       cpu_temp_line = _stdLine(
-           value = cpu_temp,
-           # measure
-           measure_name = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_name', iniConfig = config),
-           measure_sign = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_sign', iniConfig = config),
-           measure_type_full = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_type_full', iniConfig = config),
-           measure_type_abbr = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_type_abbr', iniConfig = config),
-           measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_absolute_min', iniConfig = config)),
-           measure_absolute_max = None, #float(ini.ConfigSectionMapAdv(section = 'tmp_celsius',option = 'measure_absolute_max', iniConfig = config)),
-           measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'cpu_measure_target_type', iniConfig = config))
-       tst.writerow(cpu_temp_line)
-   # print "cpu_use"
-   if cpu_use is not None:
-       cpu_use_line = _stdLine(
-           value = cpu_use,
-           # measure
-           measure_name = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_name', iniConfig = config),
-           measure_sign = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_sign', iniConfig = config),
-           measure_type_full = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_full', iniConfig = config),
-           measure_type_abbr = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_abbr', iniConfig = config),
-           measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_min', iniConfig = config)),
-           measure_absolute_max = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_max', iniConfig = config)),
-           measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'cpu_measure_target_type', iniConfig = config))
-       tst.writerow(cpu_use_line)
-   # print "disk_percentage"
-   if disk_percentage is not None:
-       disk_percentage_line = _stdLine(
-           value = disk_percentage,
-           # measure
-           measure_name = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_name', iniConfig = config),
-           measure_sign = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_sign', iniConfig = config),
-           measure_type_full = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_full', iniConfig = config),
-           measure_type_abbr = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_abbr', iniConfig = config),
-           measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_min', iniConfig = config)),
-           measure_absolute_max = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_max', iniConfig = config)),
-           measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'disk_measure_target_type', iniConfig = config))
-       tst.writerow(disk_percentage_line)
-   # print "ram use"
-   if ram_used is not None and ram_total is not None:
-       ram_used_line = _stdLine(
-           value = ram_used,
-           # measure
-           measure_name = ini.ConfigSectionMapAdv(section = 'MegaByte', option = 'measure_name', iniConfig = config),
-           measure_sign = ini.ConfigSectionMapAdv(section = 'MegaByte', option = 'measure_sign', iniConfig = config),
-           measure_type_full = ini.ConfigSectionMapAdv(section = refference, option = 'ram_measure_type_full', iniConfig = config),
-           measure_type_abbr = ini.ConfigSectionMapAdv(section = refference, option = 'ram_measure_type_abbr', iniConfig = config),
-           measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'MegaByte', option = 'measure_absolute_min', iniConfig = config)),
-           measure_absolute_max = ram_total,
-           measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'ram_measure_target_type', iniConfig = config))
-       tst.writerow(ram_used_line)
-   # print "ram percent"
-   if ram_percent_used is not None:
-       ram_percent_used_line = _stdLine(
-           value = ram_percent_used,
-           # measure
-           measure_name = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_name', iniConfig = config),
-           measure_sign = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_sign', iniConfig = config),
-           measure_type_full = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_full', iniConfig = config),
-           measure_type_abbr = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_abbr', iniConfig = config),
-           measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_min', iniConfig = config)),
-           measure_absolute_max = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_max', iniConfig = config)),
-           measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'ram_measure_target_type', iniConfig = config))
-       tst.writerow(ram_percent_used_line)
-   # print "disk use"
-   if disk_used is not None and disk_total is not None:
-       disk_used_line = _stdLine(
-           value = disk_used,
-           # measure
-           measure_name = ini.ConfigSectionMapAdv(section = 'GigaByte', option = 'measure_name', iniConfig = config),
-           measure_sign = ini.ConfigSectionMapAdv(section = 'GigaByte', option = 'measure_sign', iniConfig = config),
-           measure_type_full = ini.ConfigSectionMapAdv(section = refference, option = 'disk_measure_type_full', iniConfig = config),
-           measure_type_abbr = ini.ConfigSectionMapAdv(section = refference, option = 'disk_measure_type_abbr', iniConfig = config),
-           measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'GigaByte', option = 'measure_absolute_min', iniConfig = config)),
-           measure_absolute_max = disk_total,
-           measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'disk_measure_target_type', iniConfig = config))
-       tst.writerow(disk_used_line)
+if cpu_temp is not None:
+    bfr.writeRow(row = _stdLine(
+        value = cpu_temp,
+        # measure
+        measure_name = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_name', iniConfig = config),
+        measure_sign = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_sign', iniConfig = config),
+        measure_type_full = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_type_full', iniConfig = config),
+        measure_type_abbr = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_type_abbr', iniConfig = config),
+        measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_absolute_min', iniConfig = config)),
+        measure_absolute_max = None, #float(ini.ConfigSectionMapAdv(section = 'tmp_celsius',option = 'measure_absolute_max', iniConfig = config)),
+        measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'cpu_measure_target_type', iniConfig = config))
+        , csvFile = csv_name)
+if cpu_use is not None:
+    bfr.writeRow(row = _stdLine(
+        value = cpu_use,
+        # measure
+        measure_name = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_name', iniConfig = config),
+        measure_sign = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_sign', iniConfig = config),
+        measure_type_full = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_full', iniConfig = config),
+        measure_type_abbr = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_abbr', iniConfig = config),
+        measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_min', iniConfig = config)),
+        measure_absolute_max = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_max', iniConfig = config)),
+        measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'cpu_measure_target_type', iniConfig = config))
+        , csvFile = csv_name)
+if disk_percentage is not None:
+    bfr.writeRow(row = _stdLine(
+        value = disk_percentage,
+        # measure
+        measure_name = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_name', iniConfig = config),
+        measure_sign = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_sign', iniConfig = config),
+        measure_type_full = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_full', iniConfig = config),
+        measure_type_abbr = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_abbr', iniConfig = config),
+        measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_min', iniConfig = config)),
+        measure_absolute_max = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_max', iniConfig = config)),
+        measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'disk_measure_target_type', iniConfig = config))
+        , csvFile = csv_name)
+if ram_used is not None and ram_total is not None:
+    bfr.writeRow(row = _stdLine(
+        value = ram_used,
+        # measure
+        measure_name = ini.ConfigSectionMapAdv(section = 'MegaByte', option = 'measure_name', iniConfig = config),
+        measure_sign = ini.ConfigSectionMapAdv(section = 'MegaByte', option = 'measure_sign', iniConfig = config),
+        measure_type_full = ini.ConfigSectionMapAdv(section = refference, option = 'ram_measure_type_full', iniConfig = config),
+        measure_type_abbr = ini.ConfigSectionMapAdv(section = refference, option = 'ram_measure_type_abbr', iniConfig = config),
+        measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'MegaByte', option = 'measure_absolute_min', iniConfig = config)),
+        measure_absolute_max = ram_total,
+        measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'ram_measure_target_type', iniConfig = config))
+        , csvFile = csv_name)
+if ram_percent_used is not None:
+    bfr.writeRow(row = _stdLine(
+        value = ram_percent_used,
+        # measure
+        measure_name = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_name', iniConfig = config),
+        measure_sign = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_sign', iniConfig = config),
+        measure_type_full = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_full', iniConfig = config),
+        measure_type_abbr = ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_type_abbr', iniConfig = config),
+        measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_min', iniConfig = config)),
+        measure_absolute_max = float(ini.ConfigSectionMapAdv(section = 'percent_used', option = 'measure_absolute_max', iniConfig = config)),
+        measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'ram_measure_target_type', iniConfig = config))
+        , csvFile = csv_name)
+if disk_used is not None and disk_total is not None:
+    bfr.writeRow(row = _stdLine(
+            value = disk_used,
+            # measure
+            measure_name = ini.ConfigSectionMapAdv(section = 'GigaByte', option = 'measure_name', iniConfig = config),
+            measure_sign = ini.ConfigSectionMapAdv(section = 'GigaByte', option = 'measure_sign', iniConfig = config),
+            measure_type_full = ini.ConfigSectionMapAdv(section = refference, option = 'disk_measure_type_full', iniConfig = config),
+            measure_type_abbr = ini.ConfigSectionMapAdv(section = refference, option = 'disk_measure_type_abbr', iniConfig = config),
+            measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'GigaByte', option = 'measure_absolute_min', iniConfig = config)),
+            measure_absolute_max = disk_total,
+            measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'disk_measure_target_type', iniConfig = config))
+        , csvFile = csv_name)
 
 try:
     ntt.scp(
