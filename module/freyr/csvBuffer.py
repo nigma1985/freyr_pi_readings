@@ -117,10 +117,10 @@ def initiateFile(x = None):
             y.writerow(headLine())
     return
 
-def writeRow(row = None, csvFile = None):
+def writeRow(row = None, csvFile = None):    
+    if csvFile is None:
+        csvFile = defaultFileName()
     if not isfile(csvFile):
-        if csvFile is None:
-            csvFile = defaultFileName()
         initiateFile(csvFile)
     with open(csvFile, 'ab') as csvfile:
         y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
