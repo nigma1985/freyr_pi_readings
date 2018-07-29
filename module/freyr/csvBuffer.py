@@ -109,12 +109,11 @@ def csvName(user = None, options = sys.argv):
    return file
 
 def initiateFile(x = None):
-    x = str(x)
-    print "is file:", isfile(x)
+    print "is file:", isfile(str(x))
     if x is None:
         raise "ERROR: No file!"
-    elif isfile(x) == False:
-        with open(x, 'ab') as csvfile:
+    elif isfile(str(x)) == False:
+        with open(str(x), 'ab') as csvfile:
             y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
             y.writerow(headLine())
     return
@@ -136,4 +135,4 @@ def writeRow(row = None, csvFile = None):
         else:
             y.writerow(row)
             print row
-    return "DONE"
+    return
