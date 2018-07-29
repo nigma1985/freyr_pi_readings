@@ -42,24 +42,11 @@ refference = "Sys"
 ## reading 'freyr_config.ini'
 configFile = "freyr_config.ini"
 config = ini.getConfig(configFile)
-# ini.ConfigSectionMapAdv(section = 'defaults', option = 'source_name', iniConfig = config)
 
-#################################################
-#################################################
 
 me = ini.ConfigSectionMapAdv(section = refference, option = 'source_name', iniConfig = config)
 my_user = ini.ConfigSectionMapAdv(section = refference, option = 'user', iniConfig = config)
 
-# print me, my_user
-# sys.exit(0)
-
-
-####################
-####################
-####################
-####################
-
-csv_name = opt.csvName(me)
 
 all_on = opt.findItm("ALLON")
 all_off = opt.findItm("ALLOFF")
@@ -163,6 +150,10 @@ def _stdLine(
         _measure_target_description = measure_target_description,
         _data_quality = data_quality
         )
+
+
+csv_name = bfr.csvName(me)
+bfr.initiateFile(csv_name)
 
 with open(csv_name, 'ab') as csvfile:
    tst = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)

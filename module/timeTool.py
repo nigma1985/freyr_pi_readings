@@ -7,6 +7,10 @@ import time
 ###  Tools for time management                ###
 #################################################
 
+def csvTimeFormat():
+    tst = datetime.utcnow()
+    return str(tst.strftime("%Y-%m-%d_%H%M"))
+
 def now():
     return datetime.now()
 

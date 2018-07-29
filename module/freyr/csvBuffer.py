@@ -1,3 +1,9 @@
+import sys, re
+from os.path import isfile
+from module.config import ConfigSectionMapAdv
+from module.timeTool import csvTimeFormat
+import module.getOptions as opt
+import unicodecsv as csv
 
 def stdLine(
     value,
@@ -80,3 +86,45 @@ def headLine(
         measure_name = _measure_name, measure_sign = _measure_sign, measure_type_full = _measure_type_full, measure_type_abbr = _measure_type_abbr, measure_absolute_min = _measure_absolute_min, measure_absolute_max = _measure_absolute_max, measure_target_type = _measure_target_type, measure_target_name = _measure_target_name, measure_target_description = _measure_target_description,
         data_quality = _data_quality
     )
+
+def defaultFileName(host = None):
+    if host is None:
+        host = ConfigSectionMapAdv(option = 'source_name')
+    return "out/FREYR_" + csvTimeFormat() + "_" + host + ".csv"
+
+def csvName(user = None, options = sys.argv):
+   regex = "^(out\/FREYR\_....-..-..\_....\_" + user + "\.csv)"
+   if user is None:
+       user = ConfigSectionMapAdv(option = 'source_name')
+   file = None
+   if type(options) == list:
+       for opt in options:
+           if opt.checkArgv(opt, regex):
+              file = opt
+   else:
+       if opt.checkArgv(options, regex):
+           file = options
+   if file is None:
+       file = defaultFileName(user)
+   return file
+
+def initiateFile(x = None):
+if x is None:
+    raise "ERROR: No file!"
+elif not isfile(x):
+    with open(x, 'ab') as csvfile:
+        y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
+        y.writerow(headLine())
+return
+
+def writeRow(row = None, csvFile = None):
+    if (row is None) or (type(row) != list):
+        raise "ERROR: Missing data!"
+    elif not isfile(x):
+        if csvFile is None:
+            csvFile = defaultFileName()
+            initiateFile(csvFile)
+        with open(csvFile, 'ab') as csvfile:
+            y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
+            y.writerow(row)
+    return
