@@ -120,18 +120,14 @@ def initiateFile(x = None):
 def writeRow(row = None, csvFile = None):
     if csvFile is None:
         csvFile = defaultFileName()
-    print csvFile
     if not isfile(csvFile):
         initiateFile(csvFile)
-        print "initiated"
     with open(csvFile, 'ab') as csvfile:
         y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
         if (row is not None) and (type(row) != list):
             raise "ERROR: Missing data!"
         elif row is None:
             y.writerow(headLine())
-            print headLine()
         else:
             y.writerow(row)
-            print row
     return "DONE"
