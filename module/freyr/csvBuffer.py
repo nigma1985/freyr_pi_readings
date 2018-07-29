@@ -112,6 +112,7 @@ def initiateFile(x = None):
     if x is None:
         raise "ERROR: No file!"
     elif isfile(x) == False:
+        x = str(x)
         with open(x, 'ab') as csvfile:
             y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
             y.writerow(headLine())
@@ -130,4 +131,4 @@ def writeRow(row = None, csvFile = None):
             y.writerow(headLine())
         else:
             y.writerow(row)
-    return "DONE"
+    return
