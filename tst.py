@@ -1,3 +1,3 @@
 from os.path import isfile
 
-isfile("tst.py")
+print isfile("tst.py")
