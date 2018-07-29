@@ -118,10 +118,10 @@ def initiateFile(x = None):
     return
 
 def writeRow(row = None, csvFile = None):
-    if not isfile(x):
+    if not isfile(csvFile):
         if csvFile is None:
             csvFile = defaultFileName()
-            initiateFile(csvFile)
+        initiateFile(csvFile)
     with open(csvFile, 'ab') as csvfile:
         y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
         if (row is not None) and (type(row) != list):
