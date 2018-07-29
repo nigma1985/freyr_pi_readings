@@ -111,7 +111,7 @@ def csvName(user = None, options = sys.argv):
 def initiateFile(x = None):
     if x is None:
         raise "ERROR: No file!"
-    elif not isfile(x):
+    elif isfile(x) == False:
         with open(x, 'ab') as csvfile:
             y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
             y.writerow(headLine())
