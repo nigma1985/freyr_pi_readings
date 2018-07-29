@@ -118,13 +118,16 @@ elif not isfile(x):
 return
 
 def writeRow(row = None, csvFile = None):
-    if (row is None) or (type(row) != list):
-        raise "ERROR: Missing data!"
-    elif not isfile(x):
+    if not isfile(x):
         if csvFile is None:
             csvFile = defaultFileName()
             initiateFile(csvFile)
-        with open(csvFile, 'ab') as csvfile:
-            y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
+    with open(csvFile, 'ab') as csvfile:
+        y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
+        if (row is not None) and (type(row) != list):
+            raise "ERROR: Missing data!"
+        elif row is None:
+            y.writerow(headLine())
+        else:
             y.writerow(row)
     return

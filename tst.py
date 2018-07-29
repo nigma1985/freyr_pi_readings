@@ -35,3 +35,5 @@ import time
 # print "duration", (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
 
 print opt.getDefaultFile()
+
+print bfr.writeRow()
