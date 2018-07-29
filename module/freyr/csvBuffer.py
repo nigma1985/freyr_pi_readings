@@ -109,13 +109,13 @@ def csvName(user = None, options = sys.argv):
    return file
 
 def initiateFile(x = None):
-if x is None:
-    raise "ERROR: No file!"
-elif not isfile(x):
-    with open(x, 'ab') as csvfile:
-        y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
-        y.writerow(headLine())
-return
+    if x is None:
+        raise "ERROR: No file!"
+    elif not isfile(x):
+        with open(x, 'ab') as csvfile:
+            y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
+            y.writerow(headLine())
+    return
 
 def writeRow(row = None, csvFile = None):
     if not isfile(x):
