@@ -1,7 +1,7 @@
 import sys, re
 from os.path import isfile
 from module.config import ConfigSectionMapAdv
-from module.timeTool import csvTimeFormat
+from module.timeTools import csvTimeFormat
 import module.getOptions as opt
 import unicodecsv as csv
 
@@ -112,8 +112,9 @@ def initiateFile(x = None):
     print "is file:", isfile(str(x))
     if x is None:
         raise "ERROR: No file!"
-    elif isfile(str(x)) == False:
-        with open(str(x), 'ab') as csvfile:
+    elif isfile(x) == False:
+        x = str(x)
+        with open(x, 'ab') as csvfile:
             y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
             y.writerow(headLine())
     return
@@ -121,18 +122,14 @@ def initiateFile(x = None):
 def writeRow(row = None, csvFile = None):
     if csvFile is None:
         csvFile = defaultFileName()
-    print csvFile
     if not isfile(csvFile):
         initiateFile(csvFile)
-        print "initiated"
     with open(csvFile, 'ab') as csvfile:
         y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
         if (row is not None) and (type(row) != list):
             raise "ERROR: Missing data!"
         elif row is None:
             y.writerow(headLine())
-            print headLine()
         else:
             y.writerow(row)
-            print row
     return
