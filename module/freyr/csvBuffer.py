@@ -107,7 +107,7 @@ def csvName(user = None, options = sys.argv):
    print "Type:", type(file) ## wrong data type ??
    if file is None:
        file = defaultFileName(user)
-   return file
+   return "" + file
 
 def initiateFile(x = None):
     if x is None:

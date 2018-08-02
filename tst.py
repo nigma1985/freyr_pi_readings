@@ -6,8 +6,6 @@ import module.timeTool as ttl
 import module.netTool as ntt
 import module.freyr.csvBuffer as bfr
 #import module.read.pi as rpi
-import os
+import os, sys, time
 
-import time
-
-bfr.csvName()
+bfr.csvName(user = byangoma, options = sys.argv)
