@@ -104,7 +104,7 @@ def csvName(user = None, options = sys.argv):
    else:
        if opt.checkArgv(options, regex):
            file = options
-   print type(file) ## wrong type ??
+   print "Type:", type(file) ## wrong data type ??
    if file is None:
        file = defaultFileName(user)
    return str(file)
@@ -113,7 +113,6 @@ def initiateFile(x = None):
     if x is None:
         raise "ERROR: No file!"
     elif isfile(x) == False:
-        x = str(x)
         with open(x, 'ab') as csvfile:
             y = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
             y.writerow(headLine())
