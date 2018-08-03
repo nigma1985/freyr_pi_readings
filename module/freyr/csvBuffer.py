@@ -100,7 +100,7 @@ def csvName(user = None, options = sys.argv):
    if type(options) == list:
        for o in options:
            if opt.checkArgv(o, regex):
-              file = opt
+              file = o
    else:
        if opt.checkArgv(options, regex):
            file = options
