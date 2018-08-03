@@ -14,8 +14,8 @@ def checkArgv(_input, _str):
 
 def findItm(item = "", options = sys.argv):
    if type(options) == list:
-       for o in len(options):
-           if checkArgv(options[o], item):
+       for o in options:
+           if checkArgv(o, item):
               return True
    else:
        if checkArgv(options, item):
