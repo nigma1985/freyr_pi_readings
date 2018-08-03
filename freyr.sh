@@ -17,7 +17,7 @@ mkdir -p archive
 ## Collect Data
 echo $DATA_HEAD >> out/FREYR_$DATETIME\_$IAM.csv
 
-python freyr_pi_readings/readPi.py out/FREYR_$DATETIME\_$IAM.csv
+python freyr_pi_readings/readPi.py #out/FREYR_$DATETIME\_$IAM.csv
 
 python readEnviro_v2b.py out/FREYR_$DATETIME\_$IAM.csv
 
