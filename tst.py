@@ -8,4 +8,4 @@ import module.freyr.csvBuffer as bfr
 #import module.read.pi as rpi
 import os, sys, time
 
-bfr.csvName(user = byangoma, options = sys.argv)
+bfr.csvName(user = "byangoma", options = sys.argv)
