@@ -104,13 +104,11 @@ def csvName(user = None, options = sys.argv):
    else:
        if opt.checkArgv(options, regex):
            file = options
-   print "Type:", type(file) ## wrong data type ??
    if file is None:
        file = defaultFileName(user)
    return "" + file
 
 def initiateFile(x = None):
-    print "is file:", isfile(str(x))
     if x is None:
         raise "ERROR: No file!"
     elif isfile(x) == False:
