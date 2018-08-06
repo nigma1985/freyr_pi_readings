@@ -34,7 +34,7 @@ import module.timeTools as ttl
 import module.netTools as ntt
 import module.freyr.csvBuffer as bfr
 import module.read.pi as rpi
-from module.tools import mean
+from module import mean
 import os
 
 refference = "Sys"

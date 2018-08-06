@@ -4,6 +4,7 @@
 
 import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
 import re, os
+from module import cleanType
 
 ###############################################################################
 
@@ -86,17 +87,10 @@ def ConfigSectionMapAdv(section = 'defaults', option = None, iniFile = 'freyr_co
     except:
         dict1 = _ConfigSectionMap(_section = "defaults", _iniConfig = iniConfig)[option]
 
-    if dict1 == 'None' or dict1 == '':
-        dict1 = None
-    else:
-        try:
-            dict1 = int(dict1)
-        except:
-            try:
-                dict1 = float(dict1)
-            except:
-                dict1 = str(dict1)
+    ## try to convert to correct data type:
+    dict = cleanType(dict1)
 
+    ## try to find unicode and decode it:
     if isinstance(dict1, str):
         if dict1[:3] == "u'\\" or dict1[:3] == 'u"\\':
             x = re.search(r"u[\"|\'](\\.+)[\"|\']", dict1)

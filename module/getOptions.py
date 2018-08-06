@@ -12,12 +12,30 @@ def checkArgv(_input, _str):
         return False
     return False
 
-def findItm(item = "", options = sys.argv):
-   if type(options) == list:
+def findItm(item = "", options = sys.argv, mode = None):
+    ## find item in list and return "True" if found. Otherwise "False"
+    if mode is None:
+        ## default is strict and basic
+        return item in options
+    else:
+        ## otherwise the more open approach of checkArgv is chosen
+        ## items will also be found if it is a substrings
+        if type(options) == list:
+           for o in options:
+               if checkArgv(o, item):
+                  return True
+        else:
+           if checkArgv(options, item):
+               return True
+    return False
+
+def getItm(item = "", options = sys.argv):
+    ## find item as substring in list and return string
+    if type(options) == list:
        for o in options:
            if checkArgv(o, item):
-              return True
-   else:
+              return o
+    else:
        if checkArgv(options, item):
-           return True
-   return False
+           return options
+    return None
