@@ -230,10 +230,10 @@ if disk_used is not None:
 
 try:
     ntt.scp(
-        file = csv_name,
-        user = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_user', iniConfig = config),
-        host = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_host', iniConfig = config),
-        path = ini.ConfigSectionMapAdv(section = "Sys", option = 'db_path', iniConfig = config))
+        file = findConfig(sysKey = "csvFile", readVar = csv_name, confSection = "Sys", confOption = 'csvFile', confFile = config),
+        user = findConfig(sysKey = "db_user", confSection = "Sys", confOption = 'db_user', confFile = config),
+        host = findConfig(sysKey = "db_host", confSection = "Sys", confOption = 'db_host', confFile = config),
+        path = findConfig(sysKey = "db_path", confSection = "Sys", confOption = 'db_path', confFile = config))
     #print "tst"
 except:
     print "ERROR @ transfer"
