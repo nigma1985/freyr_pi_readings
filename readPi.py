@@ -34,6 +34,7 @@ import module.timeTools as ttl
 import module.netTools as ntt
 import module.freyr.csvBuffer as bfr
 import module.read.pi as rpi
+from module.freyr import findConfig
 from module import mean
 import os
 
@@ -44,8 +45,8 @@ configFile = "freyr_config.ini"
 config = ini.getConfig(configFile)
 
 
-me = ini.ConfigSectionMapAdv(section = refference, option = 'source_name', iniConfig = config)
-my_user = ini.ConfigSectionMapAdv(section = refference, option = 'user', iniConfig = config)
+me = findConfig(sysKey = "me", confSection = refference, confOption = 'source_name', confFile = config)
+my_user = findConfig(sysKey = "my_user", confSection = refference, confOption = 'user', confFile = config)
 
 
 all_on = opt.findItm("ALLON")
@@ -106,26 +107,26 @@ duration2 = (float(duration.microseconds) / 10**6) + duration.seconds + (((durat
 
 def _stdLine(
     value = 0.0,
-    pin = None,
+    pin = findConfig(sysKey = "pin", confSection = refference, confOption = 'pin', confFile = config),
     # time
     utc_1 = utc1,
     utc_2 = utc2,
     offsetutc = offset_utc,
     duration_sec = duration2,
     # location
-    outdoors_name = ini.ConfigSectionMapAdv(section = refference, option ='outdoors_name', iniConfig = config),  ##'no'  ## 'yes' 'none' 'other'
-    loc_lat = float(ini.ConfigSectionMapAdv(section = refference, option ='loc_lat', iniConfig = config)),  ##53.304130
-    loc_long = float(ini.ConfigSectionMapAdv(section = refference, option ='loc_long', iniConfig = config)),  ##9.706472
-    loc_description = ini.ConfigSectionMapAdv(section = refference, option ='loc_description', iniConfig = config),  ##'test indoor'
+    outdoors_name = findConfig(sysKey = "outdoors_name", confSection = refference, confOption = 'outdoors_name', confFile = config),
+    loc_lat = findConfig(sysKey = "loc_lat", confSection = refference, confOption = 'loc_lat', confFile = config),
+    loc_long = findConfig(sysKey = "loc_long", confSection = refference, confOption = 'loc_long', confFile = config),
+    loc_description = findConfig(sysKey = "loc_description", confSection = refference, confOption = 'loc_description', confFile = config),
     # source / provider
-    provider_type = ini.ConfigSectionMapAdv(section = refference, option ='provider_type', iniConfig = config),  ##'RPi3'   ## 'REST API'
-    source_name = ini.ConfigSectionMapAdv(section = refference, option ='source_name', iniConfig = config), ##'FreyrTST 1'
-    source_description = ini.ConfigSectionMapAdv(section = refference, option ='source_description', iniConfig = config),  ##'Test RPi3 -
+    provider_type = findConfig(sysKey = "provider_type", confSection = refference, confOption = 'provider_type', confFile = config),
+    source_name = me,
+    source_description = findConfig(sysKey = "source_description", confSection = refference, confOption = 'source_description', confFile = config),
     # periphery
-    periphery_name = ini.ConfigSectionMapAdv(section = refference, option ='periphery_name', iniConfig = config),  ##'Raspberry Pi 3'
-    periphery_type = ini.ConfigSectionMapAdv(section = refference, option ='periphery_type', iniConfig = config),  ##'System'
-    periphery_description = ini.ConfigSectionMapAdv(section = refference, option ='periphery_description', iniConfig = config),  ##'Hardware'
-    periphery_device_description = ini.ConfigSectionMapAdv(section = refference, option ='periphery_device_description', iniConfig = config),  ##'tst'
+    periphery_name = findConfig(sysKey = "periphery_name", confSection = refference, confOption = 'periphery_name', confFile = config),
+    periphery_type = findConfig(sysKey = "periphery_type", confSection = refference, confOption = 'periphery_type', confFile = config),
+    periphery_description = findConfig(sysKey = "periphery_description", confSection = refference, confOption = 'periphery_description', confFile = config),
+    periphery_device_description = findConfig(sysKey = "periphery_device_description", confSection = refference, confOption = 'periphery_device_description', confFile = config),
     # measure
     measure_name = None,
     measure_sign = None,
@@ -134,10 +135,10 @@ def _stdLine(
     measure_absolute_min = None,
     measure_absolute_max = None,
     measure_target_type = None,
-    measure_target_name = ini.ConfigSectionMapAdv(section = refference, option = 'measure_target_name', iniConfig = config),  ##'System' ## 'yes' 'none' 'other'
-    measure_target_description = ini.ConfigSectionMapAdv(section = refference, option = 'measure_target_description', iniConfig = config),  ##'Monitoring Hardware'
+    measure_target_name = findConfig(sysKey = "measure_target_name", confSection = refference, confOption = 'measure_target_name', confFile = config),
+    measure_target_description = findConfig(sysKey = "measure_target_description", confSection = refference, confOption = 'measure_target_description', confFile = config),
     # QA
-    data_quality = int(ini.ConfigSectionMapAdv(section = refference, option = 'data_quality', iniConfig = config))  ##99
+    data_quality = findConfig(sysKey = "data_quality", confSection = refference, confOption = 'data_quality', confFile = config)
 ):
     return bfr.headLine(
         _value = value, _pin = pin,
@@ -158,14 +159,14 @@ if cpu_temp is not None:
     bfr.writeRow(row = _stdLine(
         value = cpu_temp,
         # measure
-        measure_name = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_name', iniConfig = config),
-        measure_sign = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_sign', iniConfig = config),
-        measure_type_full = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_type_full', iniConfig = config),
-        measure_type_abbr = ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_type_abbr', iniConfig = config),
-        measure_absolute_min = float(ini.ConfigSectionMapAdv(section = 'tmp_celsius', option = 'measure_absolute_min', iniConfig = config)),
-        measure_absolute_max = None, #float(ini.ConfigSectionMapAdv(section = 'tmp_celsius',option = 'measure_absolute_max', iniConfig = config)),
-        measure_target_type = ini.ConfigSectionMapAdv(section = refference, option = 'cpu_measure_target_type', iniConfig = config))
-        , csvFile = csv_name)
+        measure_name = findConfig(sysKey = "cpu_temp_measure_name", confSection = 'tmp_celsius', confOption = 'measure_name', confFile = config),
+        measure_sign = findConfig(sysKey = "cpu_temp_measure_sign", confSection = 'tmp_celsius', confOption = 'measure_sign', confFile = config),
+        measure_type_full = findConfig(sysKey = "cpu_temp_measure_type_full", confSection = 'tmp_celsius', confOption = 'measure_type_full', confFile = config),
+        measure_type_abbr = findConfig(sysKey = "cpu_temp_measure_type_abbr", confSection = 'tmp_celsius', confOption = 'measure_type_abbr', confFile = config),
+        measure_absolute_min = findConfig(sysKey = "cpu_temp_measure_absolute_min", confSection = 'tmp_celsius', confOption = 'measure_absolute_min', confFile = config),
+        measure_absolute_max = findConfig(sysKey = "cpu_temp_measure_absolute_max", confSection = 'tmp_celsius', confOption = 'measure_absolute_max', confFile = config),
+        measure_target_type = findConfig(sysKey = "cpu_temp_measure_target_type", confSection = refference, confOption = 'cpu_measure_target_type', confFile = config)
+        ), csvFile = csv_name)
 if cpu_use is not None:
     bfr.writeRow(row = _stdLine(
         value = cpu_use,
