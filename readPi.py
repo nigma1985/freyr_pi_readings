@@ -107,7 +107,7 @@ duration2 = (float(duration.microseconds) / 10**6) + duration.seconds + (((durat
 
 def _stdLine(
     value = 0.0,
-    pin = findConfig(sysKey = "pin", confSection = refference, confOption = 'pin', confFile = config),
+    pin = findConfig(sysKey = "pin", readVar = None, confSection = refference, confOption = 'pin', confFile = config),
     # time
     utc_1 = utc1,
     utc_2 = utc2,
