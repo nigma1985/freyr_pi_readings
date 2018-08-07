@@ -34,7 +34,7 @@ def roundTime(dt=None, roundTo=60):
 
 def start():
     now = datetime.now()
-    return now, datetime.utcnow(), mktime(now)
+    return now, datetime.utcnow(), time.mktime(now.timetuple())
 
 def end(now1, utc1):
     if None in [now1, utc1]:
