@@ -65,7 +65,7 @@ disk_time = nowsecs % (1.001 * (60 * 60 * 12))
 disk_time_percent = nowsecs % (0.999 * (60 * 60 * 24 * 7))
 cpu_tempA = rpi.getCPUtemperature()
 cpu_use = None
-if dec.decision([all_on, "CPUUSEON"], [all_off, "CPUUSEOFF"]):
+if dec.decision(onSwitch = [all_on, "CPUUSEON"], offSwitch = [all_off, "CPUUSEOFF"]):
     cpu_use = rpi.cpu_percent()
 
 ram = rpi.virtual_memory()
@@ -73,12 +73,12 @@ ram_total = None
 ram_used = None
 ram_free = None
 ram_percent_used = None
-if dec.decision([all_on, "RAMBITON", (ram_time <= 60), (cpu_use > 80.0), (cpu_tempA > 57.5)], [all_off, opt.findItm("RAMBITON")]):
+if dec.decision(onSwitch = [all_on, "RAMBITON", (cpu_use > 80.0), (cpu_tempA > 57.5)], numInterval = ram_time, offSwitch = [all_off, "RAMBITOFF"]):
     ram_total = ram.total / 2**20       # MiB.
     ram_used = ram.used / 2**20
     ram_free = ram.free / 2**20
 
-if dec.decision([all_on, "RAMUSEON", (ram_time_percent <= 60)], [all_off, "RAMUSEOFF"]):
+if dec.decision(onSwitch = [all_on, "RAMUSEON"], numInterval = ram_time_percent, offSwitch = [all_off, "RAMUSEOFF"]):
     ram_percent_used = ram.percent
 
 
@@ -87,17 +87,17 @@ disk_total = None
 disk_used = None
 disk_remaining = None
 disk_percentage = None
-if dec.decision([all_on, "DSKBITON", (disk_time <= 60)], [all_off, "DSKBITOFF"]):
+if dec.decision(onSwitch = [all_on, "DSKBITON"], numInterval = disk_time, offSwitch = [all_off, "DSKBITOFF"]):
     disk_total = disk.total / 2**30     # GiB.
     disk_used = disk.used / 2**30
     disk_remaining = disk.free / 2**30
 
-if dec.decision([all_on, "DSKUSEON", (disk_time_percent <= 60)], [all_off, "DSKUSEOFF"]):
+if dec.decision(onSwitch = [all_on, "DSKUSEON"], numInterval = disk_time_percent, offSwitch = [all_off, "DSKUSEOFF"]):
     disk_percentage = disk.percent
 
 cpu_tempB = rpi.get_cpu_temperature()
 cpu_temp = None
-if dec.decision([all_on, "CPUTMPON"], [all_off, "CPUTMPOFF"]):
+if dec.decision(onSwitch = [all_on, "CPUTMPON"], offSwitch = [all_off, "CPUTMPOFF"]):
     cpu_temp = mean([float(cpu_tempA), cpu_tempB])
 
 utc2, offset_utc, duration, duration2 = ttl.end(now1, utc1)

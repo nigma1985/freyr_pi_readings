@@ -1,7 +1,7 @@
 from random import random
 from module.getOptions import findItm
 
-def decision(onSwitch = None, offSwitch = None, numChance = None, capChance = None):
+def decision(onSwitch = None, offSwitch = None, numChance = None, numInterval = None, capChance = None, capInterval = None):
     if onSwitch is None:
         onSwitch = ["ALLON"]
     if offSwitch is None:
@@ -39,6 +39,14 @@ def decision(onSwitch = None, offSwitch = None, numChance = None, capChance = No
         return False
     elif any(on):
         return True
+    elif (numInterval is not None) and (numChance is not None):
+        if capInterval is None:
+            capInterval = 60
+        return any((random() <= 1 / (numChance - capChance)), (numInterval < capInterval))
+    elif numInterval is not None:
+        if capInterval is None:
+            capInterval = 60
+        return numInterval < capInterval
     elif (numChance is None) or (numChance - capChance == 0):
         return True
     else:
