@@ -31,3 +31,24 @@ def roundTime(dt=None, roundTo=60):
    # // is a floor division, not a comment on following line:
    rounding = (seconds+roundTo/2) // roundTo * roundTo
    return dt + timedelta(0,rounding-seconds,-dt.microsecond)
+
+def start():
+    now = now()
+    return now, utcnow(), mktime(now1)
+
+
+
+
+
+#utc2 = ttl.utcnow()
+#offset_utc = str(ttl.roundTime(now1,roundTo=30*60) - ttl.roundTime(utc1,roundTo=30*60))
+#duration = (utc2-utc1)
+#duration2 = (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
+
+def end(utc1):
+    if utc1 is None:
+        startBuffer = start()
+        utc1 = startBuffer[1]
+    utc2 = utcnow()
+    duration = (utc2-utc1)
+    return utc2, str(roundTime(now1,roundTo=30*60) - roundTime(utc1,roundTo=30*60)), duration, (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)

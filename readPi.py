@@ -56,9 +56,8 @@ all_off = opt.findItm("ALLOFF")
 # pin = ConfigSectionMap(refference)['pin']
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up
-now1 = ttl.now()
-utc1 = ttl.utcnow()
-nowsecs = ttl.mktime(now1)
+now1, utc1, nowsecs = ttl.start()
+
 ram_time = nowsecs % (1.001 * (60 * 3))
 ram_time_percent = nowsecs % (0.999 * (60 * 12))
 disk_time = nowsecs % (1.001 * (60 * 60 * 12))
@@ -100,10 +99,7 @@ cpu_temp = None
 if dec.decision([all_on, "CPUTMPON"], [all_off, "CPUTMPOFF"]):
     cpu_temp = mean([float(cpu_tempA), cpu_tempB])
 
-utc2 = ttl.utcnow()
-offset_utc = str(ttl.roundTime(now1,roundTo=30*60) - ttl.roundTime(utc1,roundTo=30*60))
-duration = (utc2-utc1)
-duration2 = (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
+utc2, offset_utc, duration, duration2 = end(now1, utc1, nowsecs)
 
 def _stdLine(
     value = 0.0,

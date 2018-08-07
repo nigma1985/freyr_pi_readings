@@ -12,10 +12,16 @@
 # bfr.csvName(user = "byangoma", options = sys.argv)
 
 
+def start():
+    return 1, 2, 3
 
-x = ["Konrad", None, "x", "10", "10.1", "123", "Konrad1.0", "1.Konrad", "None", "Ende"]
+def end(x, y, z):
+    return x + 1, y * 2, z ** 3
 
-for i in x:
-    print i, type(i)
-    a = recode(i)
-    print a, type(a)
+a, b, c = start()
+
+print a, b, c
+
+aa, bb, cc = end(a, b, c)
+
+print aa, bb, cc
