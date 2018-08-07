@@ -36,9 +36,12 @@ def start():
     now = datetime.now()
     return now, datetime.utcnow(), mktime(now)
 
-def end(utc1):
-    if utc1 is None:
+def end(now1, utc1):
+    if None in [now1, utc1]:
         startBuffer = start()
+    if now1 is None:
+        now1 = startBuffer[0]
+    if utc1 is None:
         utc1 = startBuffer[1]
     utc2 = datetime.utcnow()
     duration = (utc2-utc1)

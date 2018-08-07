@@ -99,7 +99,7 @@ cpu_temp = None
 if dec.decision([all_on, "CPUTMPON"], [all_off, "CPUTMPOFF"]):
     cpu_temp = mean([float(cpu_tempA), cpu_tempB])
 
-utc2, offset_utc, duration, duration2 = ttl.end(utc1)
+utc2, offset_utc, duration, duration2 = ttl.end(now1, utc1)
 
 def _stdLine(
     value = 0.0,
