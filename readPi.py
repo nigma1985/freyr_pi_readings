@@ -213,20 +213,20 @@ if ram_percent_used is not None:
         measure_type_abbr = findConfig(sysKey = "ram_percent_used_measure_type_abbr", confSection = 'percent_used', confOption = 'measure_type_abbr', confFile = config),
         measure_absolute_min = findConfig(sysKey = "ram_percent_used_measure_absolute_min", confSection = 'percent_used', confOption = 'measure_absolute_min', confFile = config),
         measure_absolute_max = findConfig(sysKey = "ram_percent_used_measure_absolute_max", confSection = 'percent_used', confOption = 'measure_absolute_max', confFile = config),
-        measure_target_type = findConfig(sysKey = "ram_percent_used_measure_target_type", confSection = 'percent_used', confOption = 'ram_measure_target_type', confFile = config)
+        measure_target_type = findConfig(sysKey = "ram_percent_used_measure_target_type", confSection = refference, confOption = 'ram_measure_target_type', confFile = config)
         ), csvFile = csv_name)
 if disk_used is not None:
     bfr.writeRow(row = _stdLine(
-            value = disk_used,
-            # measure
-            measure_name = findConfig(sysKey = "disk_used_measure_name", confSection = 'GigaByte', confOption = 'measure_name', confFile = config),
-            measure_sign = findConfig(sysKey = "disk_used_measure_sign", confSection = 'GigaByte', confOption = 'measure_sign', confFile = config),
-            measure_type_full = findConfig(sysKey = "disk_used_measure_type_full", confSection = refference, confOption = 'disk_measure_type_full', confFile = config),
-            measure_type_abbr = findConfig(sysKey = "disk_used_measure_type_abbr", confSection = refference, confOption = 'disk_measure_type_abbr', confFile = config),
-            measure_absolute_min = findConfig(sysKey = "disk_used_measure_absolute_min", confSection = 'GigaByte', confOption = 'measure_absolute_min', confFile = config),
-            measure_absolute_max = findConfig(sysKey = "disk_used_measure_absolute_max", readVar = disk_total, confSection = 'GigaByte', confOption = 'measure_absolute_max', confFile = config),
-            measure_target_type = findConfig(sysKey = "disk_used_measure_target_type", confSection = refference, confOption = 'disk_measure_target_type', confFile = config)
-            ), csvFile = csv_name)
+        value = disk_used,
+        # measure
+        measure_name = findConfig(sysKey = "disk_used_measure_name", confSection = 'GigaByte', confOption = 'measure_name', confFile = config),
+        measure_sign = findConfig(sysKey = "disk_used_measure_sign", confSection = 'GigaByte', confOption = 'measure_sign', confFile = config),
+        measure_type_full = findConfig(sysKey = "disk_used_measure_type_full", confSection = refference, confOption = 'disk_measure_type_full', confFile = config),
+        measure_type_abbr = findConfig(sysKey = "disk_used_measure_type_abbr", confSection = refference, confOption = 'disk_measure_type_abbr', confFile = config),
+        measure_absolute_min = findConfig(sysKey = "disk_used_measure_absolute_min", confSection = 'GigaByte', confOption = 'measure_absolute_min', confFile = config),
+        measure_absolute_max = findConfig(sysKey = "disk_used_measure_absolute_max", readVar = disk_total, confSection = 'GigaByte', confOption = 'measure_absolute_max', confFile = config),
+        measure_target_type = findConfig(sysKey = "disk_used_measure_target_type", confSection = refference, confOption = 'disk_measure_target_type', confFile = config)
+        ), csvFile = csv_name)
 
 try:
     ntt.scp(
