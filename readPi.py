@@ -57,6 +57,7 @@ all_off = opt.findItm("ALLOFF")
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up
 now1, utc1, nowsecs = ttl.start()
+print nowsecs
 
 ram_time = nowsecs % (1.001 * (60 * 3))
 ram_time_percent = nowsecs % (0.999 * (60 * 12))
