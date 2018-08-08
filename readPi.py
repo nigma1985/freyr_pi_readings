@@ -2,28 +2,28 @@
 
 # This script develops a python script to read and write envirophat data
 # -*- coding: utf-8 -*-
-from __future__ import division
-from envirophat import light, motion, weather, analog, leds
-
-#from subprocess import PIPE, Popen
-import subprocess, platform
-#import psutil ## install python-psutil
-import sys
-#import Adafruit_DHT
-#import datetime
-#from datetime import datetime
-#from datetime import timedelta
-#import time
-import re
-import sqlite3 as lite
-#import csv
-import unicodecsv as csv
-from random import *
-# import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
-import glob
-import shutil
-#import pyping
-import math
+# from __future__ import division
+# from envirophat import light, motion, weather, analog, leds
+#
+# #from subprocess import PIPE, Popen
+# import subprocess, platform
+# #import psutil ## install python-psutil
+# import sys
+# #import Adafruit_DHT
+# #import datetime
+# #from datetime import datetime
+# #from datetime import timedelta
+# #import time
+# import re
+# import sqlite3 as lite
+# #import csv
+# import unicodecsv as csv
+# from random import *
+# # import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
+# import glob
+# import shutil
+# #import pyping
+# import math
 
 ################################################################################
 
@@ -57,7 +57,6 @@ all_off = opt.findItm("ALLOFF")
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up
 now1, utc1, nowsecs = ttl.start()
-print nowsecs
 
 ram_time = nowsecs % (1.001 * (60 * 3))
 ram_time_percent = nowsecs % (0.999 * (60 * 12))
