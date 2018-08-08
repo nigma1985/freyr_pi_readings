@@ -2,6 +2,51 @@
 
 # This script develops a python script to read and write envirophat data
 # -*- coding: utf-8 -*-
+
+################################################################################
+
+import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
+import module.decision as dec
+import module.getOptions as opt
+import module.timeTools as ttl
+import module.netTools as ntt
+import module.freyr.csvBuffer as bfr
+import module.read.enviroPHAT as env
+from module.freyr import findConfig
+from module import mean
+import os
+
+refference = "Enviro pHAT"
+
+## reading 'freyr_config.ini'
+configFile = "freyr_config.ini"
+config = ini.getConfig(configFile)
+
+
+me = findConfig(sysKey = "me", confSection = refference, confOption = 'source_name', confFile = config)
+my_user = findConfig(sysKey = "my_user", confSection = refference, confOption = 'user', confFile = config)
+
+
+all_on = opt.findItm("ALLON")
+all_off = opt.findItm("ALLOFF")
+
+# Try to grab a sensor reading.  Use the read_retry method which will retry up
+now1, utc1, nowsecs = ttl.start()
+
+
+
+
+
+
+
+
+
+
+
+#!/usr/bin/python
+
+# This script develops a python script to read and write envirophat data
+# -*- coding: utf-8 -*-
 from __future__ import division
 from envirophat import light, motion, weather, analog, leds
 import os
@@ -12,7 +57,7 @@ import sys
 #import Adafruit_DHT
 #import datetime
 from datetime import datetime
-from datetime import timedelta 
+from datetime import timedelta
 import time
 import re
 import sqlite3 as lite
@@ -323,7 +368,7 @@ on_light = None
 on_rgb = None
 on_rawl = None
 if (led_light == True and rec_light == True) or (led_rgb == True and rec_rgb == True) or (led_raw == True and rec_raw == True):
-    leds.on() 
+    leds.on()
     time.sleep(sleeptimer)
     if rec_light == True:
         on_light = light.light()
@@ -389,7 +434,7 @@ def std_line(
     # source / provider
     provider_type = ConfigSectionMapAdv(refference,'provider_type'),  ##'RPi3'   ## 'REST API'
     source_name = ConfigSectionMapAdv(refference,'source_name'), ##'FreyrTST 1'
-    source_description = ConfigSectionMapAdv(refference,'source_description'),  ##'Test RPi3 - 
+    source_description = ConfigSectionMapAdv(refference,'source_description'),  ##'Test RPi3 -
     # periphery
     periphery_name = ConfigSectionMapAdv(refference,'periphery_name'),  ##'Raspberry Pi 3'
     periphery_type = ConfigSectionMapAdv(refference,'periphery_type'),  ##'System'
@@ -404,7 +449,7 @@ def std_line(
     measure_absolute_max = None,
     measure_target_type = None,
     measure_target_name = None,  ##'System' ## 'yes' 'none' 'other'
-    measure_target_description = None,  ##'Monitoring Hardware' 
+    measure_target_description = None,  ##'Monitoring Hardware'
     # QA
     data_quality = int(ConfigSectionMapAdv(refference,'data_quality'))  ##99
 ):
@@ -421,7 +466,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('light level','measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('light level','measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('light level','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('light level','measure_absolute_max'), 
+           measure_absolute_max = ConfigSectionMapAdv('light level','measure_absolute_max'),
            measure_target_type = ConfigSectionMapAdv(refference,'tcf_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'tcf_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'tcf_measure_target_description') + " (LED: OFF)")
@@ -449,7 +494,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('tmp_celsius','measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('tmp_celsius','measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('tmp_celsius','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('tmp_celsius','measure_absolute_max'), 
+           measure_absolute_max = ConfigSectionMapAdv('tmp_celsius','measure_absolute_max'),
            measure_target_type = ConfigSectionMapAdv(refference,'bmp_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'bmp_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'bmp_measure_target_description'))
@@ -477,7 +522,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('altitude','measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('altitude','measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('altitude','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('altitude','measure_absolute_max'), 
+           measure_absolute_max = ConfigSectionMapAdv('altitude','measure_absolute_max'),
            measure_target_type = ConfigSectionMapAdv(refference,'bmp_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'bmp_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'bmp_measure_target_description'))
@@ -505,7 +550,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('heading','measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('heading','measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('heading','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('heading','measure_absolute_max'), 
+           measure_absolute_max = ConfigSectionMapAdv('heading','measure_absolute_max'),
            measure_target_type = ConfigSectionMapAdv(refference,'lsm_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'lsm_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'lsm_measure_target_description') )
@@ -547,7 +592,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('rgb colour','measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('rgb colour','measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('rgb colour','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('rgb colour','measure_absolute_max'), 
+           measure_absolute_max = ConfigSectionMapAdv('rgb colour','measure_absolute_max'),
            measure_target_type = ConfigSectionMapAdv(refference,'tcf_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'tcf_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'tcf_measure_target_description')  + " (LED: OFF)")
@@ -589,7 +634,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('rgb colour','measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('rgb colour','measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('rgb colour','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('rgb colour','measure_absolute_max'), 
+           measure_absolute_max = ConfigSectionMapAdv('rgb colour','measure_absolute_max'),
            measure_target_type = ConfigSectionMapAdv(refference,'tcf_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'tcf_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'tcf_measure_target_description')  + " (LED: ON)")
@@ -719,7 +764,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_target_type = ConfigSectionMapAdv(refference,'tcf_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'tcf_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'tcf_measure_target_description')  + " (LED: ON)")
-       tst.writerow(con_rawl_line)  
+       tst.writerow(con_rawl_line)
    if mgnm is not None:
        xmgnm_line = std_line(
            value = mgnm[0],
@@ -743,7 +788,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('magnetometer','y_measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('magnetometer','y_measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('magnetometer','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('magnetometer','measure_absolute_max'), 
+           measure_absolute_max = ConfigSectionMapAdv('magnetometer','measure_absolute_max'),
            measure_target_type = ConfigSectionMapAdv(refference,'lsm_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'lsm_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'lsm_measure_target_description'))
@@ -785,7 +830,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('accelerometer','y_measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('accelerometer','y_measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('accelerometer','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('accelerometer','measure_absolute_max'), 
+           measure_absolute_max = ConfigSectionMapAdv('accelerometer','measure_absolute_max'),
            measure_target_type = ConfigSectionMapAdv(refference,'lsm_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'lsm_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'lsm_measure_target_description'))
@@ -804,7 +849,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_target_name = ConfigSectionMapAdv(refference,'lsm_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'lsm_measure_target_description'))
        tst.writerow(zacclm_line)
-      
+
 
 def scp(file = "", user = "pi", host = me, path = "~/in/"):
     cmd = "scp {} {}@{}:{}".format(file, user, host, path)
