@@ -279,64 +279,71 @@ def _stdLine(
         _data_quality = data_quality
         )
 
-with open(csv_name, 'ab') as csvfile:
-   tst = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
-   if off_light is not None:
-       off_light_line = std_line(
+csv_name = bfr.csvName(me)
+bfr.initiateFile(csv_name)
+if off_light is not None:
+    bfr.writeRow(row = _stdLine(
            value = off_light,
-           pin = ConfigSectionMapAdv(refference,'tcf_pin'),
-           measure_name = ConfigSectionMapAdv('light level','measure_name'),
-           measure_sign = ConfigSectionMapAdv('light level','measure_sign'),
-           measure_type_full = ConfigSectionMapAdv('light level','measure_type_full'),
-           measure_type_abbr = ConfigSectionMapAdv('light level','measure_type_abbr'),
-           measure_absolute_min = ConfigSectionMapAdv('light level','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('light level','measure_absolute_max'),
-           measure_target_type = ConfigSectionMapAdv(refference,'tcf_measure_target_type'),
-           measure_target_name = ConfigSectionMapAdv(refference,'tcf_measure_target_name'),
-           measure_target_description = ConfigSectionMapAdv(refference,'tcf_measure_target_description') + " (LED: OFF)")
-       tst.writerow(off_light_line)
-   if on_light is not None:
-       on_light_line = std_line(
+           pin = findConfig(sysKey = "off_lightPin", confSection = refference, confOption = 'tcf_pin', confFile = config),
+           measure_name = findConfig(sysKey = "off_light_measure_name", confSection = "light level", confOption = 'measure_name', confFile = config),
+           measure_sign = findConfig(sysKey = "off_light_measure_sign", confSection = "light level", confOption = 'measure_sign', confFile = config),
+           measure_type_full = findConfig(sysKey = "off_light_measure_type_full", confSection = "light level", confOption = 'measure_type_full', confFile = config),
+           measure_type_abbr = findConfig(sysKey = "off_light_measure_type_abbr", confSection = "light level", confOption = 'measure_type_abbr', confFile = config),
+           measure_absolute_min = findConfig(sysKey = "off_light_measure_absolute_min", confSection = "light level", confOption = 'measure_absolute_min', confFile = config),
+           measure_absolute_max = findConfig(sysKey = "off_light_measure_absolute_max", confSection = "light level", confOption = 'measure_absolute_max', confFile = config),
+           measure_target_type = findConfig(sysKey = "off_light_tcf_measure_target_type", confSection = refference, confOption = 'tcf_measure_target_type', confFile = config),
+           measure_target_name = findConfig(sysKey = "off_light_tcf_measure_target_name", confSection = refference, confOption = 'tcf_measure_target_name', confFile = config),
+           measure_target_description = findConfig(sysKey = "off_light_tcf_measure_target_description", confSection = refference, confOption = 'tcf_measure_target_description', confFile = config) + " (LED: OFF)"
+           ), csvFile = csv_name)
+if on_light is not None:
+    bfr.writeRow(row = _stdLine(
            value = on_light,
-           pin = ConfigSectionMapAdv(refference,'tcf_pin'),
-           measure_name = ConfigSectionMapAdv('light level','measure_name'),
-           measure_sign = ConfigSectionMapAdv('light level','measure_sign'),
-           measure_type_full = ConfigSectionMapAdv('light level','measure_type_full'),
-           measure_type_abbr = ConfigSectionMapAdv('light level','measure_type_abbr'),
-           measure_absolute_min = ConfigSectionMapAdv('light level','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('light level','measure_absolute_max'),
-           measure_target_type = ConfigSectionMapAdv(refference,'tcf_measure_target_type'),
-           measure_target_name = ConfigSectionMapAdv(refference,'tcf_measure_target_name'),
-           measure_target_description = ConfigSectionMapAdv(refference,'tcf_measure_target_description') + " (LED: ON)")
-       tst.writerow(on_light_line)
-   if temp is not None:
-       temp_line = std_line(
+           pin = findConfig(sysKey = "on_lightPin", confSection = refference, confOption = 'tcf_pin', confFile = config),
+           measure_name = findConfig(sysKey = "on_light_measure_name", confSection = "light level", confOption = 'measure_name', confFile = config),
+           measure_sign = findConfig(sysKey = "on_light_measure_sign", confSection = "light level", confOption = 'measure_sign', confFile = config),
+           measure_type_full = findConfig(sysKey = "on_light_measure_type_full", confSection = "light level", confOption = 'measure_type_full', confFile = config),
+           measure_type_abbr = findConfig(sysKey = "on_light_measure_type_abbr", confSection = "light level", confOption = 'measure_type_abbr', confFile = config),
+           measure_absolute_min = findConfig(sysKey = "on_light_measure_absolute_min", confSection = "light level", confOption = 'measure_absolute_min', confFile = config),
+           measure_absolute_max = findConfig(sysKey = "on_light_measure_absolute_max", confSection = "light level", confOption = 'measure_absolute_max', confFile = config),
+           measure_target_type = findConfig(sysKey = "on_light_tcf_measure_target_type", confSection = refference, confOption = 'tcf_measure_target_type', confFile = config),
+           measure_target_name = findConfig(sysKey = "on_light_tcf_measure_target_name", confSection = refference, confOption = 'tcf_measure_target_name', confFile = config),
+           measure_target_description = findConfig(sysKey = "on_light_tcf_measure_target_description", confSection = refference, confOption = 'tcf_measure_target_description', confFile = config) + " (LED: ON)"
+           ), csvFile = csv_name)
+if temp is not None:
+    bfr.writeRow(row = _stdLine(
            value = temp,
-           pin = ConfigSectionMapAdv(refference,'bmp_pin'),
-           measure_name = ConfigSectionMapAdv('tmp_celsius','measure_name'),
-           measure_sign = ConfigSectionMapAdv('tmp_celsius','measure_sign'),
-           measure_type_full = ConfigSectionMapAdv('tmp_celsius','measure_type_full'),
-           measure_type_abbr = ConfigSectionMapAdv('tmp_celsius','measure_type_abbr'),
-           measure_absolute_min = ConfigSectionMapAdv('tmp_celsius','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('tmp_celsius','measure_absolute_max'),
-           measure_target_type = ConfigSectionMapAdv(refference,'bmp_measure_target_type'),
-           measure_target_name = ConfigSectionMapAdv(refference,'bmp_measure_target_name'),
-           measure_target_description = ConfigSectionMapAdv(refference,'bmp_measure_target_description'))
-       tst.writerow(temp_line)
-   if prss is not None:
-       prss_line = std_line(
+           pin = findConfig(sysKey = "tempPin", confSection = refference, confOption = 'bmp_pin', confFile = config),
+           measure_name = findConfig(sysKey = "tempMeasure_name", confSection = "tmp_celsius", confOption = 'measure_name', confFile = config),
+           measure_sign = findConfig(sysKey = "tempMeasure_sign", confSection = "tmp_celsius", confOption = 'measure_sign', confFile = config),
+           measure_type_full = findConfig(sysKey = "tempMeasure_type_full", confSection = "tmp_celsius", confOption = 'measure_type_full', confFile = config),
+           measure_type_abbr = findConfig(sysKey = "tempMeasure_type_abbr", confSection = "tmp_celsius", confOption = 'measure_type_abbr', confFile = config),
+           measure_absolute_min = findConfig(sysKey = "tempMeasure_absolute_min", confSection = "tmp_celsius", confOption = 'measure_absolute_min', confFile = config),
+           measure_absolute_max = findConfig(sysKey = "tempMeasure_absolute_max", confSection = "tmp_celsius", confOption = 'measure_absolute_max', confFile = config),
+           measure_target_type = findConfig(sysKey = "tempMeasure_target_type", confSection = refference, confOption = 'tcf_measure_target_type', confFile = config),
+           measure_target_name = findConfig(sysKey = "tempMeasure_target_name", confSection = refference, confOption = 'tcf_measure_target_name', confFile = config),
+           measure_target_description = findConfig(sysKey = "tempMeasure_target_description", confSection = refference, confOption = 'tcf_measure_target_description', confFile = config) + " (LED: ON)"
+           ), csvFile = csv_name)
+if prss is not None:
+    bfr.writeRow(row = _stdLine(
            value = prss,
-           pin = ConfigSectionMapAdv(refference,'bmp_pin'),
-           measure_name = ConfigSectionMapAdv('pressure_pa','measure_name'),
-           measure_sign = ConfigSectionMapAdv('pressure_pa','measure_sign'),
-           measure_type_full = ConfigSectionMapAdv('pressure_pa','measure_type_full'),
-           measure_type_abbr = ConfigSectionMapAdv('pressure_pa','measure_type_abbr'),
-           measure_absolute_min = ConfigSectionMapAdv('pressure_pa','measure_absolute_min'),
-           measure_absolute_max = ConfigSectionMapAdv('pressure_pa','measure_absolute_max'),
-           measure_target_type = ConfigSectionMapAdv(refference,'bmp_measure_target_type'),
-           measure_target_name = ConfigSectionMapAdv(refference,'bmp_measure_target_name'),
-           measure_target_description = ConfigSectionMapAdv(refference,'bmp_measure_target_description'))
-       tst.writerow(prss_line)
+           pin = findConfig(sysKey = "prssPin", confSection = refference, confOption = 'bmp_pin', confFile = config),
+           measure_name = findConfig(sysKey = "prssMeasure_name", confSection = "pressure_pa", confOption = 'measure_name', confFile = config),
+           measure_sign = findConfig(sysKey = "prssMeasure_sign", confSection = "pressure_pa", confOption = 'measure_sign', confFile = config),
+           measure_type_full = findConfig(sysKey = "prssMeasure_type_full", confSection = "pressure_pa", confOption = 'measure_type_full', confFile = config),
+           measure_type_abbr = findConfig(sysKey = "prssMeasure_type_abbr", confSection = "pressure_pa", confOption = 'measure_type_abbr', confFile = config),
+           measure_absolute_min = findConfig(sysKey = "prssMeasure_absolute_min", confSection = "pressure_pa", confOption = 'measure_absolute_min', confFile = config),
+           measure_absolute_max = findConfig(sysKey = "prssMeasure_absolute_max", confSection = "pressure_pa", confOption = 'measure_absolute_max', confFile = config),
+           measure_target_type = findConfig(sysKey = "prssMeasure_target_type", confSection = refference, confOption = 'tcf_measure_target_type', confFile = config),
+           measure_target_name = findConfig(sysKey = "prssMeasure_target_name", confSection = refference, confOption = 'tcf_measure_target_name', confFile = config),
+           measure_target_description = findConfig(sysKey = "prssMeasure_target_description", confSection = refference, confOption = 'tcf_measure_target_description', confFile = config) + " (LED: ON)"
+           ), csvFile = csv_name)
+
+
+
+#################################################
+#################################################
+#################################################
+
    if altd is not None:
        altd_line = std_line(
            value = altd_qnh,
