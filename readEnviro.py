@@ -228,12 +228,11 @@ if rec_altd == True:
 # env.getWeatherUpdate()
 ## No analog reading interpreted
 
-utc2 = datetime.utcnow()
-offset_utc = str(roundTime(now1,roundTo=30*60) - roundTime(utc1,roundTo=30*60))
-duration = (utc2-utc1)
-duration2 = (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
 
-def std_line(
+utc2, offset_utc, duration, duration2 = ttl.end(now1, utc1)
+
+
+def _stdLine(
     value = 0.0,
     pin = None,
     # time
@@ -242,19 +241,19 @@ def std_line(
     offsetutc = offset_utc,
     duration_sec = duration2,
     # location
-    outdoors_name = ConfigSectionMapAdv(refference,'outdoors_name'),  ##'no'  ## 'yes' 'none' 'other'
-    loc_lat = float(ConfigSectionMapAdv(refference,'loc_lat')),  ##53.304130
-    loc_long = float(ConfigSectionMapAdv(refference,'loc_long')),  ##9.706472
-    loc_description = ConfigSectionMapAdv(refference,'loc_description'),  ##'test indoor'
+    outdoors_name = findConfig(sysKey = "outdoors_name", confSection = refference, confOption = 'outdoors_name', confFile = config),
+    loc_lat = findConfig(sysKey = "loc_lat", confSection = refference, confOption = 'loc_lat', confFile = config),
+    loc_long = findConfig(sysKey = "loc_long", confSection = refference, confOption = 'loc_long', confFile = config),
+    loc_description = findConfig(sysKey = "loc_description", confSection = refference, confOption = 'loc_description', confFile = config),
     # source / provider
-    provider_type = ConfigSectionMapAdv(refference,'provider_type'),  ##'RPi3'   ## 'REST API'
-    source_name = ConfigSectionMapAdv(refference,'source_name'), ##'FreyrTST 1'
-    source_description = ConfigSectionMapAdv(refference,'source_description'),  ##'Test RPi3 -
+    provider_type = findConfig(sysKey = "provider_type", confSection = refference, confOption = 'provider_type', confFile = config),
+    source_name = me,
+    source_description = findConfig(sysKey = "source_description", confSection = refference, confOption = 'source_description', confFile = config),
     # periphery
-    periphery_name = ConfigSectionMapAdv(refference,'periphery_name'),  ##'Raspberry Pi 3'
-    periphery_type = ConfigSectionMapAdv(refference,'periphery_type'),  ##'System'
-    periphery_description = ConfigSectionMapAdv(refference,'periphery_description'),  ##'Hardware'
-    periphery_device_description = ConfigSectionMapAdv(refference,'periphery_device_description'),  ##'tst'
+    periphery_name = findConfig(sysKey = "periphery_name", confSection = refference, confOption = 'periphery_name', confFile = config),
+    periphery_type = findConfig(sysKey = "periphery_type", confSection = refference, confOption = 'periphery_type', confFile = config),
+    periphery_description = findConfig(sysKey = "periphery_description", confSection = refference, confOption = 'periphery_description', confFile = config),
+    periphery_device_description = findConfig(sysKey = "periphery_device_description", confSection = refference, confOption = 'periphery_device_description', confFile = config),
     # measure
     measure_name = None,
     measure_sign = None,
@@ -263,12 +262,22 @@ def std_line(
     measure_absolute_min = None,
     measure_absolute_max = None,
     measure_target_type = None,
-    measure_target_name = None,  ##'System' ## 'yes' 'none' 'other'
-    measure_target_description = None,  ##'Monitoring Hardware'
+    measure_target_name = None,
+    measure_target_description = None,
     # QA
-    data_quality = int(ConfigSectionMapAdv(refference,'data_quality'))  ##99
+    data_quality = findConfig(sysKey = "data_quality", confSection = refference, confOption = 'data_quality', confFile = config)
 ):
-    return [value, pin, utc_1, utc_2, offsetutc, duration_sec,outdoors_name, loc_lat, loc_long, loc_description, provider_type, source_name, source_description, periphery_type, periphery_name, periphery_description, periphery_device_description, measure_name, measure_sign, measure_type_full, measure_type_abbr, measure_absolute_min, measure_absolute_max, measure_target_type, measure_target_name, measure_target_description, data_quality]
+    return bfr.headLine(
+        _value = value, _pin = pin,
+        _utc_1 = utc_1, _utc_2 = utc_2, _offsetutc = offsetutc, _duration_sec = duration_sec,
+        _outdoors_name = outdoors_name, _loc_lat = loc_lat, _loc_long = loc_long, _loc_description = loc_description,
+        _provider_type = provider_type, _source_name = source_name, _source_description = source_description,
+        _periphery_name = periphery_name, _periphery_type = periphery_type, _periphery_description = periphery_description, _periphery_device_description = periphery_device_description,
+        _measure_name = measure_name, _measure_sign = measure_sign, _measure_type_full = measure_type_full, _measure_type_abbr = measure_type_abbr, _measure_absolute_min = measure_absolute_min,
+        _measure_absolute_max = measure_absolute_max, _measure_target_type = measure_target_type, _measure_target_name = measure_target_name,
+        _measure_target_description = measure_target_description,
+        _data_quality = data_quality
+        )
 
 with open(csv_name, 'ab') as csvfile:
    tst = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
