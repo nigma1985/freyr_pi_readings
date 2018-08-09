@@ -47,8 +47,9 @@ def getPrss():
 
 def getAltd(qnh = None):
     if qnh is None:
-        qnh = 1020
-    return weather.altitude(qnh)
+        return weather.altitude()
+    else:
+        return weather.altitude(qnh)
 
 def getWeatherUpdate():
     return weather.update()
