@@ -36,14 +36,10 @@ def decision(onSwitch = None, offSwitch = None, numChance = None, numInterval = 
     on = _list(_input = onSwitch)
     off = _list(_input = offSwitch)
 
-    if capChance is None:
-        capChance = 0
+    # if capChance is None:
+    #     capChance = 0
     if capInterval is None:
         capInterval = 60
-
-    print numChance, capChance, numInterval, capInterval
-    print type(numChance), type(capChance), type(numInterval), type(capInterval)
-    print type(cleanType(numChance)), type(cleanType(capChance)), type(cleanType(numInterval)), type(cleanType(capInterval))
 
     if any(off):
         return False

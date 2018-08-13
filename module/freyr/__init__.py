@@ -5,15 +5,16 @@ from module import cleanType
 
 def findConfig(sysOptions = sys.argv, sysKey = None, readVar = None, confSection = None, confOption = None, confFile = None):
     ## looks for options handed over by sys.argv and returns it
-    sysConfig = None
+    buffer = None
     if sysKey is not None:
-        sysConfig = opt.getItm(item = (sysKey + "="), options = sysOptions)
+        buffer = opt.getItm(item = (sysKey + "="), options = sysOptions)
     if sysConfig is not None:
-        sysConfig = sysConfig[-(len(sysConfig)-(len(sysKey)+1)):]
-        return cleanType(sysConfig)
+        buffer = sysConfig[-(len(sysConfig)-(len(sysKey)+1)):]
+        return cleanType(buffer)
     elif readVar is not None:
         ## if no argument has been passed a value from the script can be passed
-        return readVar
+        return cleanType(readVar)
     else:
         ## if no argument or value has been passed, the config.ini is read
-        return ConfigSectionMapAdv(section = confSection, option = confOption, iniConfig = confFile)
+        buffer = ConfigSectionMapAdv(section = confSection, option = confOption, iniConfig = confFile)
+        return cleanType(buffer)
