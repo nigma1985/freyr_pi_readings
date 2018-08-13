@@ -42,10 +42,14 @@ def decision(onSwitch = None, offSwitch = None, numChance = None, numInterval = 
     elif (numInterval is not None) and (numChance is not None):
         if capInterval is None:
             capInterval = 60
+        if capChance is None:
+            capChance = 0
         return any((random() <= 1 / (numChance - capChance)), (numInterval < capInterval))
     elif numInterval is not None:
         if capInterval is None:
             capInterval = 60
+        if capChance is None:
+            capChance = 0
         return numInterval < capInterval
     elif (numChance is None) or (numChance - capChance == 0):
         return True
