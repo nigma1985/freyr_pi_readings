@@ -32,7 +32,6 @@ import module.netTools as ntt
 import module.freyr.csvBuffer as bfr
 import module.read.enviroPHAT as env ## https://github.com/pimoroni/enviro-phat
 from module.freyr import findConfig
-from module import mean
 ## import os
 
 refference = "Enviro pHAT"

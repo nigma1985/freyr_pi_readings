@@ -12,7 +12,7 @@ import sys
 #import Adafruit_DHT
 #import datetime
 from datetime import datetime
-from datetime import timedelta 
+from datetime import timedelta
 import time
 import re
 import sqlite3 as lite
@@ -26,15 +26,46 @@ import shutil
 import math
 
 #################################################
-### do not forget to get ssh-key : 
+### do not forget to get ssh-key :
 ###
 ###  > ssh-keygen -t rsa
 ###
 ### ... and share ssh-key!
 #################################################
 
+import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
+import module.decision as dec
+import module.getOptions as opt
+import module.timeTools as ttl
+import module.netTools as ntt
+import module.freyr.csvBuffer as bfr
+import module.read.enviroPHAT as env ## https://github.com/pimoroni/enviro-phat
+from module.freyr import findConfig
+## import os
+
 # csv_name = sys.argv[1]
 refference = "Sys"
+
+## reading 'freyr_config.ini'
+configFile = "freyr_config.ini"
+config = ini.getConfig(configFile)
+# ini = "freyr_config.ini"
+# config = ConfigParser.SafeConfigParser()
+# config.read(ini)
+
+
+me = findConfig(sysKey = "me", confSection = "Sys", confOption = 'source_name', confFile = config)
+my_user = findConfig(sysKey = "my_user", confSection = "Sys", confOption = 'user', confFile = config)
+mothership = findConfig(sysKey = "mothership", confSection = "Sys", confOption = 'db_host', confFile = config)
+hosts = findConfig(sysKey = "hosts", confSection = "Sys", confOption = 'ping', confFile = config)
+router = findConfig(sysKey = "router", confSection = "Sys", confOption = 'router', confFile = config)
+
+
+# _input = sys.argv
+# csv_name = _csvName(_input, me)
+all_on = opt.findItm("ALLON")
+all_off = opt.findItm("ALLOFF")
+
 
 ## reading 'freyr_config.ini'
 ini = "freyr_config.ini"
@@ -85,11 +116,7 @@ def def_counter(sec = 'Sys', opt = 'offline_counter', x = ""):
         # change = config.set(sec, opt, str(x))
         config.write(change)
 
-me = ConfigSectionMapAdv(refference,'source_name')
-my_user = ConfigSectionMapAdv(refference,'user')
-mothership = ConfigSectionMapAdv(refference,'db_host')
-hosts = ConfigSectionMapAdv(refference,'ping')
-router = ConfigSectionMapAdv(refference,'router')
+
 
 def _tstfile(_input, _str):
     if type(_input) == str:
@@ -125,8 +152,6 @@ _input = sys.argv
 
 csv_name = _csvName(_input, me)
 
-all_on = _findItm(_input, "ALLON")
-all_off = _findItm(_input, "ALLOFF")
 
 
 #################################################
@@ -160,8 +185,8 @@ def ping_host(hosts = me, meta_trys = randint(3, 10)):
         k = 0 # random number of pings (lower j)
         l = 0 # number of hosts pinged
         m = 0
-        hosts = sample(hosts, j) # take random sample of hosts, shuffle them 
-        # hosts = shuffle(hosts) # take random sample of hosts, shuffle them 
+        hosts = sample(hosts, j) # take random sample of hosts, shuffle them
+        # hosts = shuffle(hosts) # take random sample of hosts, shuffle them
         for h in hosts: # loop host list
             m = m + 1
             k = 0
@@ -264,7 +289,7 @@ nowsecs = time.mktime(now1.timetuple())
 
 ## Ping hosts ##
 if ping_host(mothership):
-    ### is mothership available ? 
+    ### is mothership available ?
     print "online: mothership"
     online = 0
 else:
@@ -274,7 +299,7 @@ else:
         online = 1
     else:
         if ping_host(router) == True:
-            ### is router available ? 
+            ### is router available ?
             print "online: router"
             online = 2
         else:
@@ -358,7 +383,7 @@ def std_line(
     # source / provider
     provider_type = ConfigSectionMapAdv(refference,'provider_type'),  ##'RPi3'   ## 'REST API'
     source_name = ConfigSectionMapAdv(refference,'source_name'), ##'FreyrTST 1'
-    source_description = ConfigSectionMapAdv(refference,'source_description'),  ##'Test RPi3 - 
+    source_description = ConfigSectionMapAdv(refference,'source_description'),  ##'Test RPi3 -
     # periphery
     periphery_name = ConfigSectionMapAdv(refference,'periphery_name'),  ##'Raspberry Pi 3'
     periphery_type = ConfigSectionMapAdv(refference,'periphery_type'),  ##'System'
@@ -373,14 +398,14 @@ def std_line(
     measure_absolute_max = None,
     measure_target_type = None,
     measure_target_name = None,  ##'System' ## 'yes' 'none' 'other'
-    measure_target_description = None,  ##'Monitoring Hardware' 
+    measure_target_description = None,  ##'Monitoring Hardware'
     # QA
     data_quality = int(ConfigSectionMapAdv(refference,'data_quality'))  ##99
 ):
     return [value, pin, utc_1, utc_2, offsetutc, duration_sec,outdoors_name, loc_lat, loc_long, loc_description, provider_type, source_name, source_description, periphery_type, periphery_name, periphery_description, periphery_device_description, measure_name, measure_sign, measure_type_full, measure_type_abbr, measure_absolute_min, measure_absolute_max, measure_target_type, measure_target_name, measure_target_description, data_quality]
 
 off_light = None
-    
+
 with open(csv_name, 'ab') as csvfile:
    tst = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
    if s is not None and ts is not None: ## size of files
@@ -391,7 +416,7 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('Byte','measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('Byte','measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('Byte','measure_absolute_min'),
-           measure_absolute_max = ts, 
+           measure_absolute_max = ts,
            measure_target_type = ConfigSectionMapAdv(refference,'trns_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'trns_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'trns_measure_target_description'))
@@ -404,12 +429,12 @@ with open(csv_name, 'ab') as csvfile:
            measure_type_full = ConfigSectionMapAdv('counter','measure_type_full'),
            measure_type_abbr = ConfigSectionMapAdv('counter','measure_type_abbr'),
            measure_absolute_min = ConfigSectionMapAdv('counter','measure_absolute_min'),
-           measure_absolute_max = len(files), 
+           measure_absolute_max = len(files),
            measure_target_type = ConfigSectionMapAdv(refference,'trns_measure_target_type'),
            measure_target_name = ConfigSectionMapAdv(refference,'trns_measure_target_name'),
            measure_target_description = ConfigSectionMapAdv(refference,'trns_measure_target_description'))
        tst.writerow(files_transmitted)
-       
+
 if online == 3:
     if con_cnt > ConfigSectionMapAdv(refference,'min2restart'):
         # print "gonna restart!"
@@ -420,5 +445,5 @@ if online == 3:
             print "wlan0"
         else:
             print "err"
-else: 
+else:
     print "ok"
