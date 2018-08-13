@@ -36,8 +36,8 @@ def decision(onSwitch = None, offSwitch = None, numChance = None, numInterval = 
     on = _list(_input = onSwitch)
     off = _list(_input = offSwitch)
 
-    # if capChance is None:
-    #     capChance = 0
+    if capChance is None:
+        capChance = 0
     if capInterval is None:
         capInterval = 60
 
