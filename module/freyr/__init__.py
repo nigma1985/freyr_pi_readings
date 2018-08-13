@@ -8,8 +8,8 @@ def findConfig(sysOptions = sys.argv, sysKey = None, readVar = None, confSection
     buffer = None
     if sysKey is not None:
         buffer = opt.getItm(item = (sysKey + "="), options = sysOptions)
-    if sysConfig is not None:
-        buffer = sysConfig[-(len(sysConfig)-(len(sysKey)+1)):]
+    if buffer is not None:
+        buffer = buffer[-(len(buffer)-(len(sysKey)+1)):]
         return cleanType(buffer)
     elif readVar is not None:
         ## if no argument has been passed a value from the script can be passed
