@@ -1,5 +1,6 @@
 from random import random
 from module.getOptions import findItm
+from module import cleanType
 
 def decision(onSwitch = None, offSwitch = None, numChance = None, numInterval = None, capChance = None, capInterval = None):
     if onSwitch is None:
@@ -40,7 +41,9 @@ def decision(onSwitch = None, offSwitch = None, numChance = None, numInterval = 
     if capInterval is None:
         capInterval = 60
 
+    print numChance, capChance, numInterval, capInterval
     print type(numChance), type(capChance), type(numInterval), type(capInterval)
+    print type(cleanType(numChance)), type(cleanType(capChance)), type(cleanType(numInterval)), type(cleanType(capInterval))
 
     if any(off):
         return False
