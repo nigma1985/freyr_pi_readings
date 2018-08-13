@@ -23,8 +23,8 @@ configFile = "freyr_config.ini"
 config = ini.getConfig(configFile)
 
 
-me = findConfig(sysKey = "me", confSection = refference, confOption = 'source_name', confFile = config)
-my_user = findConfig(sysKey = "my_user", confSection = refference, confOption = 'user', confFile = config)
+me = findConfig(sysKey = "me", confSection = "Sys", confOption = 'source_name', confFile = config)
+my_user = findConfig(sysKey = "my_user", confSection = "Sys", confOption = 'user', confFile = config)
 
 
 all_on = opt.findItm("ALLON")

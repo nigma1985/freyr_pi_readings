@@ -33,7 +33,7 @@ import module.freyr.csvBuffer as bfr
 import module.read.enviroPHAT as env ## https://github.com/pimoroni/enviro-phat
 from module.freyr import findConfig
 from module import mean
-import os
+## import os
 
 refference = "Enviro pHAT"
 # csv_name = sys.argv[1]
@@ -47,8 +47,8 @@ config = ini.getConfig(configFile)
 # config.read(ini)
 
 
-me = findConfig(sysKey = "me", confSection = refference, confOption = 'source_name', confFile = config)
-my_user = findConfig(sysKey = "my_user", confSection = refference, confOption = 'user', confFile = config)
+me = findConfig(sysKey = "me", confSection = "Sys", confOption = 'source_name', confFile = config)
+my_user = findConfig(sysKey = "my_user", confSection = "Sys", confOption = 'user', confFile = config)
 # me = ConfigSectionMapAdv("Sys",'source_name')
 # my_user = ConfigSectionMapAdv("Sys",'user')
 
@@ -179,7 +179,7 @@ on_rgb = None
 on_rawl = None
 if (led_light == True and rec_light == True) or (led_rgb == True and rec_rgb == True) or (led_raw == True and rec_raw == True):
     env.setLedOn()
-    time.sleep(sleeptimer)
+    ttl.sleeper(timer = sleeptimer)
     if rec_light == True:
         on_light = env.getLight()
     if rec_rgb == True:

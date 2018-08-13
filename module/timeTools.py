@@ -46,3 +46,6 @@ def end(now1, utc1):
     utc2 = datetime.utcnow()
     duration = (utc2-utc1)
     return utc2, str(roundTime(now1,roundTo=30*60) - roundTime(utc1,roundTo=30*60)), duration, (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
+
+def sleeper(timer = None):
+    time.sleep(timer)
