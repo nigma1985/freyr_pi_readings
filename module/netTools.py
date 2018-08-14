@@ -1,4 +1,4 @@
-import subprocess
+import subprocess, platform
 from random import *
 from module.config import ConfigSectionMapAdv
 from module.getOptions import findItm
