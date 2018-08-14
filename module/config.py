@@ -4,7 +4,7 @@
 
 import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
 import re, os
-from module import cleanType
+from module import cleanType, cleanUnicode
 
 ###############################################################################
 
@@ -91,10 +91,7 @@ def ConfigSectionMapAdv(section = 'defaults', option = None, iniFile = 'freyr_co
     dict1 = cleanType(dict1)
 
     ## try to find unicode and decode it:
-    if isinstance(dict1, str):
-        if dict1[:3] == "u'\\" or dict1[:3] == 'u"\\':
-            x = re.search(r"u[\"|\'](\\.+)[\"|\']", dict1)
-            x = x.group(1)
-            dict1 = x.decode('unicode-escape')#
+    dict1 = cleanUnicode(dict1)
+
 
     return dict1
