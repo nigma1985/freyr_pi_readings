@@ -6,7 +6,7 @@ from module.getOptions import findItm
 def ping_singlehost(host = None, tries = None):
     if host is None:
         host = ConfigSectionMapAdv(option = 'source_name')
-    if tries is None or type(tries) != numbers:
+    if tries is None or not isinstance(meta_trys, (int, long, float, complex)):
         tries = randint(1, 10)
     try:
         output = subprocess.check_output("ping -{} {} {}".format('n' if platform.system().lower()=="windows" else 'c', tries, host), shell=True)
@@ -17,7 +17,7 @@ def ping_singlehost(host = None, tries = None):
 def ping_host(hosts = None, meta_trys = None):
     if hosts is None:
         hosts = ConfigSectionMapAdv(option = 'source_name')
-    if meta_trys is None or type(meta_trys) != numbers:
+    if meta_trys is None or not isinstance(meta_trys, (int, long, float, complex)):
         meta_trys = randint(3, 10)
     if isinstance(hosts, str):
         return ping_singlehost(host = hosts, trys = meta_tries)
