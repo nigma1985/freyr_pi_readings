@@ -6,7 +6,7 @@ from module.getOptions import findItm
 def ping_singlehost(host = None, tries = None):
     if host is None:
         host = ConfigSectionMapAdv(option = 'source_name')
-    if tries is None or not isinstance(meta_trys, (int, long, float, complex)):
+    if tries is None or not isinstance(tries, (int, long, float, complex)):
         tries = randint(1, 10)
     try:
         output = subprocess.check_output("ping -{} {} {}".format('n' if platform.system().lower()=="windows" else 'c', tries, host), shell=True)
@@ -14,13 +14,13 @@ def ping_singlehost(host = None, tries = None):
         return False
     return True
 
-def ping_host(hosts = None, meta_trys = None):
+def ping_host(hosts = None, meta_tries = None):
     if hosts is None:
         hosts = ConfigSectionMapAdv(option = 'source_name')
-    if meta_trys is None or not isinstance(meta_trys, (int, long, float, complex)):
-        meta_trys = randint(3, 10)
+    if meta_tries is None or not isinstance(meta_tries, (int, long, float, complex)):
+        meta_tries = randint(3, 10)
     if isinstance(hosts, str):
-        return ping_singlehost(host = hosts, trys = meta_tries)
+        return ping_singlehost(host = hosts, tries = meta_tries)
     elif isinstance(hosts, (list, tuple)):
         i = 0 # result to be returned
         j = meta_tries # number tries
@@ -39,7 +39,7 @@ def ping_host(hosts = None, meta_trys = None):
             # k = randint(0,y)
             # print "numb of pings now: " + str(k)
             if k > 0:
-                if ping_singlehost(host = h, trys = k) == False:
+                if ping_singlehost(host = h, tries = k) == False:
                     # print h + " : " + str(k) + "x"
                     i = i + 1
                 j = j - k
