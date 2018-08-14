@@ -88,7 +88,7 @@ def ConfigSectionMapAdv(section = 'defaults', option = None, iniFile = 'freyr_co
         dict1 = _ConfigSectionMap(_section = "defaults", _iniConfig = iniConfig)[option]
 
     ## try to convert to correct data type:
-    dict = cleanType(dict1)
+    dict1 = cleanType(dict1)
 
     ## try to find unicode and decode it:
     if isinstance(dict1, str):

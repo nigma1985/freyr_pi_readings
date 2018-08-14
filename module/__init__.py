@@ -13,5 +13,6 @@ def cleanType(var = None):
             try:
                 var = float(var)
             except:
-                var = str(var)
+                ## var = str(var) ## error
+                print var, type(var)
     return var
