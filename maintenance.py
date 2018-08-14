@@ -169,43 +169,6 @@ def roundTime(dt=None, roundTo=60):
    rounding = (seconds+roundTo/2) // roundTo * roundTo
    return dt + timedelta(0,rounding-seconds,-dt.microsecond)
 
-def ping_singlehost(host = me, trys = randint(1, 10)):
-    try:
-        output = subprocess.check_output("ping -{} {} {}".format('n' if platform.system().lower()=="windows" else 'c', trys, host), shell=True)
-    except Exception, e:
-        return False
-    return True
-
-def ping_host(hosts = me, meta_trys = randint(3, 10)):
-    if isinstance(hosts, str):
-        return ping_singlehost(host = hosts, trys = meta_trys)
-    elif isinstance(hosts, (list, tuple)):
-        i = 0 # result to be returned
-        j = meta_trys # number tries
-        k = 0 # random number of pings (lower j)
-        l = 0 # number of hosts pinged
-        m = 0
-        hosts = sample(hosts, j) # take random sample of hosts, shuffle them
-        # hosts = shuffle(hosts) # take random sample of hosts, shuffle them
-        for h in hosts: # loop host list
-            m = m + 1
-            k = 0
-            if (random() ** 2) >= (m / len(hosts)):
-                k = randint(0,j)
-            if m == len(hosts):
-                k = j
-            # k = randint(0,y)
-            # print "numb of pings now: " + str(k)
-            if k > 0:
-                if ping_singlehost(host = h, trys = k) == False:
-                    # print h + " : " + str(k) + "x"
-                    i = i + 1
-                j = j - k
-                l = l + 1
-        # print 1.0 * (i / l)
-        return .5 > 1.0 * (i / l) # more then half of hosts = no connection
-    else:
-        return None
 
 def scp(file = "", user = "pi", host = me, path = "~/in/"):
     cmd = "scp {} {}@{}:{}".format(file, user, host, path)
