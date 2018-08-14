@@ -15,10 +15,12 @@ def ping_singlehost(host = None, tries = None):
     return True
 
 def ping_host(hosts = None, meta_tries = None):
+    print hosts
     if hosts is None:
         hosts = ConfigSectionMapAdv(option = 'ping')
     if meta_tries is None or not isinstance(meta_tries, (int, long, float, complex)):
         meta_tries = randint(3, 10)
+    print hosts
     if isinstance(hosts, str):
         return ping_singlehost(host = hosts, tries = meta_tries)
     elif isinstance(hosts, (list, tuple)):
@@ -29,6 +31,7 @@ def ping_host(hosts = None, meta_tries = None):
         m = 0
         hosts = sample(hosts, min([j,len(hosts)]) # take random sample of hosts, shuffle them
         # hosts = shuffle(hosts) # take random sample of hosts, shuffle them
+        print hosts
         for h in hosts: # loop host list
             m = m + 1
             k = 0
