@@ -16,7 +16,7 @@ def ping_singlehost(host = None, tries = None):
 
 def ping_host(hosts = None, meta_tries = None):
     if hosts is None:
-        hosts = ConfigSectionMapAdv(option = 'source_name')
+        hosts = ConfigSectionMapAdv(option = 'ping')
     if meta_tries is None or not isinstance(meta_tries, (int, long, float, complex)):
         meta_tries = randint(3, 10)
     if isinstance(hosts, str):
@@ -27,7 +27,7 @@ def ping_host(hosts = None, meta_tries = None):
         k = 0 # random number of pings (lower j)
         l = 0 # number of hosts pinged
         m = 0
-        hosts = sample(hosts, j) # take random sample of hosts, shuffle them
+        hosts = sample(hosts, min([j,len(hosts)]) # take random sample of hosts, shuffle them
         # hosts = shuffle(hosts) # take random sample of hosts, shuffle them
         for h in hosts: # loop host list
             m = m + 1
