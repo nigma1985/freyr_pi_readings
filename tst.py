@@ -1,3 +1,5 @@
+from module import *
+
 # import module.netTools as ntt
 #
 # print ntt.ping_singlehost()
