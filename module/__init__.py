@@ -17,7 +17,7 @@ def str2list(var = None, symbol = None):
         return var
     if symbol is None:
         symbol = ","
-    if re.search(symbol, var) ## symbol in var:
+    if re.search(symbol, var): ## symbol in var
         return var.split(symbol)
     else:
         return var
