@@ -93,5 +93,4 @@ def ConfigSectionMapAdv(section = 'defaults', option = None, iniFile = 'freyr_co
     ## try to find unicode and decode it:
     dict1 = cleanUnicode(dict1)
 
-
     return dict1
