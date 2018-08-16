@@ -3,27 +3,6 @@
 # This script develops a python script to read and write envirophat data
 # -*- coding: utf-8 -*-
 
-# from __future__ import division
-# #from envirophat import light, motion, weather, analog, leds
-# import os
-# #from subprocess import PIPE, Popen
-# import subprocess, platform
-# #import psutil ## install python-psutil
-# import sys
-# #import Adafruit_DHT
-# #import datetime
-# #from datetime import datetime
-# #from datetime import timedelta
-# #import time
-# import re
-# #import sqlite3 as lite
-# #import csv
-# #import unicodecsv as csv
-# #import random
-# #import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
-#
-# ################################################################################
-
 import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
 import module.decision as dec
 import module.getOptions as opt
@@ -32,132 +11,85 @@ import module.netTools as ntt
 import module.freyr.csvBuffer as bfr
 import module.read.enviroPHAT as env ## https://github.com/pimoroni/enviro-phat
 from module.freyr import findConfig
-## import os
 
 refference = "Enviro pHAT"
-# csv_name = sys.argv[1]
-# refference = "Enviro pHAT"
 
-## reading 'freyr_config.ini'
 configFile = "freyr_config.ini"
 config = ini.getConfig(configFile)
-# ini = "freyr_config.ini"
-# config = ConfigParser.SafeConfigParser()
-# config.read(ini)
-
 
 me = findConfig(sysKey = "me", confSection = "Sys", confOption = 'source_name', confFile = config)
 my_user = findConfig(sysKey = "my_user", confSection = "Sys", confOption = 'user', confFile = config)
-# me = ConfigSectionMapAdv("Sys",'source_name')
-# my_user = ConfigSectionMapAdv("Sys",'user')
 
-# _input = sys.argv
-# csv_name = _csvName(_input, me)
 all_on = opt.findItm("ALLON")
 all_off = opt.findItm("ALLOFF")
 led_on = opt.findItm("LEDON")
 led_off = opt.findItm("LEDOFF")
-# all_on = _findItm(_input, "ALLON")
-# all_off = _findItm(_input, "ALLOFF")
-
-# led_on = _findItm(_input, "LEDON")
-# led_off = _findItm(_input, "LEDOFF")
-# rgb_on = _findItm(_input, "RGBON")
-# rgb_off = _findItm(_input, "RGBOFF")
-# lgt_on = _findItm(_input, "LGTON")
-# lgt_off = _findItm(_input, "LGTOFF")
-# raw_on = _findItm(_input, "RAWON")
-# raw_off = _findItm(_input, "RAWOFF")
 
 sleeptimer = (1.0 / 3.0) * 2.0
 
+# SWITCHES
 ## lights via TCS3472
-
 led_light = dec.decision(
     onSwitch = [all_on, led_on, "LGTON"],
     offSwitch = [all_off, led_off, "LGTOFF"],
     numChance = findConfig(sysKey = "LGT", confSection = refference, confOption = 'led_light', confFile = config))
-
 led_rgb = dec.decision(
     onSwitch = [all_on, led_on, "RGBON"],
     offSwitch = [all_off, led_off, "RGBOFF"],
     numChance = findConfig(sysKey = "RGB", confSection = refference, confOption = 'led_rgb', confFile = config))
-
 led_raw = dec.decision(
     onSwitch = [all_on, led_on, "RAWON"],
     offSwitch = [all_off, led_off, "RAWOFF"],
     numChance = findConfig(sysKey = "RAW", confSection = refference, confOption = 'led_raw', confFile = config))
-
 rec_light = dec.decision(
     onSwitch = [all_on, led_off, "LGTON"],
     offSwitch = [all_off, led_on, "LGTOFF"],
     numChance = findConfig(sysKey = "LGT", confSection = refference, confOption = 'rec_light', confFile = config))
-
 rec_rgb = dec.decision(
     onSwitch = [all_on, led_off, "RGBON"],
     offSwitch = [all_off, led_on, "RGBOFF"],
     numChance = findConfig(sysKey = "RGB", confSection = refference, confOption = 'rec_rgb', confFile = config))
-
 rec_raw = dec.decision(
     onSwitch = [all_on, led_off, "RAWON"],
     offSwitch = [all_off, led_on, "RAWOFF"],
     numChance = findConfig(sysKey = "RAW", confSection = refference, confOption = 'rec_raw', confFile = config))
 
-
 ## weather via BMP280
-
 rec_temp = dec.decision(
     onSwitch = [all_on, "TMPON"],
     offSwitch = [all_off, "TMPOFF"],
     numChance = findConfig(sysKey = "TMP", confSection = refference, confOption = 'rec_temp', confFile = config))
-
 rec_prss = dec.decision(
     onSwitch = [all_on, "PRSON"],
     offSwitch = [all_off, "PRSOFF"],
     numChance = findConfig(sysKey = "PRS", confSection = refference, confOption = 'rec_prss', confFile = config))
-
 rec_altd_qnh = dec.decision(
     onSwitch = [all_on, "QNHON"],
     offSwitch = [all_off, "QNHOFF"],
     numChance = findConfig(sysKey = "QNH", confSection = refference, confOption = 'rec_altd_qnh', confFile = config))
-
 rec_altd = dec.decision(
     onSwitch = [all_on, "ALTON"],
     offSwitch = [all_off, "ALTOFF"],
     numChance = findConfig(sysKey = "ALT", confSection = refference, confOption = 'rec_altd', confFile = config))
-
 # weather.update()
 
-
 ## motion via LSM303D
-
 rec_mgnm = dec.decision(
     onSwitch = [all_on, "MGMON"],
     offSwitch = [all_off, "MGMOFF"],
     numChance = findConfig(sysKey = "MGM", confSection = refference, confOption = 'rec_mgnm', confFile = config))
-
 rec_acclm = dec.decision(
     onSwitch = [all_on, "ACCON"],
     offSwitch = [all_off, "ACCOFF"],
     numChance = findConfig(sysKey = "ACC", confSection = refference, confOption = 'rec_acclm', confFile = config))
-
 rec_headng = dec.decision(
     onSwitch = [all_on, "HDON"],
     offSwitch = [all_off, "HDOFF"],
     numChance = findConfig(sysKey = "HD", confSection = refference, confOption = 'rec_headng', confFile = config))
-
 rec_rawheadng = dec.decision(
     onSwitch = [all_on, "RHDON"],
     offSwitch = [all_off, "RHDOFF"],
     numChance = findConfig(sysKey = "RHD", confSection = refference, confOption = 'rec_rawheadng', confFile = config))
-
-
-#################################################
-#################################################
-#################################################
-
-
-
 
 # Try to grab a sensor reading.  Use the read_retry method which will retry up
 now1, utc1, nowsecs = ttl.start()
@@ -188,7 +120,6 @@ if (led_light == True and rec_light == True) or (led_rgb == True and rec_rgb == 
     env.setLedOff()
     # time.sleep(sleeptimer)
 
-
 ## motion via LSM303D
 mgnm = None
 acclm = None
@@ -204,10 +135,8 @@ if rec_rawheadng == True:
     rawheadng = env.getRawHead()
 #print env.getMotionUpdate()
 
-
 ## Analog via ADS1015
 #analog = None
-
 
 ## weather via BMP280
 temp = None
@@ -227,10 +156,9 @@ if rec_altd == True:
 # env.getWeatherUpdate()
 ## No analog reading interpreted
 
-
 utc2, offset_utc, duration, duration2 = ttl.end(now1, utc1)
 
-
+# WRITING
 def _stdLine(
     value = 0.0,
     pin = None,
@@ -365,7 +293,6 @@ if altd_qnh is not None and prss_sl is not None:
            measure_target_name = findConfig(sysKey = "altd_qnhMeasure_target_name", confSection = refference, confOption = 'bmp_measure_target_name', confFile = config),
            measure_target_description = findConfig(sysKey = "altd_qnhMeasure_target_description", confSection = refference, confOption = 'bmp_measure_target_description', confFile = config) + " (Air Pressure at Sea Level = " + str(prss_sl) + " hPa)"
            ), csvFile = csv_name)
-
 
 if headng is not None:
     bfr.writeRow(row = _stdLine(

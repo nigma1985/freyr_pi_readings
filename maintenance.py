@@ -45,8 +45,8 @@ from module.freyr import findConfig
 
 # csv_name = sys.argv[1]
 refference = "Sys"
-
 ## reading 'freyr_config.ini'
+
 configFile = "freyr_config.ini"
 config = ini.getConfig(configFile)
 # ini = "freyr_config.ini"
@@ -71,44 +71,6 @@ all_off = opt.findItm("ALLOFF")
 ini = "freyr_config.ini"
 config = ConfigParser.SafeConfigParser()
 config.read(ini)
-
-# print config.sections()
-
-def ConfigSectionMap(section):
-     dict1 = {}
-     options = config.options(section)
-     for option in options:
-         try:
-             dict1[option] = config.get(section, option)
-             if dict1[option] == -1:
-                 DebugPrint("skip: %s" % option)
-         except:
-             print("exception on %s!" % option)
-             dict1[option] = None
-     return dict1
-
-def ConfigSectionMapAdv(section,option):
-     dict1 = {}
-     try:
-         dict1 = ConfigSectionMap(section)[option]
-     except:
-         dict1 = ConfigSectionMap("defaults")[option]
-     if dict1 == 'None' or dict1 == '':
-         dict1 = None
-     else:
-         try:
-             dict1 = int(dict1)
-         except:
-             try:
-                 dict1 = float(dict1)
-             except:
-                 dict1 = str(dict1)
-     if isinstance(dict1, str):
-         if dict1[:3] == "u'\\" or dict1[:3] == 'u"\\':
-             x = re.search(r"u[\"|\'](\\.+)[\"|\']", dict1)
-             x = x.group(1)
-             dict1 = x.decode('unicode-escape')
-     return dict1
 
 def def_counter(sec = 'Sys', opt = 'offline_counter', x = ""):
     change = config.set(sec, opt, str(x))
@@ -156,25 +118,6 @@ csv_name = _csvName(_input, me)
 
 #################################################
 #################################################
-
-def roundTime(dt=None, roundTo=60):
-   """Round a datetime object to any time laps in seconds
-   dt : datetime object, default now.
-   roundTo : Closest number of seconds to round to, default 1 minute.
-   Author: Thierry Husson 2012 - Use it as you want but don't blame me.
-   """
-   if dt == None : dt = datetime.now()
-   seconds = (dt - dt.min).seconds
-   # // is a floor division, not a comment on following line:
-   rounding = (seconds+roundTo/2) // roundTo * roundTo
-   return dt + timedelta(0,rounding-seconds,-dt.microsecond)
-
-
-def scp(file = "", user = "pi", host = me, path = "~/in/"):
-    cmd = "scp {} {}@{}:{}".format(file, user, host, path)
-    # print cmd
-    response = subprocess.call(cmd, shell=True)
-    return response == 0
 
 def mv(f = "", p = "~/"):
     return shutil.move(f, p)
@@ -244,9 +187,7 @@ else:
 #################################################
 
 ## Start process ##
-now1 = datetime.now()
-utc1 = datetime.utcnow()
-nowsecs = time.mktime(now1.timetuple())
+now1, utc1, nowsecs = ttl.start()
 
 #################################################
 
