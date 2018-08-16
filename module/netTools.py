@@ -29,7 +29,7 @@ def ping_host(hosts = None, meta_tries = None):
         k = 0 # random number of pings (lower j)
         l = 0 # number of hosts pinged
         m = 0
-        hosts = sample(hosts, min([j,len(hosts)]) # take random sample of hosts, shuffle them
+        hosts = sample(hosts, min([j,len(hosts)])) # take random sample of hosts, shuffle them
         # hosts = shuffle(hosts) # take random sample of hosts, shuffle them
         print hosts
         for h in hosts: # loop host list
