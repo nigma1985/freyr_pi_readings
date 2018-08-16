@@ -3,26 +3,26 @@
 # This script develops a python script to read and write envirophat data
 # -*- coding: utf-8 -*-
 
-from __future__ import division
-#from envirophat import light, motion, weather, analog, leds
-import os
-#from subprocess import PIPE, Popen
-import subprocess, platform
-#import psutil ## install python-psutil
-import sys
-#import Adafruit_DHT
-#import datetime
-#from datetime import datetime
-#from datetime import timedelta
-#import time
-import re
-#import sqlite3 as lite
-#import csv
-#import unicodecsv as csv
-#import random
-#import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
-
-################################################################################
+# from __future__ import division
+# #from envirophat import light, motion, weather, analog, leds
+# import os
+# #from subprocess import PIPE, Popen
+# import subprocess, platform
+# #import psutil ## install python-psutil
+# import sys
+# #import Adafruit_DHT
+# #import datetime
+# #from datetime import datetime
+# #from datetime import timedelta
+# #import time
+# import re
+# #import sqlite3 as lite
+# #import csv
+# #import unicodecsv as csv
+# #import random
+# #import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
+#
+# ################################################################################
 
 import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
 import module.decision as dec
