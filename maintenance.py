@@ -72,11 +72,11 @@ ini = "freyr_config.ini"
 config = ConfigParser.SafeConfigParser()
 config.read(ini)
 
-def def_counter(sec = 'Sys', opt = 'offline_counter', x = ""):
-    change = config.set(sec, opt, str(x))
-    with open(ini, 'wb') as change:
-        # change = config.set(sec, opt, str(x))
-        config.write(change)
+# def def_counter(sec = 'Sys', opt = 'offline_counter', x = ""):
+#     change = config.set(sec, opt, str(x))
+#     with open(ini, 'wb') as change:
+#         # change = config.set(sec, opt, str(x))
+#         config.write(change)
 
 
 
@@ -192,17 +192,17 @@ now1, utc1, nowsecs = ttl.start()
 #################################################
 
 ## Ping hosts ##
-if ping_host(mothership):
+if ntt.ping_host(mothership):
     ### is mothership available ?
     print "online: mothership"
     online = 0
 else:
-    if ping_host(hosts.split(',')) == True:
+    if ntt.ping_host(hosts.split(',')) == True:
         ### is web available ?
         print "online: WWW"
         online = 1
     else:
-        if ping_host(router) == True:
+        if ntt.ping_host(router) == True:
             ### is router available ?
             print "online: router"
             online = 2

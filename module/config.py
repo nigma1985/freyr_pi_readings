@@ -94,3 +94,9 @@ def ConfigSectionMapAdv(section = 'defaults', option = None, iniFile = 'freyr_co
     dict1 = cleanUnicode(dict1)
 
     return dict1
+
+def writeConfig(sec = "defaults", opt = '', x = "", cnf = None):
+    change = cnf.set(sec, opt, str(x))
+    with open(ini, 'wb') as change:
+        # change = config.set(sec, opt, str(x))
+        cnf.write(change)
