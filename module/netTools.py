@@ -15,12 +15,11 @@ def ping_singlehost(host = None, tries = None):
     return True
 
 def ping_host(hosts = None, meta_tries = None):
-    print hosts, meta_tries
-    print hosts
     if hosts is None:
         hosts = ConfigSectionMapAdv(option = 'ping')
     if meta_tries is None or not isinstance(meta_tries, (int, long, float, complex)):
         meta_tries = randint(3, 10)
+    print hosts, meta_tries
     if isinstance(hosts, str):
         return ping_singlehost(host = hosts, tries = meta_tries)
     elif isinstance(hosts, (list, tuple)):
