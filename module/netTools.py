@@ -3,6 +3,8 @@ from random import *
 from module.config import ConfigSectionMapAdv
 from module.getOptions import findItm
 
+## server to ping, can be found here: https://public-dns.info/nameserver/de.html
+
 def ping_singlehost(host = None, tries = None):
     if host is None:
         host = ConfigSectionMapAdv(option = 'source_name')
@@ -19,7 +21,7 @@ def ping_host(hosts = None, meta_tries = None):
         hosts = ConfigSectionMapAdv(option = 'ping')
     if meta_tries is None or not isinstance(meta_tries, (int, long, float, complex)):
         meta_tries = randint(3, 10)
-    print hosts, meta_tries
+    ## print hosts, meta_tries ## testing
     if isinstance(hosts, str):
         return ping_singlehost(host = hosts, tries = meta_tries)
     elif isinstance(hosts, (list, tuple)):
@@ -40,7 +42,7 @@ def ping_host(hosts = None, meta_tries = None):
             # k = randint(0,y)
             # print "numb of pings now: " + str(k)
             if k > 0:
-                print h, k
+                ## print h, k ## testing
                 if ping_singlehost(host = h, tries = k) == False:
                     # print h + " : " + str(k) + "x"
                     i = i + 1
