@@ -10,7 +10,7 @@ from module import cleanType, cleanList
 # Return CPU temperature as a character string
 def getCPUtemperature():
     buffer = os.popen('vcgencmd measure_temp').readline()
-    buffer = res.replace("temp=","").replace("'C\n","")
+    buffer = buffer.replace("temp=","").replace("'C\n","")
     return(cleanList(string = buffer))
 
 def get_cpu_temperature():
