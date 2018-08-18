@@ -2,7 +2,7 @@
 
 # This script develops a python script to read and write envirophat data
 # -*- coding: utf-8 -*-
-
+from __future__ import division
 from envirophat import light, motion, weather, analog, leds
 import os
 #from subprocess import PIPE, Popen
@@ -19,7 +19,7 @@ import sqlite3 as lite
 #import csv
 import unicodecsv as csv
 from random import *
-import configparser ## https://wiki.python.org/moin/ConfigParserExamples
+import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
 import glob
 import shutil
 #import pyping
@@ -70,7 +70,7 @@ all_off = opt.findItm("ALLOFF")
 
 ## reading 'freyr_config.ini'
 ini = "freyr_config.ini"
-config = configparser.SafeConfigParser()
+config = ConfigParser.SafeConfigParser()
 config.read(ini)
 
 # def def_counter(sec = 'Sys', opt = 'offline_counter', x = ""):
@@ -108,10 +108,10 @@ stml = ConfigSectionMapAdv(refference,'short_time_memory_loss') # Short time mem
 clean_out = None
 if all_off:
     clean_out = False
-    print("Clean-Out off")
+    print "Clean-Out off"
 elif all_on:
     clean_out = True
-    print("Clean-Out on")
+    print "Clean-Out on"
 else:
     clean_out = random() <= (1.0 / float(ConfigSectionMapAdv(refference,'clean_out')))
 # print clean_out
@@ -128,20 +128,20 @@ now1, utc1, nowsecs = ttl.start()
 ## Ping hosts ##
 if ntt.ping_host(mothership):
     ### is mothership available ?
-    print("online: mothership")
+    print "online: mothership"
     online = 0
 else:
     if ntt.ping_host(hosts.split(',')) == True:
         ### is web available ?
-        print("online: WWW")
+        print "online: WWW"
         online = 1
     else:
         if ntt.ping_host(router) == True:
             ### is router available ?
-            print("online: router")
+            print "online: router"
             online = 2
         else:
-            print("network down!")
+            print "network down!"
             online = 3
 
 # 2.  If mothership is available then check FILES
@@ -183,7 +183,7 @@ if islist(files):
                 destination = "/home/" + my_user + "/archive/" + f_name(f)
                 mv(f, destination)
             n = n + 1
-        print(str(n) + " (" + str(math.ceil(100.0 * n / len(files) * 100)/100.0 ) + "%)")
+        print str(n) + " (" + str(math.ceil(100.0 * n / len(files) * 100)/100.0 ) + "%)"
     def_counter(refference, 'offline_counter', 0.0) # set counter to 0
 
     # 3b. If there are no FILES write EVENT-LOG & clear COUNTER & DONE
@@ -276,12 +276,12 @@ with open(csv_name, 'ab') as csvfile:
 if online == 3:
     if con_cnt > ConfigSectionMapAdv(refference,'min2restart'):
         # print "gonna restart!"
-        print("reboot")
+        print "reboot"
     else:
         # print "let's fix it"
         if random() <= (1/4):
-            print("wlan0")
+            print "wlan0"
         else:
-            print("err")
+            print "err"
 else:
-    print("ok")
+    print "ok"

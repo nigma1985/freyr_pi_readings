@@ -8,5 +8,5 @@ def eins(self, a = 'default'):
     return a
 
 def zwei(self, b = eins):
-    print("peopeopeo")
+    print "peopeopeo"
     return b

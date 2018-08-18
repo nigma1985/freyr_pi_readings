@@ -2,7 +2,7 @@
 
 # This script delivers functions to read and write ini-configurations
 
-import configparser ## https://wiki.python.org/moin/ConfigParserExamples
+import ConfigParser ## https://wiki.python.org/moin/ConfigParserExamples
 import re, os
 from module import cleanType, cleanUnicode
 
@@ -11,7 +11,7 @@ from module import cleanType, cleanUnicode
 ## reading 'freyr_config.ini'
 def getConfig(iniFile = "freyr_config.ini"):
     if os.path.isfile(iniFile):
-        cnfg = configparser.SafeConfigParser()
+        cnfg = ConfigParser.SafeConfigParser()
         cnfg.read(iniFile)
         return cnfg
     else:
@@ -27,7 +27,7 @@ def ConfigSectionMap(section = 'defaults', iniFile = 'freyr_config.ini', iniConf
     elif iniConfig is None:
         if os.path.isfile(iniFile):
             # print os.path.isfile(iniFile)
-            iniConfig = configparser.SafeConfigParser()
+            iniConfig = ConfigParser.SafeConfigParser()
             iniConfig.read(iniFile)
         else:
             return dict1
@@ -40,7 +40,7 @@ def ConfigSectionMap(section = 'defaults', iniFile = 'freyr_config.ini', iniConf
             if dict1[option] == -1:
                 DebugPrint("skip: %s" % option)
         except:
-            print(("exception on %s!" % option))
+            print("exception on %s!" % option)
             dict1[option] = None
 
     return dict1
@@ -56,7 +56,7 @@ def ConfigSectionMapAdv(section = 'defaults', option = None, iniFile = 'freyr_co
     elif iniConfig is None:
         if os.path.isfile(iniFile):
             # print os.path.isfile(iniFile)
-            iniConfig = configparser.SafeConfigParser()
+            iniConfig = ConfigParser.SafeConfigParser()
             iniConfig.read(iniFile)
         else:
             return dict1
@@ -74,7 +74,7 @@ def ConfigSectionMapAdv(section = 'defaults', option = None, iniFile = 'freyr_co
                 if dict2[option] == -1:
                     DebugPrint("skip: %s" % option)
             except:
-                print(("exception on %s!" % option))
+                print("exception on %s!" % option)
                 dict2[option] = None
         # print options
         return dict2

@@ -8,18 +8,18 @@ from module.getOptions import findItm
 def ping_singlehost(host = None, tries = None):
     if host is None:
         host = ConfigSectionMapAdv(option = 'source_name')
-    if tries is None or not isinstance(tries, (int, float, complex)):
+    if tries is None or not isinstance(tries, (int, long, float, complex)):
         tries = randint(1, 10)
     try:
         output = subprocess.check_output("ping -{} {} {}".format('n' if platform.system().lower()=="windows" else 'c', tries, host), shell=True)
-    except Exception as e:
+    except Exception, e:
         return False
     return True
 
 def ping_host(hosts = None, meta_tries = None):
     if hosts is None:
         hosts = ConfigSectionMapAdv(option = 'ping')
-    if meta_tries is None or not isinstance(meta_tries, (int, float, complex)):
+    if meta_tries is None or not isinstance(meta_tries, (int, long, float, complex)):
         meta_tries = randint(3, 10)
     ## print hosts, meta_tries ## testing
     if isinstance(hosts, str):
