@@ -3,6 +3,7 @@ import os
 #from subprocess import PIPE, Popen
 import subprocess #, platform
 import psutil ## install python-psutil
+from module import cleanType, cleanList
 #import sys
 
 
@@ -14,7 +15,8 @@ def getCPUtemperature():
 def get_cpu_temperature():
     process = subprocess.Popen(['vcgencmd', 'measure_temp'], stdout=subprocess.PIPE)
     output, _error = process.communicate()
-    return float(output[output.index('=') + 1:output.rindex("'")])
+    x = output[output.index('=') + 1:output.rindex("'")]
+    return(cleanList(string = x))
 
 # Return RAM information (unit=kb) in a list
 # Index 0: total RAM
@@ -30,10 +32,10 @@ def getRAMinfo():
             return(line.split()[1:4])
 
 def cpu_percent():
-    return psutil.cpu_percent()
+    return(psutil.cpu_percent())
 
 def virtual_memory():
-    return psutil.virtual_memory()
+    return(psutil.virtual_memory())
 
 def disk_usage(x):
-    return psutil.disk_usage(x)
+    return(psutil.disk_usage(x))
