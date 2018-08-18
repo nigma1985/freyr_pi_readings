@@ -6,19 +6,19 @@ from module.read.pi import *
 #print(ntt.ping_host(hosts = cleanList(string = str)))
 
 x = getCPUtemperature()
-print "getCPUtemperature", x, type(x)
+print("getCPUtemperature", x, type(x))
 
 x = get_cpu_temperature()
-print "get_cpu_temperature", x, type(x)
+print("get_cpu_temperature", x, type(x))
 
 x = getRAMinfo()
-print "getRAMinfo", x, type(x)
+print("getRAMinfo", x, type(x))
 
 x = cpu_percent()
-print "cpu_percent", x, type(x)
+print("cpu_percent", x, type(x))
 
 x = virtual_memory()
-print "virtual_memory", x, type(x)
+print("virtual_memory", x, type(x))
 
 x = disk_usage()
-print "disk_usage", x, type(x)
+print("disk_usage", x, type(x))
