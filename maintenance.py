@@ -41,6 +41,7 @@ import module.netTools as ntt
 import module.freyr.csvBuffer as bfr
 import module.read.enviroPHAT as env ## https://github.com/pimoroni/enviro-phat
 from module.freyr import findConfig
+from module import mv
 ## import os
 
 # csv_name = sys.argv[1]
@@ -83,39 +84,8 @@ config.read(ini)
 #################################################
 #################################################
 
-def mv(f = "", p = "~/"):
-    return shutil.move(f, p)
 
-def f_name(path):
-    if path is not None:
-        # print path
-        try:
-            p = open(path)
-            # print p
-            return os.path.basename(p.name)
-        except:
-            return None
-    else:
-        None
 
-def f_size(file = ""):
-    size = os.stat(file)
-    return size.st_size # output in bytes
-
-def f_age(file = ""):
-    age = os.stat(file)
-    # age = max(
-        # age.st_atime ## time of access
-        # age.st_mtime ## time of change
-        # age.st_ctime ## time of creation/metachange
-    # )
-    return age.st_ctime # output in bytes
-
-def islist(lst):
-    if type(lst)==list:
-        return True
-    else:
-        return False
 
 ## not adopted
 def reconnect():
