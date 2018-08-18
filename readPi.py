@@ -47,7 +47,16 @@ ram_total = None
 ram_used = None
 ram_free = None
 ram_percent_used = None
-if dec.decision(onSwitch = [all_on, "RAMBITON", (cpu_use > 80.0), (cpu_tempA > 57.5)], numInterval = ram_time, offSwitch = [all_off, "RAMBITOFF"]):
+if dec.decision(
+    onSwitch = [
+        all_on,
+        "RAMBITON",
+        (cpu_use > 80.0),
+        (cpu_tempA > 57.5)],
+    numInterval = ram_time,
+    offSwitch = [
+        all_off,
+        "RAMBITOFF"]):
     ram_total = ram.total / 2**20       # MiB.
     ram_used = ram.used / 2**20
     ram_free = ram.free / 2**20
