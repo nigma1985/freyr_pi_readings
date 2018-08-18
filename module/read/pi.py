@@ -9,16 +9,17 @@ from module import cleanType, cleanList
 
 # Return CPU temperature as a character string
 def getCPUtemperature():
-    res = os.popen('vcgencmd measure_temp').readline()
-    return(res.replace("temp=","").replace("'C\n",""))
+    buffer = os.popen('vcgencmd measure_temp').readline()
+    buffer = res.replace("temp=","").replace("'C\n","")
+    return(cleanList(string = buffer))
 
 def get_cpu_temperature():
     process = subprocess.Popen(['vcgencmd', 'measure_temp'], stdout=subprocess.PIPE)
     output, _error = process.communicate()
     print(process, output, _error)
-    x = output[output.index('=') + 1:output.rindex("'")]
-    print(x)
-    return(cleanList(string = x))
+    buffer = output[output.index('=') + 1:output.rindex("'")]
+    print(buffer)
+    return(cleanList(string = buffer))
 
 # Return RAM information (unit=kb) in a list
 # Index 0: total RAM
