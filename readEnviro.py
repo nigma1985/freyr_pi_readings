@@ -594,11 +594,11 @@ if acclm is not None:
         ), csvFile = csv_name)
 
 try:
-    ntt.scp(
-        file = findConfig(sysKey = "csvFile", readVar = csv_name, confSection = "Sys", confOption = 'csvFile', confFile = config),
-        user = findConfig(sysKey = "db_user", confSection = "Sys", confOption = 'db_user', confFile = config),
-        host = findConfig(sysKey = "db_host", confSection = "Sys", confOption = 'db_host', confFile = config),
-        path = findConfig(sysKey = "db_path", confSection = "Sys", confOption = 'db_path', confFile = config))
+    ntt.scPush(
+        scpFile = findConfig(sysKey = "csvFile", readVar = csv_name, confSection = "Sys", confOption = 'csvFile', confFile = config),
+        scpUser = findConfig(sysKey = "db_user", confSection = "Sys", confOption = 'db_user', confFile = config),
+        scpHost = findConfig(sysKey = "db_host", confSection = "Sys", confOption = 'db_host', confFile = config),
+        scpPath = findConfig(sysKey = "db_path", confSection = "Sys", confOption = 'db_path', confFile = config))
     #print "tst"
 except:
     print("ERROR @ transfer")

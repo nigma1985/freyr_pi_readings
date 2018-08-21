@@ -208,12 +208,12 @@ if disk_used is not None:
         measure_target_type = findConfig(sysKey = "disk_used_measure_target_type", confSection = refference, confOption = 'disk_measure_target_type', confFile = config)
         ), csvFile = csv_name)
 
-try:
-    ntt.scp(
-        file = findConfig(sysKey = "csvFile", readVar = csv_name, confSection = "Sys", confOption = 'csvFile', confFile = config),
-        user = findConfig(sysKey = "db_user", confSection = "Sys", confOption = 'db_user', confFile = config),
-        host = findConfig(sysKey = "db_host", confSection = "Sys", confOption = 'db_host', confFile = config),
-        path = findConfig(sysKey = "db_path", confSection = "Sys", confOption = 'db_path', confFile = config))
+try:  
+    ntt.scPush(
+        scpFile = findConfig(sysKey = "csvFile", readVar = csv_name, confSection = "Sys", confOption = 'csvFile', confFile = config),
+        scpUser = findConfig(sysKey = "db_user", confSection = "Sys", confOption = 'db_user', confFile = config),
+        scpHost = findConfig(sysKey = "db_host", confSection = "Sys", confOption = 'db_host', confFile = config),
+        scpPath = findConfig(sysKey = "db_path", confSection = "Sys", confOption = 'db_path', confFile = config))
     #print "tst"
 except:
     print("ERROR @ transfer")

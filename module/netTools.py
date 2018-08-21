@@ -65,3 +65,10 @@ def scp(file = "", user = None, host = None, path = "~/in/"):
     cmd = "scp {} {}@{}:{}".format(file, user, host, path)
     response = subprocess.call(cmd, shell=True)
     return response == 0
+
+def scPush(scpFile = None, scpUser = None, scpHost = None, scpPath = None, pingTries = None):
+    if pingTries is None:
+        pingTries = randint(3, 5)
+    if ping_singlehost(host = scpHost, tries = pingTries):
+        scp(file = scpFile, user = scpUser, host = scpHost, path = scpPath)
+    return
