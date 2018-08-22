@@ -601,4 +601,4 @@ try:
         scpPath = findConfig(sysKey = "db_path", confSection = "Sys", confOption = 'db_path', confFile = config))
     #print "tst"
 except:
-    print("ERROR @ transfer")
+    raise exception("ERROR @ transfer")

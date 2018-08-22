@@ -68,7 +68,10 @@ def scp(file = "", user = None, host = None, path = "~/in/"):
 
 def scPush(scpFile = None, scpUser = None, scpHost = None, scpPath = None, pingTries = None):
     if pingTries is None:
-        pingTries = randint(3, 5)
+        pingTries = randint(1, 3)
     if ping_singlehost(host = scpHost, tries = pingTries):
-        scp(file = scpFile, user = scpUser, host = scpHost, path = scpPath)
-    return
+        try:
+            return scp(file = scpFile, user = scpUser, host = scpHost, path = scpPath)
+        except:
+            raise exception("Unexpected Error while SCP")
+    return False
