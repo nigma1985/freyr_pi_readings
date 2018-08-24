@@ -46,7 +46,8 @@ def cleanUnicode(var = None):
             print(var, type(var))
             var = var.group(1)
             print(var, type(var))
-            var = var.decode('utf-8') ### !!!
+            # var = var.decode('utf-8') ### !!!
+            var = str(var, 'utf-8')
             print(var, type(var))
     return var
 
