@@ -16,11 +16,12 @@ def getCPUtemperature():
 def get_cpu_temperature():
     process = subprocess.Popen(['vcgencmd', 'measure_temp'], stdout=subprocess.PIPE)
     output, _error = process.communicate()
-    print(process, output, type(output), _error)
-    print(output[1:5])
-    print(output[:output.rindex("'")])
-    print(output[output.index('=') + 1:])
-    buffer = output[output.index('=') + 1:output.rindex("'")]
+    buff = str(output)
+    print(process, output, type(output), _error, buff, type(buff))
+    print(buff[1:5])
+    print(buff[:buff.rindex("'")])
+    print(buff[buff.index('=') + 1:])
+    buffer = buff[buff.index('=') + 1:buff.rindex("'")]
     print(output, buffer)
     return(cleanList(string = buffer))
 
