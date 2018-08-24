@@ -1,6 +1,7 @@
 from module import *
 import module.netTools as ntt
 from module.read.pi import *
+import module.config as ini ## https://wiki.python.org/moin/ConfigParserExamples
 from module.freyr import findConfig
 
 configFile = "freyr_config.ini"
