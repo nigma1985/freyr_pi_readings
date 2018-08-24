@@ -16,13 +16,8 @@ def getCPUtemperature():
 def get_cpu_temperature():
     process = subprocess.Popen(['vcgencmd', 'measure_temp'], stdout=subprocess.PIPE)
     output, _error = process.communicate()
-    buff = str(output)
-    print(process, output, type(output), _error, buff, type(buff))
-    print(buff[1:5])
-    print(buff[:buff.rindex("'")])
-    print(buff[buff.index('=') + 1:])
-    buffer = buff[buff.index('=') + 1:buff.rindex("'")]
-    print(output, buffer)
+    buffer = str(output)
+    buffer = buffer[buffer.index('=') + 1:buffer.rindex("'")]
     return(cleanList(string = buffer))
 
 # Return RAM information (unit=kb) in a list

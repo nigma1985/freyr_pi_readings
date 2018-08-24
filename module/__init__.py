@@ -43,7 +43,7 @@ def cleanUnicode(var = None):
         if var[:3] == "u'\\" or var[:3] == 'u"\\':
             var = re.search(r"u[\"|\'](\\.+)[\"|\']", var)
             var = var.group(1)
-            var = var.decode('unicode-escape')
+            var = var.decode('unicode-escape') ### !!!
     return var
 
 def str2list(var = None, symbol = None):
