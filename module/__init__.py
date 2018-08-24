@@ -38,6 +38,7 @@ def islist(lst):
         return False
 
 def cleanUnicode(var = None):
+    print(var, type(var))
     ## try to find unicode and decode it:
     if isinstance(var, str):
         if var[:3] == "u'\\" or var[:3] == 'u"\\':
