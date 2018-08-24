@@ -42,12 +42,12 @@ def cleanUnicode(var = None):
     ## try to find unicode and decode it:
     if isinstance(var, str):
         if var[:3] in ["u'\\", 'u"\\']:
-            # var = re.search(r"u[\"|\'](\\.+)[\"|\']", var)
-            # print(var, type(var))
-            # var = var.group(1)
-            print(var, type(var))
             var = var.encode('utf-8') ### !!!
             ## var = str(var, 'utf-8')
+            var = re.search(r"u[\"|\'](\\.+)[\"|\']", var)
+            print(var, type(var))
+            var = var.group(1)
+            print(var, type(var))
             print(var, type(var))
             var = var.decode('utf-8') ### !!!
             ## var = str(var, 'utf-8')
