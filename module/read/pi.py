@@ -20,7 +20,7 @@ def get_cpu_temperature():
     print(output[1:5])
     print(output[:output.rindex("'")])
     print(output[output.index('=') + 1:])
-    buffer = output[output.index('=') + 1:output.rindex("'")])
+    buffer = output[output.index('=') + 1:output.rindex("'")]
     print(output, buffer)
     return(cleanList(string = buffer))
 
