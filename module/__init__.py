@@ -43,8 +43,11 @@ def cleanUnicode(var = None):
     if isinstance(var, str):
         if var[:3] == "u'\\" or var[:3] == 'u"\\':
             var = re.search(r"u[\"|\'](\\.+)[\"|\']", var)
+            print(var, type(var))
             var = var.group(1)
-            var = var.decode('unicode-escape') ### !!!
+            print(var, type(var))
+            var = var.decode('utf-8') ### !!!
+            print(var, type(var))
     return var
 
 def str2list(var = None, symbol = None):
