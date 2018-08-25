@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # This script develops a python script to read and write system data
 # -*- coding: utf-8 -*-
