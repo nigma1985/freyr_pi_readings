@@ -38,21 +38,27 @@ def islist(lst):
         return False
 
 def cleanUnicode(var = None):
-    print(var, type(var))
-    print(var[:3], var[:3] in ["u'\\", 'u"\\'])
+    # print(var, type(var))
+    # print(var[:3], var[:3] in ["u'\\", 'u"\\'])
     ## try to find unicode and decode it:
-    if isinstance(var, str):
-        if var[:3] in ["u'\\", 'u"\\']:
-            var = var.encode('utf-8') ### !!!
-            ## var = str(var, 'utf-8')
-            print(var, type(var))
-            var = var.decode('utf-8') ### !!!
-            ## var = str(var, 'utf-8')
-            print(var, type(var))
-            var = re.search(r"u[\"|\'](\\.+)[\"|\']", var)
-            print(var, type(var))
-            var = var.group(1)
-            print(var, type(var))
+    if var is not None and isinstance(var, str):
+        try:
+            exec("var = " + var)
+        except:
+            exec("var = '" + var + "'")
+        # if var[:3] in ["u'\\", 'u"\\']:
+        #     var = re.search(r"u[\"|\'](\\.+)[\"|\']", var.replace("\\\\","\\"))
+        #     print(var, type(var))
+        #     var = var.group(1)
+        #     print(var, type(var))
+        #     var = var.encode('utf-8') ### !!!
+        #     ## var = str(var, 'utf-8')
+        #     print(var, type(var))
+        #     ## var = var.replace("\\\\","\\")
+        #     ## print(var, type(var))
+        #     var = var.decode('utf-8') ### !!!
+        #     ## var = str(var, 'utf-8')
+        #     print(var, type(var))
     return var
 
 def str2list(var = None, symbol = None):
