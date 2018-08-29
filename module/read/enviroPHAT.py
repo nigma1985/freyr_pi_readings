@@ -1,4 +1,4 @@
-from .envirophat import light, motion, weather, analog, leds
+from envirophat import light, motion, weather, analog, leds
 ## please install https://github.com/pimoroni/enviro-phat
 ## documentation is here: http://docs.pimoroni.com/envirophat/
 
