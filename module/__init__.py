@@ -38,22 +38,29 @@ def islist(lst):
         return False
 
 def cleanUnicode(var = None):
-    orig = None
-    print("start = ", orig, var)
-    ## try to find unicode and decode it:
     if var is not None and isinstance(var, str):
-        mirror = None
-        orig = var
-        while mirror != orig:
-            mirror = orig
-            print("step: ", var, mirror, orig)
+        if re.search(r"u[\"|\'](\\.+)[\"|\']", var):
             try:
-                exec("orig = " + orig)
-                print("try ", orig)
+                exec("return(" + var + ")")
             except:
-                orig = orig
-                print("except ", orig)
-        # while mirror != orig:
+                return(var)
+    return(var)
+    # orig = None
+    # print("start = ", orig, var)
+    # ## try to find unicode and decode it:
+    # if var is not None and isinstance(var, str):
+    #     mirror = None
+    #     orig = var
+    #     while mirror != orig:
+    #         mirror = orig
+    #         print("step: ", var, mirror, orig)
+    #         try:
+    #             exec("orig = " + orig)
+    #             print("try ", orig)
+    #         except:
+    #             orig = orig
+    #             print("except ", orig)
+    #     # while mirror != orig:
         #     print(mirror, var, orig)
         #     mirror = orig
         #     try:
