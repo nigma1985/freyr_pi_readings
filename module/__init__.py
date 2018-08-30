@@ -38,12 +38,16 @@ def islist(lst):
         return False
 
 def cleanUnicode(var = None):
+    print("start")
     if var is not None and isinstance(var, str):
+        print("step1")
         if re.search(r"u[\"|\'](\\.+)[\"|\']", var):
+            print("step2")
             try:
                 exec("return(" + var + ")")
             except:
                 return(var)
+    print("end")
     return(var)
     # orig = None
     # print("start = ", orig, var)
