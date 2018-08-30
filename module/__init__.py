@@ -46,13 +46,13 @@ def cleanUnicode(var = None):
         orig = var
         while mirror != orig:
             mirror = orig
-            try:
-                print("try")
-                exec("orig = " + orig)
-            except:
-                print("except")
-                orig = orig
             print("step: ", var, mirror, orig)
+            try:
+                exec("orig = " + orig)
+                print("try ", orig)
+            except:
+                orig = orig
+                print("except ", orig)
         # while mirror != orig:
         #     print(mirror, var, orig)
         #     mirror = orig

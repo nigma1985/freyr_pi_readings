@@ -20,7 +20,7 @@ x = findConfig(sysKey = "cpu_temp_measure_sign", confSection = 'tmp_celsius', co
 print("x = ", x)
 print("clean x = ", cleanUnicode(x))
 
-exec("z =" + x)
+exec("z = " + x)
 print(z)
 
 # print(y, cleanUnicode(y))
