@@ -45,7 +45,8 @@ def cleanUnicode(var = None):
             print("step2")
             try:
                 print("try")
-                exec("return(" + var + ")")
+                exec("var = " + var)
+                return(var)
             except:
                 print("except")
                 return(var)
