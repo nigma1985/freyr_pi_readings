@@ -44,8 +44,10 @@ def cleanUnicode(var = None):
         if re.search(r"u[\"|\'](\\.+)[\"|\']", var):
             print("step2")
             try:
+                print("try")
                 exec("return(" + var + ")")
             except:
+                print("except")
                 return(var)
     print("end")
     return(var)
