@@ -38,14 +38,31 @@ def islist(lst):
         return False
 
 def cleanUnicode(var = None):
-    # print(var, type(var))
-    # print(var[:3], var[:3] in ["u'\\", 'u"\\'])
+    orig = None
+    print(orig, var)
     ## try to find unicode and decode it:
     if var is not None and isinstance(var, str):
-        try:
-            exec("var = " + var)
-        except:
-            exec("var = '" + var + "'")
+        mirror = None
+        orig = var
+        while mirror != orig:
+            mirror = orig
+            try:
+                print("try")
+                exec("orig = " + var)
+            except:
+                print("except")
+                orig = var
+            print(orig, var)
+        # while mirror != orig:
+        #     print(mirror, var, orig)
+        #     mirror = orig
+        #     try:
+        #         print("try")
+        #         exec("orig = " + orig)
+        #     except:
+        #         print("except")
+        #         exec("orig = '" + orig + "'")
+        #     print(orig, mirror != orig)
         # if var[:3] in ["u'\\", 'u"\\']:
         #     var = re.search(r"u[\"|\'](\\.+)[\"|\']", var.replace("\\\\","\\"))
         #     print(var, type(var))
@@ -59,7 +76,7 @@ def cleanUnicode(var = None):
         #     var = var.decode('utf-8') ### !!!
         #     ## var = str(var, 'utf-8')
         #     print(var, type(var))
-    return var
+    return orig
 
 def str2list(var = None, symbol = None):
     if var is None or type(var) != str:
