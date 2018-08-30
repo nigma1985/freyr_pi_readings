@@ -39,7 +39,7 @@ def islist(lst):
 
 def cleanUnicode(var = None):
     orig = None
-    print(orig, var)
+    print("start = ", orig, var)
     ## try to find unicode and decode it:
     if var is not None and isinstance(var, str):
         mirror = None
@@ -52,7 +52,7 @@ def cleanUnicode(var = None):
             except:
                 print("except")
                 orig = orig
-            print(orig, var)
+            print("step: ", var, mirror, orig)
         # while mirror != orig:
         #     print(mirror, var, orig)
         #     mirror = orig
