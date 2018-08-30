@@ -51,7 +51,7 @@ def cleanUnicode(var = None):
                 exec("orig = " + orig)
             except:
                 print("except")
-                orig = var
+                orig = orig
             print(orig, var)
         # while mirror != orig:
         #     print(mirror, var, orig)
