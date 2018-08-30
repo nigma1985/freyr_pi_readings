@@ -46,8 +46,8 @@ def cleanUnicode(var = None):
             try:
                 print("try")
                 exec("var = " + var)
-                print("exec:", str(var, "utf-8"))
-                return(var)
+                print("exec:", var)
+                return(str(var, "utf-8"))
             except:
                 print("except")
                 return(var)
