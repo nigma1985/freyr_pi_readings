@@ -29,7 +29,7 @@ def f_age(file = ""):
         # age.st_mtime ## time of change
         # age.st_ctime ## time of creation/metachange
     # )
-    return age.st_ctime # output in bytes
+    return max(age.st_ctime, age.st_mtime) # output in bytes
 
 def islist(lst):
     if type(lst)==list:
