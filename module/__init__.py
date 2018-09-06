@@ -1,4 +1,4 @@
-import re, shutil
+import re, shutil, codecs
 
 def mean(numbers):
     return float(sum(numbers)) / max(len(numbers), 1)
@@ -38,60 +38,19 @@ def islist(lst):
         return False
 
 def cleanUnicode(var = None):
-    print("start")
+    ## print("start")
     if var is not None and isinstance(var, str):
-        print("step1")
-        if re.search(r"u[\"|\'](\\.+)[\"|\']", var):
-            print("step2")
+        ## print("step1")
+        if re.search(r"^u[\"|\'](.*?)[\"|\']$", var):
+            ## print("step2")
             try:
-                print("try")
-                exec("var = " + var)
-                print("exec:", var)
-                return(str(var, "utf-8"))
+                ## print("try")
+                return( codecs.decode(var[2:-1], 'unicode_escape') )
+                ## print("exec:", mirror, var)
             except:
-                print("except")
-                return(var)
-    print("end")
+                return( var[2:-1] )
+    ## print("end")
     return(var)
-    # orig = None
-    # print("start = ", orig, var)
-    # ## try to find unicode and decode it:
-    # if var is not None and isinstance(var, str):
-    #     mirror = None
-    #     orig = var
-    #     while mirror != orig:
-    #         mirror = orig
-    #         print("step: ", var, mirror, orig)
-    #         try:
-    #             exec("orig = " + orig)
-    #             print("try ", orig)
-    #         except:
-    #             orig = orig
-    #             print("except ", orig)
-    #     # while mirror != orig:
-        #     print(mirror, var, orig)
-        #     mirror = orig
-        #     try:
-        #         print("try")
-        #         exec("orig = " + orig)
-        #     except:
-        #         print("except")
-        #         exec("orig = '" + orig + "'")
-        #     print(orig, mirror != orig)
-        # if var[:3] in ["u'\\", 'u"\\']:
-        #     var = re.search(r"u[\"|\'](\\.+)[\"|\']", var.replace("\\\\","\\"))
-        #     print(var, type(var))
-        #     var = var.group(1)
-        #     print(var, type(var))
-        #     var = var.encode('utf-8') ### !!!
-        #     ## var = str(var, 'utf-8')
-        #     print(var, type(var))
-        #     ## var = var.replace("\\\\","\\")
-        #     ## print(var, type(var))
-        #     var = var.decode('utf-8') ### !!!
-        #     ## var = str(var, 'utf-8')
-        #     print(var, type(var))
-    return orig
 
 def str2list(var = None, symbol = None):
     if var is None or type(var) != str:
