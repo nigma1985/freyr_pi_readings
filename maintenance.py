@@ -20,10 +20,10 @@ import sqlite3 as lite
 import unicodecsv as csv
 from random import *
 import configparser ## https://wiki.python.org/moin/ConfigParserExamples
-import glob
+
 import shutil
 #import pyping
-import math
+
 
 #################################################
 ### do not forget to get ssh-key :
@@ -41,6 +41,7 @@ import module.netTools as ntt
 import module.freyr.csvBuffer as bfr
 from module.freyr import findConfig
 from module import mv
+import glob, math
 ## import os
 
 # csv_name = sys.argv[1]
@@ -85,21 +86,14 @@ config.read(ini)
 # print "me " + me
 
 # 1.  Is mothership available?
-
-online = None
-stml = ConfigSectionMapAdv(refference,'short_time_memory_loss') # Short time memory loss (SMTL) in minutes for moving files into archive
+stml = findConfig(sysKey = "STML", confSection = refference, confOption = 'short_time_memory_loss', confFile = config)# Short time memory loss (SMTL) in minutes for moving files into archive
 ### test f_age
 # print "File : " + str(f_age("/home/pi/out/FREYR_2018-05-05_1230_" + me + ".csv"))
-clean_out = None
-if all_off:
-    clean_out = False
-    print("Clean-Out off")
-elif all_on:
-    clean_out = True
-    print("Clean-Out on")
-else:
-    clean_out = random() <= (1.0 / float(ConfigSectionMapAdv(refference,'clean_out')))
-# print clean_out
+
+clean_out = dec.decision(
+    onSwitch = [all_on, "MAINTON"],
+    offSwitch = [all_off, "MAINTOFF"],
+    numChance = findConfig(sysKey = "MAINT", confSection = refference, confOption = 'clean_out', confFile = config))
 
 #################################################
 #################################################
@@ -111,6 +105,8 @@ now1, utc1, nowsecs = ttl.start()
 #################################################
 
 ## Ping hosts ##
+
+online = None
 if ntt.ping_host(mothership):
     ### is mothership available ?
     print("online: mothership")
@@ -130,12 +126,15 @@ else:
             online = 3
 
 # 2.  If mothership is available then check FILES
-reg = None
+reg = []
 files = None
 if online < 1 and clean_out == True:
-    reg = "/home/*/out/FREYR_20*-*-*_*_" + me + ".csv"
     # reg = "/home/*/out/FREYR_2018-05-12_08*_" + me + ".csv" ## for testing
-    files = glob.glob(reg)
+    reg = "/home/*/out/FREYR_20*-*-*_*_" + me + ".csv"
+    files.extend( glob.glob(reg) )
+    if me == mothership:
+        reg = "/home/*/in/FREYR_20*-*-*_*_" + me + ".csv"
+        files.extend( glob.glob(reg) )
     destination = "/home/" + my_user + "/in/"
 
 # 3a. If there are FILES transmit FILES & write EVENT-LOG & clear COUNTER & DONE
