@@ -39,7 +39,6 @@ import module.getOptions as opt
 import module.timeTools as ttl
 import module.netTools as ntt
 import module.freyr.csvBuffer as bfr
-import module.read.enviroPHAT as env ## https://github.com/pimoroni/enviro-phat
 from module.freyr import findConfig
 from module import mv
 ## import os
@@ -79,20 +78,6 @@ config.read(ini)
 #         # change = config.set(sec, opt, str(x))
 #         config.write(change)
 
-
-
-#################################################
-#################################################
-
-
-
-
-## not adopted
-def reconnect():
-    return
-
-def reboot():
-    return
 
 #################################################
 #################################################
