@@ -132,9 +132,9 @@ if online < 1 and clean_out == True:
     # reg = "/home/*/out/FREYR_2018-05-12_08*_" + me + ".csv" ## for testing
     reg = "/home/*/out/FREYR_20*-*-*_*_" + me + ".csv"
     files.extend( glob.glob(reg) )
-    if me == mothership:
-        reg = "/home/*/in/FREYR_20*-*-*_*_" + me + ".csv"
-        files.extend( glob.glob(reg) )
+    # if me == mothership:
+    #     reg = "/home/*/in/FREYR_20*-*-*_*_" + me + ".csv"
+    #     files.extend( glob.glob(reg) )
     destination = "/home/" + my_user + "/in/"
 
 # 3a. If there are FILES transmit FILES & write EVENT-LOG & clear COUNTER & DONE
@@ -181,8 +181,14 @@ con_cnt = None
 
 # 5b. If mothership & WWW are unavailable check COUNTER
 if online > 0:
-    con_cnt = ConfigSectionMapAdv(refference,'offline_counter')
-    def_counter(refference, 'offline_counter', con_cnt + (3.0 / online))
+    con_cnt = None
+    try:
+        con_cnt = ConfigSectionMapAdv(refference,'offline_counter')
+        def_counter(refference, 'offline_counter', con_cnt + (3.0 / online))
+    except:
+        def_counter(refference, 'offline_counter', 1.0)
+        ## con_cnt = 1.0
+
     # get COUNTER.ini
 utc2 = datetime.utcnow()
 offset_utc = str(roundTime(now1,roundTo=30*60) - roundTime(utc1,roundTo=30*60))
