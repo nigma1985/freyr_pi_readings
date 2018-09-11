@@ -64,5 +64,5 @@ def decision(onSwitch = None, offSwitch = None, numChance = None, numInterval = 
         print("no chance")
         return True
     else:
-        print("random", random(), 1 / (numChance - capChance))
+        print("random", random() <= 1 / (numChance - capChance), 1 / (numChance - capChance))
         random() <= 1 / (numChance - capChance)
