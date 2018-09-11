@@ -95,8 +95,6 @@ clean_out = dec.decision(
     offSwitch = [all_off, "MAINTOFF"],
     numChance = findConfig(sysKey = "MAINT", confSection = refference, confOption = 'clean_out', confFile = config))
 
-exit()
-
 #################################################
 #################################################
 #################################################
@@ -126,6 +124,9 @@ else:
         else:
             print("network down!")
             online = 3
+
+print(stml, clean_out, online)
+exit()
 
 # 2.  If mothership is available then check FILES
 reg = []
