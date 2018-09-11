@@ -95,6 +95,8 @@ clean_out = dec.decision(
     offSwitch = [all_off, "MAINTOFF"],
     numChance = findConfig(sysKey = "MAINT", confSection = refference, confOption = 'clean_out', confFile = config))
 
+exit()
+
 #################################################
 #################################################
 #################################################
