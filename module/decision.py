@@ -9,7 +9,7 @@ def decision(onSwitch = None, offSwitch = None, numChance = None, numInterval = 
     print(numInterval, type(numInterval))
     print(capChance, type(capChance))
     print(capInterval, type(capInterval))
-    
+
     if onSwitch is None:
         onSwitch = ["ALLON"]
     if offSwitch is None:
@@ -49,14 +49,20 @@ def decision(onSwitch = None, offSwitch = None, numChance = None, numInterval = 
         capInterval = 60
 
     if any(off):
+        print("OFF")
         return False
     elif any(on):
+        print("ON")
         return True
     elif (numInterval is not None) and (numChance is not None):
+        print("capped Chance/Interval")
         return any((random() <= 1 / (numChance - capChance)), (numInterval < capInterval))
     elif numInterval is not None:
+        print("capped Interval")
         return numInterval < capInterval
     elif (numChance is None) or (numChance - capChance == 0):
+        print("no chance")
         return True
     else:
+        print("random")
         random() <= 1 / (numChance - capChance)
