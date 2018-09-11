@@ -125,7 +125,7 @@ else:
             print("network down!")
             online = 3
 
-print(stml, clean_out, online)
+print(stml, clean_out, findConfig(sysKey = "MAINT", confSection = refference, confOption = 'clean_out', confFile = config), online)
 exit()
 
 # 2.  If mothership is available then check FILES
