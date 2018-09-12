@@ -183,8 +183,8 @@ if islist(files):
 con_cnt = None
 
 
-print(me, mothership, clean_out, online, reg, files, destination, con_cnt)
-print(n, s, ts)
+print(me, mothership, clean_out, online, reg, files, destination)
+print(n, s, ts, con_cnt)
 exit()
 
 # 5b. If mothership & WWW are unavailable check COUNTER
