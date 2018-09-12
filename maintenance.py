@@ -40,7 +40,7 @@ import module.timeTools as ttl
 import module.netTools as ntt
 import module.freyr.csvBuffer as bfr
 from module.freyr import findConfig
-from module import mv
+from module import *
 import glob, math
 ## import os
 
@@ -107,7 +107,9 @@ now1, utc1, nowsecs = ttl.start()
 ## Ping hosts ##
 
 online = None
-if ntt.ping_host(mothership):
+if me == mothership:
+    online = -1
+elif ntt.ping_host(mothership):
     ### is mothership available ?
     print("online: mothership")
     online = 0
@@ -125,12 +127,10 @@ else:
             print("network down!")
             online = 3
 
-print(stml, clean_out, findConfig(sysKey = "MAINT", confSection = refference, confOption = 'clean_out', confFile = config), online)
-exit()
-
 # 2.  If mothership is available then check FILES
-reg = []
-files = None
+reg = None
+files = []
+destination = None
 if online < 1 and clean_out == True:
     # reg = "/home/*/out/FREYR_2018-05-12_08*_" + me + ".csv" ## for testing
     reg = "/home/*/out/FREYR_20*-*-*_*_" + me + ".csv"
@@ -140,6 +140,9 @@ if online < 1 and clean_out == True:
     #     files.extend( glob.glob(reg) )
     destination = "/home/" + my_user + "/in/"
 
+print(me, mothership, online, reg, files, destination)
+exit()
+
 # 3a. If there are FILES transmit FILES & write EVENT-LOG & clear COUNTER & DONE
 n = None # number of files processed
 s = None # size of files to be processed
@@ -147,8 +150,8 @@ ts = None # size of files successfully processed
 if islist(files):
   if len(files) > 0:
     err = None
-    target_user = ConfigSectionMapAdv(refference,'db_user')
-    direc = ConfigSectionMapAdv(refference,'db_path')
+    target_user = findConfig(sysKey = "target_user", confSection = refference, confOption = 'db_user', confFile = config)
+    direc = findConfig(sysKey = "db_path", confSection = refference, confOption = 'db_path', confFile = config)
     n = 0 # number of files processed
     s = 0 # size of files to be processed
     ts = 0 # size of files successfully processed
@@ -157,7 +160,7 @@ if islist(files):
             s1 = f_size(f) #
             ts = ts + s1
             # try transmit
-            if scp(file = f, user = target_user, host = mothership, path = direc):
+            if ntt.scp(file = f, user = target_user, host = mothership, path = direc):
                 # n = n + 1
                 # catch readings
                 err = False
