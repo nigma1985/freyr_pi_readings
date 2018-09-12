@@ -39,7 +39,7 @@ import module.getOptions as opt
 import module.timeTools as ttl
 import module.netTools as ntt
 import module.freyr.csvBuffer as bfr
-from module.freyr import findConfig, writeConfig
+from module.freyr import findConfig
 from module import *
 import glob, math
 ## import os
@@ -171,14 +171,14 @@ if islist(files):
                 mv(f, destination)
             n = n + 1
         print(str(n) + " (" + str(math.ceil(100.0 * n / len(files) * 100)/100.0 ) + "%)")
-    writeConfig(refference, 'offline_counter', 0.0) # set counter to 0
+    ini.writeConfig(refference, 'offline_counter', 0.0) # set counter to 0
 
     # 3b. If there are no FILES write EVENT-LOG & clear COUNTER & DONE
   elif len(files) == 0:
     n = 0 # number of files processed
     s = 0 # size of files to be processed
     ts = 0 # size of files successfully processed
-    writeConfig(refference, 'offline_counter', 0.0) # set counter to 0
+    ini.writeConfig(refference, 'offline_counter', 0.0) # set counter to 0
 
 con_cnt = None
 
@@ -192,9 +192,9 @@ if online > 0:
     con_cnt = None
     try:
         con_cnt = ConfigSectionMapAdv(refference,'offline_counter')
-        writeConfig(refference, 'offline_counter', con_cnt + (3.0 / online))
+        ini.writeConfig(refference, 'offline_counter', con_cnt + (3.0 / online))
     except:
-        writeConfig(refference, 'offline_counter', 1.0)
+        ini.writeConfig(refference, 'offline_counter', 1.0)
         ## con_cnt = 1.0
 
     # get COUNTER.ini
