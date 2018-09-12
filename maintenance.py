@@ -140,9 +140,6 @@ if online < 1 and clean_out == True:
     #     files.extend( glob.glob(reg) )
     destination = "/home/" + my_user + "/in/"
 
-print(me, mothership, online, reg, files, destination)
-exit()
-
 # 3a. If there are FILES transmit FILES & write EVENT-LOG & clear COUNTER & DONE
 n = None # number of files processed
 s = None # size of files to be processed
@@ -184,6 +181,11 @@ if islist(files):
     def_counter(refference, 'offline_counter', 0.0) # set counter to 0
 
 con_cnt = None
+
+
+print(me, mothership, clean_out, online, reg, files, destination, con_cnt)
+print(n, s, ts)
+exit()
 
 # 5b. If mothership & WWW are unavailable check COUNTER
 if online > 0:
