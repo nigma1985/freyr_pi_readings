@@ -17,4 +17,7 @@ refference = "Sys"
 configFile = "freyr_config_cp.ini" ## tst
 config = ini.getConfig(configFile)
 
+print(findConfig(confSection = refference, confOption = 'offline_counter', confFile = config))
 ini.writeConfig(refference, 'offline_counter', 1000)
+
+print(findConfig(confSection = refference, confOption = 'offline_counter', confFile = config))
