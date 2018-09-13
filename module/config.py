@@ -95,8 +95,17 @@ def ConfigSectionMapAdv(section = 'defaults', option = None, iniFile = 'freyr_co
 
     return dict1
 
-def writeConfig(sec = "defaults", opt = '', x = "", cnf = None):
-    change = cnf.set(sec, opt, str(x))
-    with open(ini, 'wb') as change:
+def writeConfig(section = "defaults", option = '', value = '', iniFile = 'freyr_config.ini', iniConfig = None):
+    if iniFile is None and iniConfig is None:
+        raise("no file given!")
+    elif iniConfig is None:
+        if os.path.isfile(iniFile):
+            # print os.path.isfile(iniFile)
+            iniConfig = configparser.SafeConfigParser()
+            iniConfig.read(iniFile)
+        else:
+            raise("no file there!")
+    change = iniConfig.set(section, option, str(value))
+    with open(iniFile, 'wb') as change:
         # change = config.set(sec, opt, str(x))
-        cnf.write(change)
+        iniConfig.write(change)

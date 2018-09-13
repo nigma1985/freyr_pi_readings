@@ -18,6 +18,5 @@ configFile = "freyr_config_cp.ini" ## tst
 config = ini.getConfig(configFile)
 
 print(findConfig(confSection = refference, confOption = 'offline_counter', confFile = config))
-ini.writeConfig(refference, 'offline_counter', 1000)
-
+ini.writeConfig(section = refference, option = 'offline_counter', value = 1000, iniFile = configFile, iniConfig = config)
 print(findConfig(confSection = refference, confOption = 'offline_counter', confFile = config))
