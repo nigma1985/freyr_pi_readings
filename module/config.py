@@ -105,7 +105,7 @@ def writeConfig(section = "defaults", option = '', value = '', iniFile = 'freyr_
             iniConfig.read(iniFile)
         else:
             raise("no file there!")
-    change = iniConfig.set(section, option, value)
+    change = iniConfig.set(section, option, str(value))
     with open(iniFile, 'wb') as change:
         # change = config.set(sec, opt, str(x))
         iniConfig.write(change)
