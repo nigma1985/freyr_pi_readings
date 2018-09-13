@@ -48,7 +48,8 @@ import glob, math
 refference = "Sys"
 ## reading 'freyr_config.ini'
 
-configFile = "freyr_config.ini"
+## configFile = "freyr_config_cp.ini"
+configFile = "freyr_config_cp.ini" ## tst
 config = ini.getConfig(configFile)
 # ini = "freyr_config.ini"
 # config = ConfigParser.SafeConfigParser()
@@ -68,10 +69,10 @@ all_on = opt.findItm("ALLON")
 all_off = opt.findItm("ALLOFF")
 
 
-## reading 'freyr_config.ini'
-ini = "freyr_config.ini"
-config = configparser.SafeConfigParser()
-config.read(ini)
+# ## reading 'freyr_config.ini'
+# ini = "freyr_config.ini"
+# config = configparser.SafeConfigParser()
+# config.read(ini)
 
 # def def_counter(sec = 'Sys', opt = 'offline_counter', x = ""):
 #     change = config.set(sec, opt, str(x))
