@@ -108,6 +108,6 @@ def writeConfig(section = "defaults", option = '', value = '', iniFile = None, i
         else:
             raise("no file there!")
     change = iniConfig.set(section, option, str(value))
-    with open(iniFile, 'w') as change:
+    with open(iniFile, 'w+') as change:
         # change = config.set(sec, opt, str(x))
         iniConfig.write(change)
