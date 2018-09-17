@@ -192,7 +192,7 @@ exit()
 if online > 0:
     con_cnt = None
     try:
-        con_cnt = ConfigSectionMapAdv(refference,'offline_counter')
+        con_cnt = findConfig(sysKey = "offline_counter", confSection = refference, confOption = 'offline_counter', confFile = config)
         ini.writeConfig(section = refference, option = 'offline_counter', iniFile = configFile, iniConfig = config, value = con_cnt + (3.0 / online))
     except:
         ini.writeConfig(section = refference, option = 'offline_counter', iniFile = configFile, iniConfig = config, value = 1.0)
