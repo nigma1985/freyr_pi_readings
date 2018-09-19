@@ -171,7 +171,7 @@ if islist(files):
                 destination = "/home/" + my_user + "/archive/" + f_name(f)
                 mv(f, destination)
             n = n + 1
-        print(str(n) + " (" + str(math.ceil(100.0 * n / len(files) * 100)/100.0 ) + "%)")
+        print(n, ("(" + str(math.ceil(100.0 * n / len(files) * 100)/100.0 ) + "%)"))
     ini.writeConfig(section = refference, option = 'offline_counter', iniFile = configFile, iniConfig = config, value = 0.0) # set counter to 0
 
     # 3b. If there are no FILES write EVENT-LOG & clear COUNTER & DONE
@@ -184,10 +184,6 @@ if islist(files):
 con_cnt = None
 
 
-print(me, mothership, clean_out, online, reg, files, destination)
-print(n, s, ts, con_cnt)
-exit()
-
 # 5b. If mothership & WWW are unavailable check COUNTER
 if online > 0:
     con_cnt = None
@@ -197,6 +193,11 @@ if online > 0:
     except:
         ini.writeConfig(section = refference, option = 'offline_counter', iniFile = configFile, iniConfig = config, value = 1.0)
         ## con_cnt = 1.0
+
+
+print(me, mothership, clean_out, online, reg, files, destination)
+print(n, s, ts, con_cnt)
+exit()
 
     # get COUNTER.ini
 utc2 = datetime.utcnow()
