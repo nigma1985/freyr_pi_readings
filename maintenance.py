@@ -199,34 +199,30 @@ print(me, mothership, clean_out, online, reg, files, destination)
 print(n, s, ts, con_cnt)
 exit()
 
-    # get COUNTER.ini
-utc2 = datetime.utcnow()
-offset_utc = str(roundTime(now1,roundTo=30*60) - roundTime(utc1,roundTo=30*60))
-duration = (utc2-utc1)
-duration2 = (float(duration.microseconds) / 10**6) + duration.seconds + (((duration.days * 24) * 60) * 60)
+utc2, offset_utc, duration, duration2 = ttl.end(now1, utc1)
 
-def std_line(
+def _stdLine(
     value = 0.0,
-    pin = None,
+    pin = findConfig(sysKey = "pin", readVar = None, confSection = refference, confOption = 'pin', confFile = config),
     # time
     utc_1 = utc1,
     utc_2 = utc2,
     offsetutc = offset_utc,
     duration_sec = duration2,
     # location
-    outdoors_name = ConfigSectionMapAdv(refference,'outdoors_name'),  ##'no'  ## 'yes' 'none' 'other'
-    loc_lat = float(ConfigSectionMapAdv(refference,'loc_lat')),  ##53.304130
-    loc_long = float(ConfigSectionMapAdv(refference,'loc_long')),  ##9.706472
-    loc_description = ConfigSectionMapAdv(refference,'loc_description'),  ##'test indoor'
+    outdoors_name = findConfig(sysKey = "outdoors_name", confSection = refference, confOption = 'outdoors_name', confFile = config),
+    loc_lat = findConfig(sysKey = "loc_lat", confSection = refference, confOption = 'loc_lat', confFile = config),
+    loc_long = findConfig(sysKey = "loc_long", confSection = refference, confOption = 'loc_long', confFile = config),
+    loc_description = findConfig(sysKey = "loc_description", confSection = refference, confOption = 'loc_description', confFile = config),
     # source / provider
-    provider_type = ConfigSectionMapAdv(refference,'provider_type'),  ##'RPi3'   ## 'REST API'
-    source_name = ConfigSectionMapAdv(refference,'source_name'), ##'FreyrTST 1'
-    source_description = ConfigSectionMapAdv(refference,'source_description'),  ##'Test RPi3 -
+    provider_type = findConfig(sysKey = "provider_type", confSection = refference, confOption = 'provider_type', confFile = config),
+    source_name = me,
+    source_description = findConfig(sysKey = "source_description", confSection = refference, confOption = 'source_description', confFile = config),
     # periphery
-    periphery_name = ConfigSectionMapAdv(refference,'periphery_name'),  ##'Raspberry Pi 3'
-    periphery_type = ConfigSectionMapAdv(refference,'periphery_type'),  ##'System'
-    periphery_description = ConfigSectionMapAdv(refference,'periphery_description'),  ##'Hardware'
-    periphery_device_description = ConfigSectionMapAdv(refference,'periphery_device_description'),  ##'tst'
+    periphery_name = findConfig(sysKey = "periphery_name", confSection = refference, confOption = 'periphery_name', confFile = config),
+    periphery_type = findConfig(sysKey = "periphery_type", confSection = refference, confOption = 'periphery_type', confFile = config),
+    periphery_description = findConfig(sysKey = "periphery_description", confSection = refference, confOption = 'periphery_description', confFile = config),
+    periphery_device_description = findConfig(sysKey = "periphery_device_description", confSection = refference, confOption = 'periphery_device_description', confFile = config),
     # measure
     measure_name = None,
     measure_sign = None,
@@ -235,43 +231,63 @@ def std_line(
     measure_absolute_min = None,
     measure_absolute_max = None,
     measure_target_type = None,
-    measure_target_name = None,  ##'System' ## 'yes' 'none' 'other'
-    measure_target_description = None,  ##'Monitoring Hardware'
+    measure_target_name = None,
+    measure_target_description = None,
     # QA
-    data_quality = int(ConfigSectionMapAdv(refference,'data_quality'))  ##99
+    data_quality = findConfig(sysKey = "data_quality", confSection = refference, confOption = 'data_quality', confFile = config)
 ):
-    return [value, pin, utc_1, utc_2, offsetutc, duration_sec,outdoors_name, loc_lat, loc_long, loc_description, provider_type, source_name, source_description, periphery_type, periphery_name, periphery_description, periphery_device_description, measure_name, measure_sign, measure_type_full, measure_type_abbr, measure_absolute_min, measure_absolute_max, measure_target_type, measure_target_name, measure_target_description, data_quality]
+    return bfr.headLine(
+        _value = value, _pin = pin,
+        _utc_1 = utc_1, _utc_2 = utc_2, _offsetutc = offsetutc, _duration_sec = duration_sec,
+        _outdoors_name = outdoors_name, _loc_lat = loc_lat, _loc_long = loc_long, _loc_description = loc_description,
+        _provider_type = provider_type, _source_name = source_name, _source_description = source_description,
+        _periphery_name = periphery_name, _periphery_type = periphery_type, _periphery_description = periphery_description, _periphery_device_description = periphery_device_description,
+        _measure_name = measure_name, _measure_sign = measure_sign, _measure_type_full = measure_type_full, _measure_type_abbr = measure_type_abbr, _measure_absolute_min = measure_absolute_min,
+        _measure_absolute_max = measure_absolute_max, _measure_target_type = measure_target_type, _measure_target_name = measure_target_name,
+        _measure_target_description = measure_target_description,
+        _data_quality = data_quality
+        )
 
-off_light = None
+csv_name = bfr.csvName(me)
+bfr.initiateFile(csv_name)
+if s is not None and ts is not None:
+    bfr.writeRow(row = _stdLine(
+        value = s,
+        # measure
+        measure_name = findConfig(sysKey = "cpu_temp_measure_name", confSection = 'Byte', confOption = 'measure_name', confFile = config),
+        measure_sign = findConfig(sysKey = "cpu_temp_measure_sign", confSection = 'Byte', confOption = 'measure_sign', confFile = config),
+        measure_type_full = findConfig(sysKey = "cpu_temp_measure_type_full", confSection = 'Byte', confOption = 'measure_type_full', confFile = config),
+        measure_type_abbr = findConfig(sysKey = "cpu_temp_measure_type_abbr", confSection = 'Byte', confOption = 'measure_type_abbr', confFile = config),
+        measure_absolute_min = findConfig(sysKey = "cpu_temp_measure_absolute_min", confSection = 'Byte', confOption = 'measure_absolute_min', confFile = config),
+        measure_absolute_max = findConfig(readVar = ts, sysKey = "cpu_temp_measure_absolute_max", confSection = 'Byte', confOption = 'measure_absolute_max', confFile = config),
+        measure_target_type = findConfig(sysKey = "cpu_temp_measure_target_type", confSection = refference, confOption = 'cpu_measure_target_type', confFile = config),
+        measure_target_name = findConfig(sysKey = "trns_measure_target_name", confSection = refference, confOption = 'trns_measure_target_name', confFile = config),
+        measure_target_description = findConfig(sysKey = "trns_measure_target_description", confSection = refference, confOption = 'trns_measure_target_description')
+        ), csvFile = csv_name)
+if n is not None and len(files) is not None: ## number of files
+    bfr.writeRow(row = _stdLine(
+        value = n,
+        # measure
+        measure_name = findConfig(sysKey = "cpu_temp_measure_name", confSection = 'counter', confOption = 'measure_name', confFile = config),
+        measure_sign = findConfig(sysKey = "cpu_temp_measure_sign", confSection = 'counter', confOption = 'measure_sign', confFile = config),
+        measure_type_full = findConfig(sysKey = "cpu_temp_measure_type_full", confSection = 'counter', confOption = 'measure_type_full', confFile = config),
+        measure_type_abbr = findConfig(sysKey = "cpu_temp_measure_type_abbr", confSection = 'counter', confOption = 'measure_type_abbr', confFile = config),
+        measure_absolute_min = findConfig(sysKey = "cpu_temp_measure_absolute_min", confSection = 'counter', confOption = 'measure_absolute_min', confFile = config),
+        measure_absolute_max = findConfig(readVar = len(files), sysKey = "cpu_temp_measure_absolute_max", confSection = 'counter', confOption = 'measure_absolute_max', confFile = config),
+        measure_target_type = findConfig(sysKey = "cpu_temp_measure_target_type", confSection = refference, confOption = 'trns_measure_target_type', confFile = config),
+        measure_target_name = findConfig(sysKey = "trns_measure_target_name", confSection = refference, confOption = 'trns_measure_target_name', confFile = config),
+        measure_target_description = findConfig(sysKey = "trns_measure_target_description", confSection = refference, confOption = 'trns_measure_target_description')
+        ), csvFile = csv_name)
 
-with open(csv_name, 'ab') as csvfile:
-   tst = csv.writer(csvfile, delimiter='|', quoting=csv.QUOTE_NONNUMERIC)
-   if s is not None and ts is not None: ## size of files
-       bytes_transmitted = std_line(
-           value = s,
-           measure_name = ConfigSectionMapAdv('Byte','measure_name'),
-           measure_sign = ConfigSectionMapAdv('Byte','measure_sign'),
-           measure_type_full = ConfigSectionMapAdv('Byte','measure_type_full'),
-           measure_type_abbr = ConfigSectionMapAdv('Byte','measure_type_abbr'),
-           measure_absolute_min = ConfigSectionMapAdv('Byte','measure_absolute_min'),
-           measure_absolute_max = ts,
-           measure_target_type = ConfigSectionMapAdv(refference,'trns_measure_target_type'),
-           measure_target_name = ConfigSectionMapAdv(refference,'trns_measure_target_name'),
-           measure_target_description = ConfigSectionMapAdv(refference,'trns_measure_target_description'))
-       tst.writerow(bytes_transmitted)
-   if n is not None and len(files) is not None: ## number of files
-       files_transmitted = std_line(
-           value = n,
-           measure_name = ConfigSectionMapAdv('counter','measure_name'),
-           measure_sign = ConfigSectionMapAdv('counter','measure_sign'),
-           measure_type_full = ConfigSectionMapAdv('counter','measure_type_full'),
-           measure_type_abbr = ConfigSectionMapAdv('counter','measure_type_abbr'),
-           measure_absolute_min = ConfigSectionMapAdv('counter','measure_absolute_min'),
-           measure_absolute_max = len(files),
-           measure_target_type = ConfigSectionMapAdv(refference,'trns_measure_target_type'),
-           measure_target_name = ConfigSectionMapAdv(refference,'trns_measure_target_name'),
-           measure_target_description = ConfigSectionMapAdv(refference,'trns_measure_target_description'))
-       tst.writerow(files_transmitted)
+try:
+    ntt.scPush(
+        scpFile = findConfig(sysKey = "csvFile", readVar = csv_name, confSection = "Sys", confOption = 'csvFile', confFile = config),
+        scpUser = findConfig(sysKey = "db_user", confSection = "Sys", confOption = 'db_user', confFile = config),
+        scpHost = findConfig(sysKey = "db_host", confSection = "Sys", confOption = 'db_host', confFile = config),
+        scpPath = findConfig(sysKey = "db_path", confSection = "Sys", confOption = 'db_path', confFile = config))
+    #print "tst"
+except:
+    raise exception("ERROR @ transfer")
 
 if online == 3:
     if con_cnt > ConfigSectionMapAdv(refference,'min2restart'):
