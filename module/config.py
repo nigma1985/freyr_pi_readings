@@ -3,7 +3,7 @@
 # This script delivers functions to read and write ini-configurations
 
 import configparser ## https://wiki.python.org/moin/ConfigParserExamples
-import re, os
+import re, os, codecs
 from module import cleanType, cleanUnicode
 
 ###############################################################################
@@ -12,7 +12,7 @@ from module import cleanType, cleanUnicode
 def getConfig(iniFile = "freyr_config.ini"):
     if os.path.isfile(iniFile):
         cnfg = configparser.SafeConfigParser()
-        cnfg.read(iniFile)
+        cnfg.read_file(codecs.open("iniFile", "r", "utf8")) #        read(iniFile)
         return cnfg
     else:
         return None
@@ -28,6 +28,7 @@ def ConfigSectionMap(section = 'defaults', iniFile = 'freyr_config.ini', iniConf
         if os.path.isfile(iniFile):
             # print os.path.isfile(iniFile)
             iniConfig = configparser.SafeConfigParser()
+            # cnfg.read_file(codecs.open("iniFile", "r", "utf8")) #        read(iniFile)
             iniConfig.read(iniFile)
         else:
             return dict1
@@ -57,6 +58,7 @@ def ConfigSectionMapAdv(section = 'defaults', option = None, iniFile = 'freyr_co
         if os.path.isfile(iniFile):
             # print os.path.isfile(iniFile)
             iniConfig = configparser.SafeConfigParser()
+            # cnfg.read_file(codecs.open("iniFile", "r", "utf8")) #        read(iniFile)
             iniConfig.read(iniFile)
         else:
             return dict1
