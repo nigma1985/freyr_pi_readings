@@ -194,11 +194,6 @@ if online > 0:
         ini.writeConfig(section = refference, option = 'offline_counter', iniFile = configFile, iniConfig = config, value = 1.0)
         ## con_cnt = 1.0
 
-
-print(me, mothership, clean_out, online, reg, files, destination)
-print(n, s, ts, con_cnt)
-exit()
-
 utc2, offset_utc, duration, duration2 = ttl.end(now1, utc1)
 
 def _stdLine(
@@ -278,6 +273,7 @@ if n is not None and len(files) is not None: ## number of files
         measure_target_name = findConfig(sysKey = "trns_measure_target_name", confSection = refference, confOption = 'trns_measure_target_name', confFile = config),
         measure_target_description = findConfig(sysKey = "trns_measure_target_description", confSection = refference, confOption = 'trns_measure_target_description')
         ), csvFile = csv_name)
+
 
 try:
     ntt.scPush(
