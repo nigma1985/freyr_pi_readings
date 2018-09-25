@@ -12,8 +12,8 @@ from module import cleanType, cleanUnicode
 def getConfig(iniFile = "freyr_config.ini"):
     if os.path.isfile(iniFile):
         cnfg = configparser.SafeConfigParser()
-        #cnfg.read_file(codecs.open(iniFile, "r", "utf8")) 
-        cnfg.read(iniFile)
+        cnfg.read_file(codecs.open(iniFile, "r", "utf8"))
+        #cnfg.read(iniFile)
         return cnfg
     else:
         return None
