@@ -1,9 +1,11 @@
 import re, shutil, codecs
+from pathlib import Path
 
 def mean(numbers):
     return float(sum(numbers)) / max(len(numbers), 1)
 
 def mv(f = "", p = "~/"):
+    ## move file (f) to path (p)
     return shutil.move(f, p)
 
 def f_name(path):
@@ -104,3 +106,54 @@ def cleanList(string = None, sym = None):
         return [cleanUnicode(var = cleanType(var = itm)) for itm in string]
     else:
         return cleanUnicode(var = cleanType(var = string))
+
+def countIF(crit = None, list = []):
+    ## count all items in list matching criteria
+    return sum(1 for item in list if item == crit)
+
+def del_double(listFiles = []):
+    ## keep files with newest date and/or most data
+
+    if listFiles in (None, []):
+        return False
+
+    ## get file ages and sizes
+    listAges = []
+    listSize = []
+    for item in listFiles:
+        print(item)
+        if item.is_file():
+            listAges.extend(f_age(file = item))
+            listSize.extend(f_size(file = item))
+            print("age/size: ", f_age(file = item), f_size(file = item))
+    ## get max size / age
+    maxAges = max(listAges)
+    maxSize = max(listSize)
+    print("max age/size: ", maxAges, maxSize)
+
+    ## count number of max in lists
+    countMaxSize = countIF(crit = maxSize, list = listSize)
+    countMaxAges = countIF(crit = maxAges, list = listAges)
+
+    if countMaxSize = 1:
+        # keep if f_age = maxSize or f_size = maxAge
+    elif countMaxSize > 1:
+        # if f_age = maxSize: keep
+    else:
+        # ERROR
+
+    for item in listFiles:
+        print(item)
+        if item.is_file():
+            maxAges.extend(f_age(file = item))
+            maxSize.extend(f_size(file = item))
+            print(f_age(file = item), f_size(file = item))
+
+    return True
+
+def dmv(file = "", dest = "~/"):
+    ## test both files
+    if all(file,dest):
+        # keep youngest
+    else:
+        return mv(f = file, p = dest)
